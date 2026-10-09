@@ -78,7 +78,8 @@ function Test-NeedsPdfLaTeXRerun {
     return [bool](Select-String -LiteralPath $LogPath -Pattern @(
         'Rerun to get',
         'Label\(s\) may have changed',
-        'There were undefined references'
+        'There were undefined references',
+        'There were undefined citations'
     ) -Quiet)
 }
 
