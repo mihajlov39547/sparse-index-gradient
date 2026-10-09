@@ -9,3 +9,8 @@ __pycache__/
 .powershell/
 *.zip
 
+build-output.txt
+paper_sparse_gradient/main.aux
+paper_sparse_gradient/main.log
+paper_sparse_gradient/main.out
+paper_sparse_gradient/main.pdf
