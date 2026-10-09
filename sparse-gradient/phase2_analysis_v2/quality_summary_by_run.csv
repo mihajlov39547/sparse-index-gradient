@@ -1,0 +1,4 @@
+label,summary_rows,median_cv,p75_cv,max_cv,max_norm_err_max,rows_with_failed_correctness,sync_free_true_count,sync_free_false_count,sync_free_unchecked_count,determinism_bitwise_true_count,determinism_bitwise_false_count,determinism_bitwise_unchecked_count,determinism_allclose_true_count,determinism_allclose_false_count,determinism_allclose_unchecked_count
+GTX1650Ti,1944,0.01184634616255305,0.025271944161343925,2.4701868989466145,0.2301209568977356,0,0,0,1944,0,0,1944,0,0,1944
+T4,1944,0.03950208352574465,0.06569661807783088,1.163401606589851,0.2830259203910827,0,0,0,1944,0,0,1944,0,0,1944
+T4_repeat,648,0.0334065521875605,0.06289852879454885,2.405867947743414,0.2298010289669037,0,0,0,648,0,0,648,0,0,648

@@ -1,0 +1,2 @@
+rows,indices,dim,distribution,row_layout,index_order,cache_mode,winner,winner_ms,p25_ms,p75_ms,duplicate_rate,max_row_count,top1_share,top16_share,index_add_ms,speedup_vs_index_add,runner_up,runner_up_ms,within_noise,eligible_operations
+1024,2048,16,uniform,adjacent,sorted,cold,index_add,0.0120959999039769,0.0117440000176429,0.012288000434637,0.5615234375,8,0.00390625,0.048828125,0.0120959999039769,1.0,embedding_bag,0.0532799996435642,False,3

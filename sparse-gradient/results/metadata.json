@@ -1,0 +1,331 @@
+{
+  "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "python_executable": "C:\\Projects\\phd-segmentacija-instanci\\.venv\\Scripts\\python.exe",
+  "pytorch_version": "2.13.0+cu126",
+  "cuda_version": "12.6",
+  "cuda_available": true,
+  "gpu_name": "NVIDIA GeForce GTX 1650 Ti",
+  "compute_capability": [
+    7,
+    5
+  ],
+  "total_vram_bytes": 4294639616,
+  "device": "cuda:0",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "arguments": {
+    "out_dir": "sparse-gradient\\results",
+    "rows": [
+      1024
+    ],
+    "indices": [
+      2048
+    ],
+    "dims": [
+      16,
+      64
+    ],
+    "distributions": [
+      "uniform",
+      "hotspot",
+      "zipf"
+    ],
+    "hotspot_fraction": 0.8,
+    "hotspot_rows": 16,
+    "zipf_alpha": 1.2,
+    "zipf_mode": "wrapped",
+    "workload_seeds": 2,
+    "dtype": "float32",
+    "warmup": 2,
+    "repeats": 5,
+    "seed": 1234,
+    "ops": [
+      "index_add",
+      "embedding",
+      "sorted_segment"
+    ],
+    "rounds": 2,
+    "inner": "auto",
+    "check_sync_free": false,
+    "row_layout": "scattered",
+    "index_order": "random",
+    "cache_mode": "warm",
+    "quick": true,
+    "progress": "off",
+    "device": "cuda",
+    "determinism_check": false,
+    "save_plots": false,
+    "max_combinations": null
+  },
+  "command_line": [
+    "sparse-gradient/sparse_grad_benchmark.py",
+    "--quick",
+    "--zipf-mode",
+    "wrapped",
+    "--workload-seeds",
+    "2",
+    "--ops",
+    "index_add",
+    "embedding",
+    "sorted_segment",
+    "--rounds",
+    "2",
+    "--progress",
+    "off"
+  ],
+  "seed": 1234,
+  "run_timestamp": "2026-10-08T21:46:52.921656+00:00",
+  "session_id": "20261008T214652Z_feac77f1",
+  "planned_combinations": 36,
+  "methodology_version": 3,
+  "correctness_tolerance": {
+    "formula": "abs_error <= 1e-5 + 1e-6 * row_count"
+  },
+  "determinism_allclose_tolerance": {
+    "rtol": 0.0001,
+    "atol": 0.001
+  },
+  "scope_groups": {
+    "index_add": "fair_dense_grad",
+    "scatter_add": "fair_dense_grad",
+    "embedding": "fair_dense_grad",
+    "embedding_bag": "fair_dense_grad",
+    "sorted_segment": "fair_dense_grad",
+    "index_add_acc_only": "accumulate_only",
+    "scatter_add_acc_only": "accumulate_only",
+    "sorted_segment_sync": "fair_dense_grad_sync",
+    "embedding_full_backward": "end_to_end",
+    "noop_kernel": "overhead_floor",
+    "index_add_zero_timed": "deprecated_alias",
+    "index_add_alloc_timed": "deprecated_alias"
+  },
+  "op_properties": {
+    "index_add": {
+      "has_output": true,
+      "batchable": true
+    },
+    "scatter_add": {
+      "has_output": true,
+      "batchable": true
+    },
+    "embedding": {
+      "has_output": true,
+      "batchable": true
+    },
+    "embedding_bag": {
+      "has_output": true,
+      "batchable": true
+    },
+    "sorted_segment": {
+      "has_output": true,
+      "batchable": true
+    },
+    "index_add_zero_timed": {
+      "has_output": true,
+      "batchable": true
+    },
+    "index_add_alloc_timed": {
+      "has_output": true,
+      "batchable": true
+    },
+    "embedding_full_backward": {
+      "has_output": true,
+      "batchable": false
+    },
+    "index_add_acc_only": {
+      "has_output": true,
+      "batchable": false
+    },
+    "scatter_add_acc_only": {
+      "has_output": true,
+      "batchable": false
+    },
+    "sorted_segment_sync": {
+      "has_output": true,
+      "batchable": true
+    },
+    "noop_kernel": {
+      "has_output": false,
+      "batchable": true
+    }
+  },
+  "row_layout": "scattered",
+  "index_order": "random",
+  "cache_mode": "warm",
+  "zipf_mode": "wrapped",
+  "workload_seeds": 2,
+  "workload_draws": [
+    0,
+    1
+  ],
+  "seed_derivation": {
+    "index_seed": "CRC32(idx|base|rows|count|dist|row_layout|index_order|zipf_mode|workload_draw)",
+    "src_seed": "CRC32(src|base|rows|count|dim|dist|row_layout|index_order|zipf_mode|workload_draw)",
+    "workload_seed": "backward-compatible alias of index_seed"
+  },
+  "workloads": [
+    {
+      "rows": 1024,
+      "indices": 2048,
+      "dim": 16,
+      "distribution": "uniform",
+      "zipf_mode": "wrapped",
+      "workload_draw": 0,
+      "index_seed": 1564470222,
+      "src_seed": 1654581006,
+      "workload_seed": 1564470222
+    },
+    {
+      "rows": 1024,
+      "indices": 2048,
+      "dim": 16,
+      "distribution": "uniform",
+      "zipf_mode": "wrapped",
+      "workload_draw": 1,
+      "index_seed": 708369240,
+      "src_seed": 362403736,
+      "workload_seed": 708369240
+    },
+    {
+      "rows": 1024,
+      "indices": 2048,
+      "dim": 16,
+      "distribution": "hotspot",
+      "zipf_mode": "wrapped",
+      "workload_draw": 0,
+      "index_seed": 1409861493,
+      "src_seed": 1806289845,
+      "workload_seed": 1409861493
+    },
+    {
+      "rows": 1024,
+      "indices": 2048,
+      "dim": 16,
+      "distribution": "hotspot",
+      "zipf_mode": "wrapped",
+      "workload_draw": 1,
+      "index_seed": 588249059,
+      "src_seed": 481229603,
+      "workload_seed": 588249059
+    },
+    {
+      "rows": 1024,
+      "indices": 2048,
+      "dim": 16,
+      "distribution": "zipf",
+      "zipf_mode": "wrapped",
+      "workload_draw": 0,
+      "index_seed": 389007426,
+      "src_seed": 2367288717,
+      "workload_seed": 389007426
+    },
+    {
+      "rows": 1024,
+      "indices": 2048,
+      "dim": 16,
+      "distribution": "zipf",
+      "zipf_mode": "wrapped",
+      "workload_draw": 1,
+      "index_seed": 1613297876,
+      "src_seed": 4196320539,
+      "workload_seed": 1613297876
+    },
+    {
+      "rows": 1024,
+      "indices": 2048,
+      "dim": 64,
+      "distribution": "uniform",
+      "zipf_mode": "wrapped",
+      "workload_draw": 0,
+      "index_seed": 1564470222,
+      "src_seed": 2805735866,
+      "workload_seed": 1564470222
+    },
+    {
+      "rows": 1024,
+      "indices": 2048,
+      "dim": 64,
+      "distribution": "uniform",
+      "zipf_mode": "wrapped",
+      "workload_draw": 1,
+      "index_seed": 708369240,
+      "src_seed": 3493531948,
+      "workload_seed": 708369240
+    },
+    {
+      "rows": 1024,
+      "indices": 2048,
+      "dim": 64,
+      "distribution": "hotspot",
+      "zipf_mode": "wrapped",
+      "workload_draw": 0,
+      "index_seed": 1409861493,
+      "src_seed": 2919959809,
+      "workload_seed": 1409861493
+    },
+    {
+      "rows": 1024,
+      "indices": 2048,
+      "dim": 64,
+      "distribution": "hotspot",
+      "zipf_mode": "wrapped",
+      "workload_draw": 1,
+      "index_seed": 588249059,
+      "src_seed": 3641458071,
+      "workload_seed": 588249059
+    },
+    {
+      "rows": 1024,
+      "indices": 2048,
+      "dim": 64,
+      "distribution": "zipf",
+      "zipf_mode": "wrapped",
+      "workload_draw": 0,
+      "index_seed": 389007426,
+      "src_seed": 527655913,
+      "workload_seed": 389007426
+    },
+    {
+      "rows": 1024,
+      "indices": 2048,
+      "dim": 64,
+      "distribution": "zipf",
+      "zipf_mode": "wrapped",
+      "workload_draw": 1,
+      "index_seed": 1613297876,
+      "src_seed": 1752454015,
+      "workload_seed": 1613297876
+    }
+  ],
+  "inner_target_ms": 2.0,
+  "inner_cap": 256,
+  "sync_check_requested": false,
+  "sorted_segment_form": "offsets",
+  "timing_scope": "CUDA events; input generation and module creation excluded; index_add: fresh dense output allocation, zeroing, and indexed accumulation; embedding: retained forward graph; backward including dense gradient allocation; grad clearing excluded; sorted_segment: stable sort, reorder, searchsorted boundaries, segment_reduce(offsets) directly to fresh dense output; row_ids setup excluded",
+  "timing_scope_by_operation": {
+    "index_add": "fresh dense output allocation, zeroing, and indexed accumulation",
+    "index_add_zero_timed": "deprecated legacy alias: output zeroing and accumulation; allocation excluded",
+    "index_add_alloc_timed": "deprecated alias of index_add: fresh dense output allocation, zeroing, and accumulation",
+    "scatter_add": "fresh dense output allocation, zeroing, and scatter accumulation; index view setup excluded",
+    "embedding": "retained forward graph; backward including dense gradient allocation; grad clearing excluded",
+    "embedding_full_backward": "grad clearing, fresh forward graph construction/execution, and backward; module creation excluded",
+    "embedding_bag": "retained forward graph; backward including dense gradient allocation; grad clearing excluded",
+    "sorted_segment": "stable sort, reorder, searchsorted boundaries, segment_reduce(offsets) directly to fresh dense output; row_ids setup excluded",
+    "sorted_segment_sync": "legacy stable sort, reorder, unique_consecutive lengths, segment_reduce, dense zero allocation and index_copy",
+    "index_add_acc_only": "legacy index_add: accumulation only; output allocation/reset excluded; inner forced to 1",
+    "scatter_add_acc_only": "legacy scatter_add: accumulation only; output allocation/reset excluded; inner forced to 1",
+    "noop_kernel": "one-element add_ launch overhead floor; no accumulation reference output"
+  },
+  "deterministic_algorithms_enabled": false,
+  "status": "completed",
+  "flush_buffer_bytes": 0,
+  "completed_combinations": 36,
+  "failed_combinations": 0,
+  "end_timestamp": "2026-10-08T21:46:55.053232+00:00",
+  "plot_files": [
+    "median_vs_dimension_warm_scattered_random_wrapped_fair_dense_grad.png",
+    "median_vs_duplicate_rate_warm_scattered_random_wrapped_fair_dense_grad.png",
+    "operation_distribution_comparison_warm_scattered_random_wrapped_fair_dense_grad.png",
+    "speedup_vs_top1_share_fair_dense_grad.png",
+    "speedup_vs_max_row_count_fair_dense_grad.png"
+  ]
+}

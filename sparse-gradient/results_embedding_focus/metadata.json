@@ -1,0 +1,110 @@
+{
+  "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "python_executable": "C:\\Projects\\phd-segmentacija-instanci\\.venv\\Scripts\\python.exe",
+  "pytorch_version": "2.13.0+cu126",
+  "cuda_version": "12.6",
+  "cuda_available": true,
+  "gpu_name": "NVIDIA GeForce GTX 1650 Ti",
+  "compute_capability": [
+    7,
+    5
+  ],
+  "total_vram_bytes": 4294639616,
+  "device": "cuda:0",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "arguments": {
+    "out_dir": "sparse-gradient\\results_embedding_focus",
+    "rows": [
+      4096,
+      16384,
+      65536
+    ],
+    "indices": [
+      65536,
+      131072,
+      262144
+    ],
+    "dims": [
+      64,
+      128,
+      256,
+      512
+    ],
+    "distributions": [
+      "hotspot",
+      "zipf",
+      "uniform"
+    ],
+    "hotspot_fraction": 0.95,
+    "hotspot_rows": 8,
+    "zipf_alpha": 1.5,
+    "dtype": "float32",
+    "warmup": 5,
+    "repeats": 20,
+    "seed": 1234,
+    "ops": [
+      "index_add",
+      "scatter_add",
+      "embedding"
+    ],
+    "quick": false,
+    "progress": "on",
+    "device": "cuda",
+    "determinism_check": false,
+    "save_plots": true,
+    "max_combinations": null
+  },
+  "command_line": [
+    "sparse-gradient/sparse_grad_benchmark.py",
+    "--out-dir",
+    "sparse-gradient/results_embedding_focus",
+    "--rows",
+    "4096",
+    "16384",
+    "65536",
+    "--indices",
+    "65536",
+    "131072",
+    "262144",
+    "--dims",
+    "64",
+    "128",
+    "256",
+    "512",
+    "--distributions",
+    "hotspot",
+    "zipf",
+    "uniform",
+    "--hotspot-fraction",
+    "0.95",
+    "--hotspot-rows",
+    "8",
+    "--zipf-alpha",
+    "1.5",
+    "--ops",
+    "index_add",
+    "scatter_add",
+    "embedding",
+    "--warmup",
+    "5",
+    "--repeats",
+    "20",
+    "--save-plots",
+    "--progress",
+    "on"
+  ],
+  "seed": 1234,
+  "run_timestamp": "2026-10-08T21:00:51.598592+00:00",
+  "session_id": "20261008T210051Z_3588cf23",
+  "planned_combinations": 324,
+  "correctness_tolerance": {
+    "rtol": 0.0001,
+    "atol": 0.001
+  },
+  "timing_scope": "CUDA events; input generation/forward excluded; index_add/scatter_add reset excluded; dense backward allocation included; sorted_segment includes sort/reorder/group/reduce/dense allocation/zero/write",
+  "deterministic_algorithms_enabled": false,
+  "status": "completed_with_failures",
+  "completed_combinations": 324,
+  "failed_combinations": 24,
+  "end_timestamp": "2026-10-08T21:01:41.109947+00:00"
+}

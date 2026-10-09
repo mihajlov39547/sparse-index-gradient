@@ -1,0 +1,41 @@
+key,device_type,is_user_annotation,self_cpu_time_total_us,cpu_time_total_us,cuda_time_total_us,self_cuda_time_total_us,cuda_time_avg_us,calls,input_shapes,cpu_memory_usage_bytes,cuda_memory_usage_bytes,cuda_time_field
+[memory],DeviceType.CPU,False,0.0,0.0,0.0,0.0,0.0,3,"""""",0,-3145728.0,device_time_total
+phase3::embedding,DeviceType.CPU,True,7049.000000000002,7971.100000000002,0.0,0.0,0.0,3,"""""",0,3145728.0,device_time_total
+Unrecognized,DeviceType.CPU,False,922.1000000000001,922.1000000000001,0.0,0.0,0.0,1,"""""",0,0.0,device_time_total
+autograd::engine::evaluate_function: EmbeddingBackward0,DeviceType.CPU,False,73.60000000000036,1724.8000000000002,1156.1089999999995,0.0,385.3696666666665,3,"""""",0,3145728.0,device_time_total
+EmbeddingBackward0,DeviceType.CPU,False,34.69999999999982,1651.1999999999998,1156.1089999999995,0.0,385.3696666666665,3,"""""",0,3145728.0,device_time_total
+aten::embedding_backward,DeviceType.CPU,False,15.199999999999818,1616.5,1156.1089999999995,0.0,385.3696666666665,3,"""""",0,3145728.0,device_time_total
+aten::embedding_dense_backward,DeviceType.CPU,False,435.2999999999947,1601.3000000000002,1156.1089999999995,1123.9489999999987,385.3696666666665,3,"""""",0,3145728.0,device_time_total
+aten::view,DeviceType.CPU,False,16.900000000001455,16.900000000001455,0.0,0.0,0.0,3,"""""",0,0.0,device_time_total
+aten::empty_like,DeviceType.CPU,False,26.49999999999818,121.29999999999836,0.0,0.0,0.0,6,"""""",0,3145728.0,device_time_total
+aten::empty,DeviceType.CPU,False,274.50000000000364,274.50000000000364,0.0,0.0,0.0,33,"""""",0,16499712.0,device_time_total
+aten::arange,DeviceType.CPU,False,71.89999999999873,382.3999999999987,25.087999999999738,12.543999999999869,4.181333333333289,6,"""""",0,3145728.0,device_time_total
+aten::resize_,DeviceType.CPU,False,21.599999999999454,21.599999999999454,0.0,0.0,0.0,3,"""""",0,1572864.0,device_time_total
+cudaLaunchKernel,DeviceType.CPU,False,545.2000000000035,545.2000000000035,0.0,0.0,0.0,45,"""""",0,0.0,device_time_total
+cudaMemsetAsync,DeviceType.CPU,False,100.30000000000018,100.30000000000018,0.0,0.0,0.0,12,"""""",0,0.0,device_time_total
+cudaDeviceGetAttribute,DeviceType.CPU,False,6.600000000001273,6.600000000001273,0.0,0.0,0.0,9,"""""",0,0.0,device_time_total
+cudaOccupancyMaxActiveBlocksPerMultiprocessorWithFlags,DeviceType.CPU,False,14.499999999998181,14.499999999998181,0.0,0.0,0.0,6,"""""",0,0.0,device_time_total
+cudaPeekAtLastError,DeviceType.CPU,False,3.6000000000012733,3.6000000000012733,0.0,0.0,0.0,33,"""""",0,0.0,device_time_total
+aten::zeros,DeviceType.CPU,False,23.800000000000182,135.19999999999982,19.616000000000895,0.0,6.538666666666965,3,"""""",0,3145728.0,device_time_total
+aten::zero_,DeviceType.CPU,False,15.100000000000364,87.69999999999982,19.616000000000895,0.0,6.538666666666965,3,"""""",0,0.0,device_time_total
+aten::fill_,DeviceType.CPU,False,45.49999999999909,72.59999999999945,19.616000000000895,19.616000000000895,6.538666666666965,3,"""""",0,0.0,device_time_total
+_ZN50_GLOBAL__N__35dbd4de_17_RangeFactories_cu_4cc9e74429elementwise_kernel_with_indexIiZZZN2at6native15arange_cuda_outERKN3c106ScalarES6_S6_RNS1_6TensorEENKUlvE_clEvENKUlvE2_clEvEUlxE_EEvT_T0_PN15function_traitsISD_E11result_typeE,DeviceType.CUDA,False,0.0,0.0,12.543999999999869,12.543999999999869,4.181333333333289,3,"""""",0,0.0,device_time_total
+Memset (Device),DeviceType.CUDA,False,0.0,0.0,11.039999999999054,11.039999999999054,0.9199999999999212,12,"""""",0,0.0,device_time_total
+_ZN14at_cuda_detail3cub30DeviceRadixSortHistogramKernelINS0_21DeviceRadixSortPolicyIxN2at4cuda3cub6detail10OpaqueTypeILi8EEEyE9Policy900ELb0ExyNS0_6detail21identity_decomposer_tEEEvPT2_PKT1_SD_iiT3_,DeviceType.CUDA,False,0.0,0.0,20.800000000000182,20.800000000000182,6.933333333333394,3,"""""",0,0.0,device_time_total
+_ZN14at_cuda_detail3cub33DeviceRadixSortExclusiveSumKernelINS0_21DeviceRadixSortPolicyIxN2at4cuda3cub6detail10OpaqueTypeILi8EEEyE9Policy900EyEEvPT0_,DeviceType.CUDA,False,0.0,0.0,4.8640000000023065,4.8640000000023065,1.6213333333341022,3,"""""",0,0.0,device_time_total
+_ZN14at_cuda_detail3cub29DeviceRadixSortOnesweepKernelINS0_21DeviceRadixSortPolicyIxN2at4cuda3cub6detail10OpaqueTypeILi8EEEyE9Policy900ELb0ExS8_yiiNS0_6detail21identity_decomposer_tEEEvPT5_SE_PT3_PKSF_PT1_PKSJ_PT2_PKSN_T4_iiT6_,DeviceType.CUDA,False,0.0,0.0,151.6819999999998,151.6819999999998,25.2803333333333,6,"""""",0,0.0,device_time_total
+_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_11FillFunctorIfEESt5arrayIPcLy1EEEEviT0_T1_,DeviceType.CUDA,False,0.0,0.0,19.616000000000895,19.616000000000895,6.538666666666965,3,"""""",0,0.0,device_time_total
+_ZN14at_cuda_detail3cub23DeviceCompactInitKernelINS0_13ScanTileStateIyLb1EEEPxEEvT_iT0_,DeviceType.CUDA,False,0.0,0.0,4.191999999999098,4.191999999999098,1.3973333333330327,3,"""""",0,0.0,device_time_total
+_ZN14at_cuda_detail3cub28DeviceUniqueByKeySweepKernelINS0_23DeviceUniqueByKeyPolicyIPKxN6thrust48THRUST_200500_500_600_610_700_750_800_860_900_NS17counting_iteratorIxNS6_11use_defaultES8_S8_EEE9Policy900ES4_S9_PxSC_SC_NS0_13ScanTileStateIyLb1EEEN4cuda3std3__48equal_toIvEEyEEvT0_T1_T2_T3_T4_T5_T6_T7_iNS0_6detail7vsmem_tE,DeviceType.CUDA,False,0.0,0.0,31.391999999999825,31.391999999999825,10.463999999999942,3,"""""",0,0.0,device_time_total
+_ZN2at6native59_GLOBAL__N__37144284_26_EmbeddingBackwardKernel_cu_5202261824krn_partials_per_segmentIxEEvPT_PKS3_PKxx,DeviceType.CUDA,False,0.0,0.0,4.992000000001099,4.992000000001099,1.6640000000003663,3,"""""",0,0.0,device_time_total
+autograd::engine::evaluate_function: torch::autograd::AccumulateGrad,DeviceType.CPU,False,26.800000000000182,67.90000000000055,0.0,0.0,0.0,3,"""""",0,0.0,device_time_total
+_ZN14at_cuda_detail3cub20DeviceScanInitKernelINS0_13ScanTileStateIxLb1EEEEEvT_i,DeviceType.CUDA,False,0.0,0.0,3.2959999999984575,3.2959999999984575,1.0986666666661524,3,"""""",0,0.0,device_time_total
+_ZN14at_cuda_detail3cub16DeviceScanKernelINS0_16DeviceScanPolicyIxN2at4cuda3cub38_GLOBAL__N__b177c9e5_6_cub_cu_be78ccc35SumOpIxEEE9Policy900EPKxPxNS0_13ScanTileStateIxLb1EEES8_NS0_6detail10InputValueIxSD_EEixEEvT0_T1_T2_iT3_T4_T5_,DeviceType.CUDA,False,0.0,0.0,9.920000000000982,9.920000000000982,3.306666666666994,3,"""""",0,0.0,device_time_total
+torch::autograd::AccumulateGrad,DeviceType.CPU,False,22.700000000001637,41.100000000000364,0.0,0.0,0.0,3,"""""",0,0.0,device_time_total
+aten::detach,DeviceType.CPU,False,7.399999999997817,18.399999999998727,0.0,0.0,0.0,3,"""""",0,0.0,device_time_total
+detach,DeviceType.CPU,False,11.00000000000091,11.00000000000091,0.0,0.0,0.0,3,"""""",0,0.0,device_time_total
+cudaDeviceSynchronize,DeviceType.CPU,False,1111.999999999999,1111.999999999999,0.0,0.0,0.0,4,"""""",0,0.0,device_time_total
+_ZN2at6native59_GLOBAL__N__37144284_26_EmbeddingBackwardKernel_cu_5202261831compute_num_of_partial_segmentsIxEEvPKT_S5_PKxPx,DeviceType.CUDA,False,0.0,0.0,4.574999999997999,4.574999999997999,1.5249999999993331,3,"""""",0,0.0,device_time_total
+_ZN2at6native59_GLOBAL__N__37144284_26_EmbeddingBackwardKernel_cu_5202261826krn_partial_segment_offsetIxEEvPT_PKS3_S6_S6_PKx,DeviceType.CUDA,False,0.0,0.0,52.0,52.0,17.333333333333332,3,"""""",0,0.0,device_time_total
+_ZN2at6native59_GLOBAL__N__37144284_26_EmbeddingBackwardKernel_cu_5202261819compute_grad_weightIfxEEvPKT0_PKT_S5_xxS5_PKxPNS_14AccumulateTypeIS6_Lb1EE4typeEx,DeviceType.CUDA,False,0.0,0.0,433.41399999999976,433.41399999999976,144.47133333333326,3,"""""",0,0.0,device_time_total
+_ZN2at6native59_GLOBAL__N__37144284_26_EmbeddingBackwardKernel_cu_5202261815sum_and_scatterIfxEEvPKT0_PT_xS5_PKxPKNS_14AccumulateTypeIS6_Lb1EE4typeES5_S9_xx,DeviceType.CUDA,False,0.0,0.0,391.78200000000015,391.78200000000015,130.59400000000005,3,"""""",0,0.0,device_time_total

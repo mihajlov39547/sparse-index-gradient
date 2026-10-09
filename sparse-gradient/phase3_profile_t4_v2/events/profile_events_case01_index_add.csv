@@ -1,0 +1,14 @@
+key,device_type,is_user_annotation,self_cpu_time_total_us,cpu_time_total_us,cuda_time_total_us,self_cuda_time_total_us,cuda_time_avg_us,calls,input_shapes,cpu_memory_usage_bytes,cuda_memory_usage_bytes,cuda_time_field
+[memory],DeviceType.CPU,False,0.0,0.0,0.0,0.0,0.0,3,"""""",0,-3145728.0,device_time_total
+phase3::index_add,DeviceType.CPU,True,1021.9039999999995,5320.133999999999,996.3050000000021,0.0,332.10166666666737,3,"""""",0,3145728.0,device_time_total
+aten::zeros,DeviceType.CPU,False,1835.2479999999996,4186.407,22.33600000000115,0.0,7.445333333333717,3,"""""",0,3145728.0,device_time_total
+aten::empty,DeviceType.CPU,False,70.91400000000067,70.91400000000067,0.0,0.0,0.0,3,"""""",0,3145728.0,device_time_total
+aten::zero_,DeviceType.CPU,False,21.963000000000193,2280.2450000000003,22.33600000000115,0.0,7.445333333333717,3,"""""",0,0.0,device_time_total
+aten::fill_,DeviceType.CPU,False,89.41400000000067,2258.282,22.33600000000115,16.704000000000633,7.445333333333717,3,"""""",0,0.0,device_time_total
+Activity Buffer Request,DeviceType.CPU,False,1990.9669999999996,1990.9669999999996,5.632000000000517,5.632000000000517,5.632000000000517,1,"""""",0,0.0,device_time_total
+cudaLaunchKernel,DeviceType.CPU,False,213.52199999999993,213.52199999999993,0.0,0.0,0.0,6,"""""",0,0.0,device_time_total
+phase3::index_add,DeviceType.CUDA,True,0.0,0.0,1159.183000000001,1159.183000000001,386.39433333333363,3,"""""",0,0.0,device_time_total
+"void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<float>, std::array<char*, 1ul> >(int, at::native::FillFunctor<float>, std::array<char*, 1ul>)",DeviceType.CUDA,False,0.0,0.0,16.704000000000633,16.704000000000633,5.568000000000211,3,"""""",0,0.0,device_time_total
+aten::index_add_,DeviceType.CPU,False,76.20199999999932,111.82299999999941,973.969000000001,973.969000000001,324.65633333333363,3,"""""",0,0.0,device_time_total
+"void at::native::indexFuncLargeIndex<float, long, unsigned int, 2, 2, -2, true, at::native::(anonymous namespace)::ReduceAdd>(at::cuda::detail::TensorInfo<float, unsigned int>, at::cuda::detail::TensorInfo<float const, unsigned int>, at::cuda::detail::TensorInfo<long const, unsigned int>, int, int, unsigned int, unsigned int, long, long, at::native::(anonymous namespace)::ReduceAdd const&, float)",DeviceType.CUDA,False,0.0,0.0,973.969000000001,973.969000000001,324.65633333333363,3,"""""",0,0.0,device_time_total
+cudaDeviceSynchronize,DeviceType.CPU,False,672.987000000001,672.987000000001,0.0,0.0,0.0,4,"""""",0,0.0,device_time_total

@@ -1,0 +1,15 @@
+key,device_type,is_user_annotation,self_cpu_time_total_us,cpu_time_total_us,cuda_time_total_us,self_cuda_time_total_us,cuda_time_avg_us,calls,input_shapes,cpu_memory_usage_bytes,cuda_memory_usage_bytes,cuda_time_field
+[memory],DeviceType.CPU,False,0.0,0.0,0.0,0.0,0.0,3,"""""",0,-50331648.0,device_time_total
+phase3::scatter_add,DeviceType.CPU,True,171.04499999999962,1566.468,1536.6279999999997,0.0,512.2093333333332,3,"""""",0,50331648.0,device_time_total
+aten::zeros,DeviceType.CPU,False,16.95600000000013,1283.1230000000003,269.567,0.0,89.85566666666666,3,"""""",0,50331648.0,device_time_total
+aten::empty,DeviceType.CPU,False,36.00199999999987,36.00199999999987,0.0,0.0,0.0,3,"""""",0,50331648.0,device_time_total
+aten::zero_,DeviceType.CPU,False,13.249000000000478,1230.1650000000002,269.567,0.0,89.85566666666666,3,"""""",0,0.0,device_time_total
+aten::fill_,DeviceType.CPU,False,69.71599999999967,1216.9159999999997,269.567,203.0709999999999,89.85566666666666,3,"""""",0,0.0,device_time_total
+Activity Buffer Request,DeviceType.CPU,False,590.568,590.568,66.4960000000001,66.4960000000001,66.4960000000001,1,"""""",0,0.0,device_time_total
+cudaLaunchKernel,DeviceType.CPU,False,585.7560000000002,585.7560000000002,0.0,0.0,0.0,6,"""""",0,0.0,device_time_total
+phase3::scatter_add,DeviceType.CUDA,True,0.0,0.0,1473.2999999999995,1473.2999999999995,491.09999999999985,3,"""""",0,0.0,device_time_total
+"void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<float>, std::array<char*, 1ul> >(int, at::native::FillFunctor<float>, std::array<char*, 1ul>)",DeviceType.CUDA,False,0.0,0.0,203.0709999999999,203.0709999999999,67.6903333333333,3,"""""",0,0.0,device_time_total
+aten::scatter_add_,DeviceType.CPU,False,76.08400000000051,112.30000000000018,1267.0609999999997,1267.0609999999997,422.3536666666666,3,"""""",0,0.0,device_time_total
+aten::as_strided,DeviceType.CPU,False,7.0919999999996435,7.0919999999996435,0.0,0.0,0.0,6,"""""",0,0.0,device_time_total
+"void at::native::_scatter_gather_elementwise_kernel<128, 8, at::native::_cuda_scatter_gather_internal_kernel<true, float, long>::operator()<at::native::ReduceAdd>(at::TensorIterator&, long, long, long, at::native::ReduceAdd const&)::{lambda(int)#1}>(int, at::native::_cuda_scatter_gather_internal_kernel<true, float, long>::operator()<at::native::ReduceAdd>(at::TensorIterator&, long, long, long, at::native::ReduceAdd const&)::{lambda(int)#1})",DeviceType.CUDA,False,0.0,0.0,1267.0609999999997,1267.0609999999997,422.3536666666666,3,"""""",0,0.0,device_time_total
+cudaDeviceSynchronize,DeviceType.CPU,False,1207.38,1207.38,0.0,0.0,0.0,4,"""""",0,0.0,device_time_total

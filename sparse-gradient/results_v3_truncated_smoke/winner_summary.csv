@@ -1,0 +1,9 @@
+rows,indices,dim,distribution,zipf_mode,row_layout,index_order,cache_mode,operation,win_count,total_draws,win_rate,median_speedup_vs_index_add,mean_speedup_vs_index_add,median_winner_ms
+1024,2048,16,hotspot,truncated,scattered,random,warm,index_add,1,2,0.5,1.0,1.0,0.0302694998681545
+1024,2048,16,hotspot,truncated,scattered,random,warm,scatter_add,1,2,0.5,1.0969063607925826,1.0969063607925826,0.0340379998087883
+1024,2048,16,uniform,truncated,scattered,random,warm,index_add,2,2,1.0,1.0,1.0,0.0308480011299252
+1024,2048,16,zipf,truncated,scattered,random,warm,index_add,1,2,0.5,1.0,1.0,0.0367209985852241
+1024,2048,16,zipf,truncated,scattered,random,warm,scatter_add,1,2,0.5,1.6203165712280638,1.6203165712280638,0.0319344997406005
+1024,2048,64,hotspot,truncated,scattered,random,warm,index_add,2,2,1.0,1.0,1.0,0.0415525007992982
+1024,2048,64,uniform,truncated,scattered,random,warm,index_add,2,2,1.0,1.0,1.0,0.035362999886274296
+1024,2048,64,zipf,truncated,scattered,random,warm,index_add,2,2,1.0,1.0,1.0,0.03848574869334695

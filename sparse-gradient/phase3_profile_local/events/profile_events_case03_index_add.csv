@@ -1,0 +1,14 @@
+key,device_type,is_user_annotation,self_cpu_time_total_us,cpu_time_total_us,cuda_time_total_us,self_cuda_time_total_us,cuda_time_avg_us,calls,input_shapes,cpu_memory_usage_bytes,cuda_memory_usage_bytes,cuda_time_field
+[memory],DeviceType.CPU,False,0.0,0.0,0.0,0.0,0.0,3,"""""",0,-50331648.0,device_time_total
+phase3::index_add,DeviceType.CPU,True,187.70000000000016,1261.4,3401.905,0.0,1133.9683333333335,3,"""""",0,50331648.0,device_time_total
+aten::zeros,DeviceType.CPU,False,22.2000000000005,1001.5000000000003,268.1020000000001,0.0,89.36733333333336,3,"""""",0,50331648.0,device_time_total
+aten::empty,DeviceType.CPU,False,53.699999999999704,625.6999999999997,0.0,0.0,0.0,3,"""""",0,50331648.0,device_time_total
+Unrecognized,DeviceType.CPU,False,572.0,572.0,0.0,0.0,0.0,1,"""""",0,0.0,device_time_total
+aten::zero_,DeviceType.CPU,False,11.900000000000318,353.60000000000014,268.1020000000001,0.0,89.36733333333336,3,"""""",0,0.0,device_time_total
+aten::fill_,DeviceType.CPU,False,31.499999999999773,341.6999999999998,268.1020000000001,268.1020000000001,89.36733333333336,3,"""""",0,0.0,device_time_total
+cudaLaunchKernel,DeviceType.CPU,False,336.20000000000005,336.20000000000005,0.0,0.0,0.0,6,"""""",0,0.0,device_time_total
+aten::index_add_,DeviceType.CPU,False,46.19999999999959,72.19999999999959,3133.803,3133.803,1044.6009999999999,3,"""""",0,0.0,device_time_total
+cudaDeviceSynchronize,DeviceType.CPU,False,3524.0,3524.0,0.0,0.0,0.0,4,"""""",0,0.0,device_time_total
+phase3::index_add,DeviceType.CUDA,True,0.0,0.0,3406.4170000000004,3406.4170000000004,1135.4723333333334,3,"""""",0,0.0,device_time_total
+_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_11FillFunctorIfEESt5arrayIPcLy1EEEEviT0_T1_,DeviceType.CUDA,False,0.0,0.0,268.1020000000001,268.1020000000001,89.36733333333336,3,"""""",0,0.0,device_time_total
+_ZN2at6native19indexFuncLargeIndexIfxjLi2ELi2ELin2ELb1ENS0_44_GLOBAL__N__99c14716_11_Indexing_cu_2a2c434e9ReduceAddEEEvNS_4cuda6detail10TensorInfoIT_T1_EENS6_IKS7_S8_EENS6_IKT0_S8_EEiiS8_S8_xxRKT6_S7_,DeviceType.CUDA,False,0.0,0.0,3133.803,3133.803,1044.6009999999999,3,"""""",0,0.0,device_time_total

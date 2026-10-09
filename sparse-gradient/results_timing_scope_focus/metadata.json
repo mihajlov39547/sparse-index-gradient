@@ -1,0 +1,117 @@
+{
+  "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "python_executable": "C:\\Projects\\phd-segmentacija-instanci\\.venv\\Scripts\\python.exe",
+  "pytorch_version": "2.13.0+cu126",
+  "cuda_version": "12.6",
+  "cuda_available": true,
+  "gpu_name": "NVIDIA GeForce GTX 1650 Ti",
+  "compute_capability": [
+    7,
+    5
+  ],
+  "total_vram_bytes": 4294639616,
+  "device": "cuda:0",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "arguments": {
+    "out_dir": "sparse-gradient\\results_timing_scope_focus",
+    "rows": [
+      4096,
+      16384,
+      65536
+    ],
+    "indices": [
+      65536,
+      262144
+    ],
+    "dims": [
+      64,
+      256,
+      512
+    ],
+    "distributions": [
+      "uniform",
+      "hotspot",
+      "zipf"
+    ],
+    "hotspot_fraction": 0.95,
+    "hotspot_rows": 8,
+    "zipf_alpha": 1.5,
+    "dtype": "float32",
+    "warmup": 5,
+    "repeats": 20,
+    "seed": 1234,
+    "ops": [
+      "index_add",
+      "index_add_zero_timed",
+      "index_add_alloc_timed",
+      "embedding",
+      "embedding_full_backward"
+    ],
+    "quick": false,
+    "progress": "on",
+    "device": "cuda",
+    "determinism_check": false,
+    "save_plots": true,
+    "max_combinations": null
+  },
+  "command_line": [
+    "sparse-gradient/sparse_grad_benchmark.py",
+    "--out-dir",
+    "sparse-gradient/results_timing_scope_focus",
+    "--rows",
+    "4096",
+    "16384",
+    "65536",
+    "--indices",
+    "65536",
+    "262144",
+    "--dims",
+    "64",
+    "256",
+    "512",
+    "--distributions",
+    "uniform",
+    "hotspot",
+    "zipf",
+    "--hotspot-fraction",
+    "0.95",
+    "--hotspot-rows",
+    "8",
+    "--zipf-alpha",
+    "1.5",
+    "--ops",
+    "index_add",
+    "index_add_zero_timed",
+    "index_add_alloc_timed",
+    "embedding",
+    "embedding_full_backward",
+    "--warmup",
+    "5",
+    "--repeats",
+    "20",
+    "--save-plots",
+    "--progress",
+    "on"
+  ],
+  "seed": 1234,
+  "run_timestamp": "2026-10-08T21:07:04.713957+00:00",
+  "session_id": "20261008T210704Z_91ff5fcd",
+  "planned_combinations": 270,
+  "correctness_tolerance": {
+    "rtol": 0.0001,
+    "atol": 0.001
+  },
+  "timing_scope": "CUDA events; input generation and module creation excluded; index_add: accumulation only; output allocation and reset excluded; index_add_zero_timed: output zeroing and accumulation; output allocation excluded; index_add_alloc_timed: output allocation, zeroing, and accumulation; previous output release excluded; embedding: retained forward graph; backward including dense gradient allocation; grad clearing excluded; embedding_full_backward: grad clearing, fresh forward graph construction/execution, and backward; module creation excluded",
+  "timing_scope_by_operation": {
+    "index_add": "accumulation only; output allocation and reset excluded",
+    "index_add_zero_timed": "output zeroing and accumulation; output allocation excluded",
+    "index_add_alloc_timed": "output allocation, zeroing, and accumulation; previous output release excluded",
+    "embedding": "retained forward graph; backward including dense gradient allocation; grad clearing excluded",
+    "embedding_full_backward": "grad clearing, fresh forward graph construction/execution, and backward; module creation excluded"
+  },
+  "deterministic_algorithms_enabled": false,
+  "status": "completed_with_failures",
+  "completed_combinations": 270,
+  "failed_combinations": 31,
+  "end_timestamp": "2026-10-08T21:07:45.450921+00:00"
+}

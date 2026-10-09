@@ -1,0 +1,42 @@
+{
+  "runs": [
+    {
+      "label": "GTX1650Ti",
+      "path": "C:\\Projects\\phd-segmentacija-instanci\\sparse-gradient\\results_v3_confirm"
+    },
+    {
+      "label": "T4",
+      "path": "C:\\Projects\\phd-segmentacija-instanci\\sparse-gradient\\results_colab_t4_confirm"
+    },
+    {
+      "label": "T4_repeat",
+      "path": "C:\\Projects\\phd-segmentacija-instanci\\sparse-gradient\\results_colab_t4_repeat_small"
+    }
+  ],
+  "notes": [],
+  "plots": [
+    "winner_share_by_run.png",
+    "winner_share_by_dim_by_run.png",
+    "winner_share_by_distribution_by_run.png",
+    "speedup_vs_index_add_by_run.png",
+    "embedding_vs_scatter_add_cross_environment.png"
+  ],
+  "tables": [
+    "environment_summary.csv",
+    "winner_counts_by_run.csv",
+    "winner_counts_by_dimension.csv",
+    "winner_counts_by_rows.csv",
+    "winner_counts_by_indices.csv",
+    "winner_counts_by_distribution.csv",
+    "stable_winner_details.csv",
+    "stable_winner_summary.csv",
+    "speedup_summary.csv",
+    "speedup_summary_by_winner.csv",
+    "speedup_summary_by_dim_distribution.csv"
+  ],
+  "assumptions": [
+    "Rates describe each run's own sampled grid; no pooled GTX/T4 ranking.",
+    "Non-noise rates use all retained winner draws as denominator.",
+    "Stable means winner consistency across eligible draws, not statistical significance."
+  ]
+}

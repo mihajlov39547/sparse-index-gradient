@@ -1,0 +1,2 @@
+case_id,winner,runner_up,margin_ratio,decisive_5pct,complete_ops,eligible_operations,index_add_ms,scatter_add_ms,embedding_ms
+case01,index_add,embedding,1.2250498449048537,True,True,3,0.3369919955730438,1.0762879848480225,0.41283199191093445

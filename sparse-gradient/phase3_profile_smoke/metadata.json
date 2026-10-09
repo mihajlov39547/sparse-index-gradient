@@ -1,0 +1,142 @@
+{
+  "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "python_executable": "C:\\Projects\\phd-segmentacija-instanci\\.venv\\Scripts\\python.exe",
+  "pytorch_version": "2.13.0+cu126",
+  "cuda_version": "12.6",
+  "cuda_available": true,
+  "gpu_name": "NVIDIA GeForce GTX 1650 Ti",
+  "compute_capability": [
+    7,
+    5
+  ],
+  "total_vram_bytes": 4294639616,
+  "device": "cuda:0",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "timestamp": "2026-10-09T08:52:35.869918+00:00",
+  "arguments": {
+    "out_dir": "sparse-gradient\\phase3_profile_smoke",
+    "cases": "default",
+    "case_csv": null,
+    "ops": [
+      "index_add",
+      "scatter_add",
+      "embedding"
+    ],
+    "rows": null,
+    "indices": null,
+    "dims": null,
+    "distributions": null,
+    "zipf_mode": "truncated",
+    "zipf_alpha": 1.2,
+    "workload_draws": [
+      0
+    ],
+    "hotspot_fraction": 0.95,
+    "hotspot_rows": 8,
+    "row_layout": "scattered",
+    "index_order": "random",
+    "warmup": 2,
+    "repeats": 5,
+    "profile_repeat": 1,
+    "seed": 1234,
+    "progress": "off",
+    "record_shapes": false,
+    "with_stack": false,
+    "export_trace": false,
+    "max_cases": 1,
+    "draws_explicit": false
+  },
+  "command_line": [
+    "sparse-gradient/profile_phase3.py",
+    "--out-dir",
+    "sparse-gradient/phase3_profile_smoke",
+    "--cases",
+    "default",
+    "--max-cases",
+    "1",
+    "--ops",
+    "index_add",
+    "scatter_add",
+    "embedding",
+    "--warmup",
+    "2",
+    "--repeats",
+    "5",
+    "--profile-repeat",
+    "1",
+    "--progress",
+    "off"
+  ],
+  "methodology_version": 3,
+  "cases": [
+    {
+      "rows": 4096,
+      "indices": 65536,
+      "dim": 64,
+      "distribution": "zipf",
+      "workload_draw": 0,
+      "zipf_mode": "truncated",
+      "row_layout": "scattered",
+      "index_order": "random",
+      "cache_mode": "warm",
+      "case_id": "case01"
+    }
+  ],
+  "status": "completed",
+  "dtype": "float32",
+  "scope_group": "fair_dense_grad",
+  "timing_scopes": {
+    "index_add": "fresh dense output allocation, zeroing, and indexed accumulation",
+    "scatter_add": "fresh dense output allocation, zeroing, and scatter accumulation; index view setup excluded",
+    "embedding": "retained forward graph; backward including dense gradient allocation; grad clearing excluded"
+  },
+  "timing": "Unprofiled CUDA events, inner=1; setup, forward and prepare outside events. Profiler overhead is not primary timing.",
+  "profiler_settings": {
+    "activities": [
+      "CPU",
+      "CUDA"
+    ],
+    "profile_memory": true,
+    "record_shapes": false,
+    "with_stack": false,
+    "profile_repeat": 1,
+    "export_trace": false
+  },
+  "profiler_total_definitions": {
+    "total_profile_cpu_time_ms": "Sum of CPU self times; avoids adding inclusive parent and child times.",
+    "total_profile_cuda_time_ms": "Sum of CUDA kernel-event durations, or CPU operator self-device times in legacy fallback; not wall time.",
+    "number_cuda_ops": "CUDA event call count; fallback counts CPU operators with attributed CUDA time, not kernels.",
+    "number_cpu_ops": "CPU event call count, including runtime and profiling annotations.",
+    "top_cuda": "Top 10 CUDA kernel keys when present; otherwise CUDA-attributed CPU keys, else CPU-time fallback explicitly marked."
+  },
+  "correctness": "CPU float64 reference cast to float32; abs_error <= 1e-5 + 1e-6 * row_count",
+  "limitations": [
+    "Warm-cache subset only; CSV cache_mode=cold is rejected.",
+    "CUDA-event samples are unbatched and fixed op order, unlike randomized/batched Phase 2 confirmation.",
+    "Profiler totals span all profile_repeat invocations, not one invocation.",
+    "Key-average inclusive times can overlap; do not sum them as total runtime.",
+    "No profile attribution is claimed if CUDA time is unavailable."
+  ],
+  "completed_case_ops": 3,
+  "failed_case_ops": 0,
+  "failed_correctness": 0,
+  "end_timestamp": "2026-10-09T08:52:37.713541+00:00",
+  "profiler_sort_basis_by_case_op": [
+    {
+      "case_id": "case01",
+      "operation": "index_add",
+      "profile_sort_basis": "cuda_kernel_events"
+    },
+    {
+      "case_id": "case01",
+      "operation": "scatter_add",
+      "profile_sort_basis": "cuda_kernel_events"
+    },
+    {
+      "case_id": "case01",
+      "operation": "embedding",
+      "profile_sort_basis": "cuda_kernel_events"
+    }
+  ],
+  "profiler_warnings": []
+}

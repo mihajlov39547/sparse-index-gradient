@@ -1,0 +1,7 @@
+case_id,rows,indices,dim,distribution,workload_draw,phase2_local_margin_aware_winner,phase2_t4_margin_aware_winner,phase2_t4_repeat_margin_aware_winner,in_phase2_grid,local_phase2_phase3_agree,t4_phase2_phase3_agree,notes,phase3_local_winner,phase3_t4_winner
+case01,4096,65536,64,zipf,0,index_add,tie,tie,True,True,False,,index_add,scatter_add
+case02,4096,262144,512,uniform,0,embedding,embedding,embedding,True,True,True,,embedding,embedding
+case03,16384,65536,256,zipf,0,embedding,scatter_add,scatter_add,True,True,True,,embedding,scatter_add
+case04,4096,65536,64,hotspot,0,index_add,tie,tie,True,True,False,,index_add,index_add
+case05,65536,262144,256,zipf,0,embedding,scatter_add,scatter_add,True,True,True,,embedding,scatter_add
+case06,4096,262144,64,hotspot,0,tie,index_add,tie,True,False,False,,embedding,scatter_add

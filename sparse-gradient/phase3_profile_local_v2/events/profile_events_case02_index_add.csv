@@ -1,0 +1,14 @@
+key,device_type,is_user_annotation,self_cpu_time_total_us,cpu_time_total_us,cuda_time_total_us,self_cuda_time_total_us,cuda_time_avg_us,calls,input_shapes,cpu_memory_usage_bytes,cuda_memory_usage_bytes,cuda_time_field
+[memory],DeviceType.CPU,False,0.0,0.0,0.0,0.0,0.0,3,"""""",0,-25165824.0,device_time_total
+phase3::index_add,DeviceType.CPU,True,270.4999999999968,2312.6999999999994,35667.35799999999,0.0,11889.11933333333,3,"""""",0,25165824.0,device_time_total
+aten::zeros,DeviceType.CPU,False,47.200000000002774,1929.7999999999997,149.57099999999855,0.0,49.856999999999516,3,"""""",0,25165824.0,device_time_total
+aten::empty,DeviceType.CPU,False,73.40000000000009,1432.3000000000002,0.0,0.0,0.0,3,"""""",0,25165824.0,device_time_total
+Unrecognized,DeviceType.CPU,False,1358.9,1358.9,0.0,0.0,0.0,1,"""""",0,0.0,device_time_total
+aten::zero_,DeviceType.CPU,False,14.3999999999985,450.29999999999677,149.57099999999855,0.0,49.856999999999516,3,"""""",0,0.0,device_time_total
+aten::fill_,DeviceType.CPU,False,65.59999999999945,435.8999999999983,149.57099999999855,149.57099999999855,49.856999999999516,3,"""""",0,0.0,device_time_total
+cudaLaunchKernel,DeviceType.CPU,False,400.59999999999854,400.59999999999854,0.0,0.0,0.0,6,"""""",0,0.0,device_time_total
+aten::index_add_,DeviceType.CPU,False,82.10000000000309,112.40000000000282,35517.787,35517.787,11839.262333333332,3,"""""",0,0.0,device_time_total
+cudaDeviceSynchronize,DeviceType.CPU,False,35924.6,35924.6,0.0,0.0,0.0,4,"""""",0,0.0,device_time_total
+phase3::index_add,DeviceType.CUDA,True,0.0,0.0,35671.102,35671.102,11890.367333333334,3,"""""",0,0.0,device_time_total
+_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_11FillFunctorIfEESt5arrayIPcLy1EEEEviT0_T1_,DeviceType.CUDA,False,0.0,0.0,149.57099999999855,149.57099999999855,49.856999999999516,3,"""""",0,0.0,device_time_total
+_ZN2at6native19indexFuncLargeIndexIfxjLi2ELi2ELin2ELb1ENS0_44_GLOBAL__N__99c14716_11_Indexing_cu_2a2c434e9ReduceAddEEEvNS_4cuda6detail10TensorInfoIT_T1_EENS6_IKS7_S8_EENS6_IKT0_S8_EEiiS8_S8_xxRKT6_S7_,DeviceType.CUDA,False,0.0,0.0,35517.787,35517.787,11839.262333333332,3,"""""",0,0.0,device_time_total

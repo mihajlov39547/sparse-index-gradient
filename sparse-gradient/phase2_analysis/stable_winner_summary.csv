@@ -1,0 +1,4 @@
+label,total_base_configurations,stable_configurations,mixed_configurations,stable_percentage,dominant_index_add_count,dominant_scatter_add_count,dominant_embedding_count,dominant_embedding_bag_count,dominant_sorted_segment_count
+GTX1650Ti,108,103,5,95.37037037037037,40,0,68,0,0
+T4,108,93,15,86.11111111111111,3,91,14,0,0
+T4_repeat,54,47,7,87.03703703703704,1,43,10,0,0

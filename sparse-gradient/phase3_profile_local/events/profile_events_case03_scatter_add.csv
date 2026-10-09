@@ -1,0 +1,15 @@
+key,device_type,is_user_annotation,self_cpu_time_total_us,cpu_time_total_us,cuda_time_total_us,self_cuda_time_total_us,cuda_time_avg_us,calls,input_shapes,cpu_memory_usage_bytes,cuda_memory_usage_bytes,cuda_time_field
+[memory],DeviceType.CPU,False,0.0,0.0,0.0,0.0,0.0,3,"""""",0,-50331648.0,device_time_total
+phase3::scatter_add,DeviceType.CPU,True,284.0999999999999,1662.7,5165.004000000001,0.0,1721.6680000000003,3,"""""",0,50331648.0,device_time_total
+aten::zeros,DeviceType.CPU,False,33.89999999999941,1244.1999999999998,266.086,0.0,88.69533333333334,3,"""""",0,50331648.0,device_time_total
+aten::empty,DeviceType.CPU,False,85.50000000000068,770.5000000000007,0.0,0.0,0.0,3,"""""",0,50331648.0,device_time_total
+Unrecognized,DeviceType.CPU,False,685.0,685.0,0.0,0.0,0.0,1,"""""",0,0.0,device_time_total
+aten::zero_,DeviceType.CPU,False,18.500000000000227,439.7999999999997,266.086,0.0,88.69533333333334,3,"""""",0,0.0,device_time_total
+aten::fill_,DeviceType.CPU,False,46.7999999999995,421.2999999999995,266.086,266.086,88.69533333333334,3,"""""",0,0.0,device_time_total
+cudaLaunchKernel,DeviceType.CPU,False,408.099999999999,408.099999999999,0.0,0.0,0.0,6,"""""",0,0.0,device_time_total
+aten::scatter_add_,DeviceType.CPU,False,90.30000000000132,134.40000000000032,4898.918000000001,4898.918000000001,1632.9726666666668,3,"""""",0,0.0,device_time_total
+aten::as_strided,DeviceType.CPU,False,10.5,10.5,0.0,0.0,0.0,6,"""""",0,0.0,device_time_total
+cudaDeviceSynchronize,DeviceType.CPU,False,5365.099999999999,5365.099999999999,0.0,0.0,0.0,4,"""""",0,0.0,device_time_total
+phase3::scatter_add,DeviceType.CUDA,True,0.0,0.0,5167.852,5167.852,1722.6173333333334,3,"""""",0,0.0,device_time_total
+_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_11FillFunctorIfEESt5arrayIPcLy1EEEEviT0_T1_,DeviceType.CUDA,False,0.0,0.0,266.086,266.086,88.69533333333334,3,"""""",0,0.0,device_time_total
+_ZN2at6native29vectorized_scatter_add_kernelILi16EfxEEvPT0_PKS2_PKT1_ixxxxii,DeviceType.CUDA,False,0.0,0.0,4898.918000000001,4898.918000000001,1632.9726666666668,3,"""""",0,0.0,device_time_total

@@ -1,0 +1,15 @@
+key,device_type,is_user_annotation,self_cpu_time_total_us,cpu_time_total_us,cuda_time_total_us,self_cuda_time_total_us,cuda_time_avg_us,calls,input_shapes,cpu_memory_usage_bytes,cuda_memory_usage_bytes,cuda_time_field
+[memory],DeviceType.CPU,False,0.0,0.0,0.0,0.0,0.0,3,"""""",0,-3145728.0,device_time_total
+phase3::scatter_add,DeviceType.CPU,True,646.8000000000004,2630.000000000001,3157.2670000000003,0.0,1052.4223333333334,3,"""""",0,3145728.0,device_time_total
+aten::zeros,DeviceType.CPU,False,93.19999999999959,1719.2999999999997,15.711000000000695,0.0,5.237000000000232,3,"""""",0,3145728.0,device_time_total
+aten::empty,DeviceType.CPU,False,227.09999999999957,1218.3999999999996,0.0,0.0,0.0,3,"""""",0,3145728.0,device_time_total
+Unrecognized,DeviceType.CPU,False,991.3000000000001,991.3000000000001,0.0,0.0,0.0,1,"""""",0,0.0,device_time_total
+aten::zero_,DeviceType.CPU,False,38.40000000000032,407.7000000000005,15.711000000000695,0.0,5.237000000000232,3,"""""",0,0.0,device_time_total
+aten::fill_,DeviceType.CPU,False,123.10000000000036,369.3000000000002,15.711000000000695,15.711000000000695,5.237000000000232,3,"""""",0,0.0,device_time_total
+cudaLaunchKernel,DeviceType.CPU,False,311.80000000000064,311.80000000000064,0.0,0.0,0.0,6,"""""",0,0.0,device_time_total
+aten::scatter_add_,DeviceType.CPU,False,178.89999999999964,263.90000000000055,3141.5559999999996,3141.5559999999996,1047.1853333333331,3,"""""",0,0.0,device_time_total
+aten::as_strided,DeviceType.CPU,False,19.40000000000009,19.40000000000009,0.0,0.0,0.0,6,"""""",0,0.0,device_time_total
+cudaDeviceSynchronize,DeviceType.CPU,False,3777.1000000000004,3777.1000000000004,0.0,0.0,0.0,4,"""""",0,0.0,device_time_total
+phase3::scatter_add,DeviceType.CUDA,True,0.0,0.0,3159.8920000000007,3159.8920000000007,1053.2973333333337,3,"""""",0,0.0,device_time_total
+_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_11FillFunctorIfEESt5arrayIPcLy1EEEEviT0_T1_,DeviceType.CUDA,False,0.0,0.0,15.711000000000695,15.711000000000695,5.237000000000232,3,"""""",0,0.0,device_time_total
+_ZN2at6native29vectorized_scatter_add_kernelILi16EfxEEvPT0_PKS2_PKT1_ixxxxii,DeviceType.CUDA,False,0.0,0.0,3141.5559999999996,3141.5559999999996,1047.1853333333331,3,"""""",0,0.0,device_time_total

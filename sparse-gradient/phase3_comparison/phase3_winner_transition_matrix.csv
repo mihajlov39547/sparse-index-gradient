@@ -1,0 +1,5 @@
+local_winner,t4_winner,case_count,decisive_both_count,near_tie_in_any_count,cases
+embedding,embedding,1,1,0,case02
+embedding,scatter_add,3,2,1,"case03, case05, case06"
+index_add,index_add,1,1,0,case04
+index_add,scatter_add,1,0,1,case01

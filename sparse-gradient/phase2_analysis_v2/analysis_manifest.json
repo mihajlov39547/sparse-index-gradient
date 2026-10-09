@@ -1,0 +1,77 @@
+{
+  "runs": [
+    {
+      "label": "GTX1650Ti",
+      "path": "C:\\Projects\\phd-segmentacija-instanci\\sparse-gradient\\results_v3_confirm"
+    },
+    {
+      "label": "T4",
+      "path": "C:\\Projects\\phd-segmentacija-instanci\\sparse-gradient\\results_colab_t4_confirm"
+    },
+    {
+      "label": "T4_repeat",
+      "path": "C:\\Projects\\phd-segmentacija-instanci\\sparse-gradient\\results_colab_t4_repeat_small"
+    }
+  ],
+  "notes": [],
+  "plots": [
+    "winner_share_by_run.png",
+    "winner_share_by_dim_by_run.png",
+    "winner_share_by_distribution_by_run.png",
+    "speedup_vs_index_add_by_run.png",
+    "embedding_vs_scatter_add_cross_environment.png",
+    "matched_margin_winner_share_by_run.png",
+    "gpu_bound_matched_margin_winner_share_by_run.png",
+    "matched_margin_winner_share_by_dim_GTX1650Ti.png",
+    "matched_margin_winner_share_by_dim_T4.png",
+    "matched_margin_winner_share_by_dim_T4_repeat.png",
+    "all_op_geomean_speedup_vs_index_add_by_run.png"
+  ],
+  "tables": [
+    "environment_summary.csv",
+    "winner_counts_by_run.csv",
+    "winner_counts_by_dimension.csv",
+    "winner_counts_by_rows.csv",
+    "winner_counts_by_indices.csv",
+    "winner_counts_by_distribution.csv",
+    "stable_winner_details.csv",
+    "stable_winner_summary.csv",
+    "speedup_summary.csv",
+    "speedup_summary_by_winner.csv",
+    "speedup_summary_by_dim_distribution.csv",
+    "summary_results_with_overhead.csv",
+    "within_run_margin_winners.csv",
+    "margin_winner_counts_by_run.csv",
+    "matched_winners_common_ops.csv",
+    "matched_winner_counts_by_run.csv",
+    "matched_margin_winner_counts_by_run.csv",
+    "gpu_bound_summary_results.csv",
+    "gpu_bound_matched_winners_common_ops.csv",
+    "gpu_bound_matched_margin_winner_counts_by_run.csv",
+    "quality_summary_by_run.csv",
+    "all_op_speedup_vs_index_add.csv",
+    "all_op_speedup_summary.csv",
+    "all_op_speedup_summary_by_dim_distribution.csv",
+    "matched_all_op_speedup_vs_index_add.csv",
+    "matched_all_op_speedup_summary.csv"
+  ],
+  "analysis_version": 2,
+  "matched_ops": [
+    "index_add",
+    "scatter_add",
+    "embedding"
+  ],
+  "tie_threshold": 0.05,
+  "min_overhead_multiple": 5.0,
+  "bootstrap_samples": 2000,
+  "bootstrap_seed": 1234,
+  "bootstrap_unit": "BASE configuration (all draws retained together)",
+  "matched_common_draw_count": 162,
+  "gpu_bound_common_draw_count": 162,
+  "assumptions": [
+    "Legacy/within-run tables are descriptive; matched tables intersect complete draw keys and selected APIs across all loaded runs.",
+    "GPU-bound matched subsets require every selected API in every run to pass the noop screen; this is only an overhead proxy.",
+    "Non-noise rates use all retained winner draws as denominator.",
+    "Stable means winner consistency across eligible draws, not statistical significance."
+  ]
+}

@@ -1,0 +1,9 @@
+check_name,passed,supporting_numbers,caution
+index_add_path_dominance,True,GTX1650Ti=0.9677; T4=0.9647,Full-event CUDA category shares are required; top-10 fallback data do not establish this check.
+scatter_add_path_dominance,True,GTX1650Ti=0.9817; T4=0.9518,Full-event CUDA category shares are required; top-10 fallback data do not establish this check.
+embedding_accumulation_present,True,GTX1650Ti=0.8271; T4=0.6697,Full-event CUDA category shares are required; top-10 fallback data do not establish this check.
+embedding_sort_scan_present,True,GTX1650Ti=0.1217; T4=0.2342,Full-event CUDA category shares are required; top-10 fallback data do not establish this check.
+other_share_controlled,True,T4/embedding=0.03467,Unknown kernels are substantial wherever the mean other share is >= 0.2.
+phase2_environment_difference_present,True,GTX1650Ti=embedding; T4=scatter_add; T4_repeat=scatter_add,Requires the expected most-frequent decisive API in all three Phase 2 environments.
+representative_reversals_present,True,"case03, case05","Representative subset evidence remains illustrative, not statistical."
+strong_clean_reversals_present,True,"case03, case05","Requires clean GPU proxies, stable timing evidence, and exact index pairing."
