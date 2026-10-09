@@ -11,7 +11,7 @@ $MainFile = "main"
 $TexFile = "$MainFile.tex"
 $GeneratedPdfFile = "$MainFile.pdf"
 $ReportFile = Join-Path $RepositoryRoot "build-output.txt"
-$MaxPdfLaTeXPasses = 3
+$MaxPdfLaTeXPasses = 4
 $ReportWriter = $null
 
 function Write-BuildLine {
