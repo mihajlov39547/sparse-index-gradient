@@ -1,0 +1,21 @@
+% Source: ../sparse-gradient/phase3_comparison_v2/phase3_phase2_case_join.csv
+\begin{table}[tbp]
+\centering
+\small
+\caption{Matched Phase 2 and Phase 3 case winners.}
+\label{tab:phase3-phase2-case-join}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+Case & Phase 2 local & Phase 2 T4 & Phase 2 T4 repeat & Local agree & T4 agree & Phase 3 local/T4 \\
+\midrule
+case01 & index\_add & tie & tie & True & False & index\_add / scatter\_add \\
+case02 & embedding & embedding & embedding & True & True & embedding / embedding \\
+case03 & embedding & scatter\_add & scatter\_add & True & True & embedding / scatter\_add \\
+case04 & index\_add & tie & tie & True & False & index\_add / index\_add \\
+case05 & embedding & scatter\_add & scatter\_add & True & True & embedding / scatter\_add \\
+case06 & tie & index\_add & tie & False & False & embedding / scatter\_add \\
+\bottomrule
+\end{tabular}
+}%
+\end{table}

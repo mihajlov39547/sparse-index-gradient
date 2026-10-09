@@ -1,0 +1,46 @@
+% !TeX program = pdflatex
+\documentclass[research]{fcs}
+
+\title{Profiling Sparse-Index Gradient Accumulation in Backpropagation: A PyTorch CUDA Study of Embedding, Index-Add, and Scatter-Add Paths}
+\shorttitle{Sparse-Index Gradient Accumulation in PyTorch CUDA}
+
+\author[1]{Author Name1}
+\author[1,+]{Author Name2}
+\address[1]{Affiliation placeholder}
+\corremail{Email placeholder}
+
+\fcssetup{
+  received = {placeholder},
+  accepted = {placeholder},
+  article-id = {1},
+  first-page = {1},
+}
+
+\begin{abstract}
+Sparse-index gradient accumulation is a recurring operation in backpropagation for embedding-heavy and sparse-feature AI training workloads. Although high-level tensor APIs may express related accumulation semantics, their CUDA execution paths can differ substantially in practice. This paper presents a controlled empirical study of three standard PyTorch CUDA paths for sparse-index accumulation: \texttt{index\_add}, \texttt{scatter\_add}, and \texttt{Embedding.backward}. The study uses a calibrated benchmark protocol with correctness validation, matched workload configurations, CUDA-event timing, a practical-margin rule for winner classification, and representative profiler-based attribution.
+
+The results show that the fastest API path is workload- and stack-dependent. In the matched benchmark phase, the local GTX1650Ti stack most often favored \texttt{Embedding.backward}, whereas the T4 stacks most often favored \texttt{scatter\_add}. Representative profiler evidence further shows that the three APIs dispatch to distinct CUDA kernel compositions: \texttt{index\_add} is dominated by indexed accumulation kernels, \texttt{scatter\_add} by scatter/gather-style accumulation kernels, and \texttt{Embedding.backward} by a multi-kernel backward path that includes accumulation and sorting or segmentation-related components. Strong representative reversals confirm that high-level API similarity does not guarantee equivalent performance behavior.
+
+These findings indicate that sparse-index gradient accumulation should be treated as a workload- and software/hardware-stack-dependent systems problem rather than as a purely semantic API choice. The study does not claim a universal fastest API or isolated hardware causality; instead, it provides a reproducible characterization of standard PyTorch CUDA paths under controlled sparse-gradient accumulation workloads.
+\end{abstract}
+\keywords{Sparse gradients; Sparse-index accumulation; Backpropagation; PyTorch; CUDA; Embedding backward; Index add; Scatter add; AI model training}
+
+\begin{document}
+
+\input{sections/01_introduction}
+\input{sections/02_background_related_work}
+\input{sections/03_methodology}
+\input{sections/04_results_analysis}
+\input{sections/05_general_discussion}
+\input{sections/06_conclusion}
+
+\section*{Acknowledgements}
+The authors declare no specific funding or personal acknowledgements for this working manuscript.
+
+\section*{Competing interests}
+The authors declare that they have no competing interests or financial conflicts to disclose.
+
+\bibliographystyle{fcs}
+\bibliography{ref}
+
+\end{document}

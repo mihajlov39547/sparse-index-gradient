@@ -1,0 +1,121 @@
+\section{Methodology}
+\label{sec:methodology}
+
+\subsection{Study Scope}
+
+This study investigates sparse-index gradient accumulation patterns that arise during the backpropagation phase of AI model training. The focus is on workloads in which many indexed source vectors contribute to a dense gradient-like output, a pattern that is common in embedding tables, recommender-style models, negative sampling, graph workloads, and other training settings where sparse index references are accumulated during the backward pass.
+
+The study is intentionally scoped to standard PyTorch CUDA execution paths rather than custom CUDA kernels. The goal is not to design a new accumulation primitive, but to characterize how widely available PyTorch APIs behave under controlled sparse-index accumulation workloads. In particular, the experiments examine whether API-level alternatives that express similar accumulation-style computations can exhibit different timing behavior and different CUDA execution paths.
+
+The study does not benchmark full model training, end-to-end training throughput, dense matrix multiplication, convolution, attention, optimizer performance, data loading, or distributed training. These components are outside the scope because they would introduce additional sources of variation that are not necessary for isolating the sparse-index accumulation behavior studied here. Instead, the experimental design separates a grid-level timing phase from a representative profiling phase. The grid-level phase provides the main matched timing evidence, while the profiling phase provides execution-path attribution for selected representative cases.
+
+\subsection{Benchmarked Operations}
+
+The comparison centers on three PyTorch CUDA operations or operation paths:
+
+\begin{itemize}[leftmargin=*]
+    \item \texttt{index\_add}, which accumulates source rows into a dense output according to an index tensor;
+    \item \texttt{scatter\_add}, which expresses an indexed accumulation pattern through scatter-style updates;
+    \item \texttt{Embedding.backward}, which represents the backward path of a PyTorch embedding table and therefore provides a realistic training-related sparse-gradient accumulation path.
+\end{itemize}
+
+These operations are conceptually related because each can be used to represent sparse-index accumulation into a dense gradient-like tensor under controlled workload construction. However, the study does not assume that they are universally equivalent in all PyTorch contexts or all mathematical formulations. Instead, they are compared under matched accumulation-style workloads in which the input shapes, index distributions, and output dimensions are controlled.
+
+The inclusion of \texttt{Embedding.backward} is important because embedding tables are a common source of sparse gradient accumulation during backpropagation. Unlike the direct accumulation APIs, the embedding backward path may involve specialized internal kernels and additional framework-level logic. Comparing it with \texttt{index\_add} and \texttt{scatter\_add} therefore helps distinguish API-level similarity from actual CUDA execution behavior.
+
+\subsection{Workload Design}
+
+Workloads are parameterized by the number of output rows, the number of indexed source entries, the feature dimension, and the distribution of index values. The main workload parameters are:
+
+\begin{itemize}[leftmargin=*]
+    \item \texttt{rows}: the number of rows in the dense output or embedding table;
+    \item \texttt{indices}: the number of indexed source entries accumulated during the operation;
+    \item \texttt{dim}: the feature dimension of each row;
+    \item \texttt{distribution}: the statistical distribution used to generate index references;
+    \item \texttt{workload\_draw}: the workload draw identifier used to construct matched cases;
+    \item \texttt{zipf\_mode}: the mode used for Zipf-distributed workloads;
+    \item \texttt{row\_layout}: the layout of rows in the generated workload;
+    \item \texttt{index\_order}: the order of generated indices;
+    \item \texttt{cache\_mode}: whether the workload is evaluated under the selected cache condition.
+\end{itemize}
+
+The workload distributions include uniform, Zipf, and hotspot-style index patterns. Uniform workloads provide a baseline in which index references are more evenly distributed across rows. Zipf and hotspot workloads introduce skew, duplicate references, and hot rows. These skewed cases are important because duplicate indices can change the cost of accumulation and can expose differences between accumulation implementations.
+
+The broader timing phase evaluates matched configurations across a larger workload grid. The profiling phase uses a smaller set of representative cases selected to expose the CUDA execution paths underlying the observed API behavior. This separation avoids relying on profiler-instrumented runs as the primary timing evidence while still allowing the study to inspect representative kernel-level composition.
+
+\subsection{Correctness Validation}
+
+Correctness validation is performed before timing or profiling results are accepted into the analysis. This is necessary because timing comparisons are meaningful only when the operations compute the intended accumulation result under the same workload configuration.
+
+For each accepted configuration, the benchmark checks that the compared operation produces numerically valid output relative to the reference accumulation behavior used by the experiment. Rows with failed correctness checks or failed execution status are excluded from paired winner claims. This rule applies both to the broader timing phase and to the representative profiling phase.
+
+The correctness procedure is especially important for sparse-index workloads because repeated indices, skewed distributions, and different internal execution paths may change the order of floating-point accumulation. The validation therefore uses tolerance-based numerical checks rather than assuming bitwise equality in every case. This preserves the focus on computational equivalence within a practical numerical tolerance while allowing the study to compare different CUDA-backed execution paths.
+
+\subsection{Timing Methodology}
+
+The primary timing evidence comes from CUDA-event measurements over matched workload configurations. For each configuration, the selected operations are compared within the same workload setting. The timing analysis uses median latency as the main summary statistic, because medians are less sensitive to occasional runtime outliers than single measurements or means alone.
+
+A practical margin threshold is used to distinguish decisive timing differences from near-ties. Specifically, when the runner-up operation is more than 5\% slower than the fastest operation for a matched configuration, the fastest operation is treated as the practical winner for that case. If the margin does not exceed this threshold, the case is retained but interpreted as a near-tie rather than strong evidence of a meaningful performance difference.
+
+The broader matched timing phase is the main source of grid-level performance evidence. The representative profiling phase also records event timings for the selected cases, but those timings are used primarily to relate profiled cases to the broader benchmark behavior. They are not treated as a replacement for the broader timing grid because the profiling subset is smaller and uses a fixed representative design.
+
+The timing methodology distinguishes between direct operation timing and profiler-derived quantities. CUDA-event medians are used for operation-level timing comparisons, while profiler-derived CUDA totals are used for attribution and diagnostic interpretation. These two measurement sources are not interchangeable because profiling introduces instrumentation, synchronization, and event collection overhead.
+
+\subsection{Profiling Methodology}
+
+The profiling phase is designed to identify the CUDA execution paths associated with the selected PyTorch APIs. It uses representative workloads from the same accumulation setting and records profiler outputs for each case-operation pair. The relevant profiling artifacts include:
+
+\begin{itemize}[leftmargin=*]
+    \item \texttt{profile\_cases.csv}, which records case-level operation status, timing summaries, profiler attribution fields, and diagnostic flags;
+    \item \texttt{case\_winners.csv}, which records the fastest operation and runner-up for each representative case;
+    \item \texttt{profile\_events\_caseXX\_operation.csv}, which records full profiler event rows when available;
+    \item \texttt{profile\_top\_cuda\_caseXX\_operation.csv}, which records the top CUDA events for each profiled operation.
+\end{itemize}
+
+Full CUDA event files are preferred over top-event summaries when computing kernel-category shares. User annotations and enclosing profiling ranges are excluded from category-share calculations so that the resulting summaries reflect CUDA device work rather than inclusive annotation ranges. When only top-event summaries are available, the analysis treats them as truncated attribution evidence rather than full-profile composition.
+
+The profiler events are grouped into conservative name-based categories. The categories used for interpretation are:
+
+\begin{itemize}[leftmargin=*]
+    \item \texttt{index\_add\_accumulate}, for CUDA kernels associated with indexed reduction through the \texttt{index\_add} path;
+    \item \texttt{scatter\_add\_accumulate}, for CUDA kernels associated with scatter/gather reduction paths;
+    \item \texttt{embedding\_accumulate}, for embedding backward accumulation kernels such as gradient-weight computation and scatter-style accumulation inside the embedding backward path;
+    \item \texttt{sort\_scan\_unique}, for sort, scan, and unique-related kernels that appear in the embedding backward path;
+    \item \texttt{zero\_fill\_memset}, for initialization and zero-fill kernels;
+    \item \texttt{arange\_index\_setup}, for index setup kernels such as range construction;
+    \item \texttt{other}, for CUDA events not captured by the preceding categories.
+\end{itemize}
+
+These categories are used for execution-path attribution, not for proving low-level hardware causality. They are based on observed kernel and operator names, and therefore depend on the PyTorch and CUDA software stack used in each environment. The category summaries are intended to show whether the three PyTorch APIs exercise distinct CUDA paths under the profiled workloads.
+
+The profiling phase also computes a GPU-busy proxy by comparing profiler-derived CUDA kernel time with the unprofiled CUDA-event timing for the same case. This proxy is used only as a warning signal for possible host overhead. It is not a hardware utilization counter and is not interpreted as a direct measurement of GPU occupancy or saturation.
+
+\subsection{Cross-Environment Comparison}
+
+The study compares two execution environments: a local GTX1650Ti stack and a Colab Tesla T4 stack. These environments differ not only in GPU model, but also in operating system, runtime conditions, PyTorch version, CUDA version, and hosted execution context. Therefore, the comparison is interpreted as a stack-level comparison rather than an isolated hardware-causal experiment.
+
+The cross-environment analysis is performed in two stages. First, the broader matched timing analysis compares winner counts, practical-margin winners, and relative speedups across the matched workload grid. Second, the representative profiling analysis compares selected cases across the two environments and relates them back to the matched timing grid.
+
+The comparison artifacts serve distinct purposes. The \texttt{phase3\_case\_comparison.csv} table records the representative case-level winners, margins, host-warning flags, timing-stability flags, index-hash pairing status, and winner-relation categories. The \texttt{phase3\_phase2\_case\_join.csv} table links the representative profiling cases back to the broader matched Phase 2 grid, allowing the analysis to determine whether a profiled case is present in the broader timing evidence. The \texttt{phase3\_claim\_checks.csv} table records evidence gates used to determine which paper-level claims are supported by the available data.
+
+Workload pairing is checked through parameter matching and index hashes where available. Matching index hashes provide stronger evidence that the same index draw is being compared across environments. Source tensor hashes may differ across environments due to random number generation and software-stack differences, so source-hash mismatches are treated as informational rather than automatic failures.
+
+\subsection{Threats to Validity}
+
+Several threats to validity limit the interpretation of this study.
+
+First, the profiling phase uses a representative subset rather than the full workload grid. The representative cases are useful for execution-path attribution, but they are not sufficient to establish grid-wide frequencies or statistical performance distributions on their own. For this reason, the broader matched timing phase remains the main source of performance evidence.
+
+Second, the representative profiling phase uses a fixed operation order and a limited per-case measurement design. This makes the profiler outputs easier to inspect and compare, but it also means that the profiling subset should not be treated as a randomized timing experiment.
+
+Third, profiler overhead can perturb execution. Profiler-derived CUDA totals are therefore used for attribution and diagnostic interpretation rather than as the primary timing metric. CUDA-event medians remain the main basis for operation-level timing comparisons.
+
+Fourth, the GPU-busy proxy is not a hardware utilization counter. Values derived from profiler events can be affected by synchronization, instrumentation overhead, and differences between profiled and unprofiled timing conditions. A low value is treated only as a warning signal for possible host overhead.
+
+Fifth, the two environments differ in multiple dimensions, including GPU model, operating system, PyTorch version, CUDA version, and hosted runtime conditions. Consequently, the study does not make isolated hardware-causal claims. Observed differences are attributed to the combined hardware/software stack and workload configuration.
+
+Sixth, the study does not use Nsight Compute counters, hardware occupancy metrics, memory-transaction counters, or warp-level profiling. The kernel attribution is based on PyTorch profiler event names and CUDA event durations, which provide useful execution-path evidence but do not fully explain microarchitectural causes.
+
+Seventh, the study does not benchmark full training loops or end-to-end model convergence. The results therefore apply to controlled sparse-index accumulation behavior rather than complete model training throughput.
+
+Finally, the study does not compare against custom CUDA implementations. This is intentional because the research question concerns the behavior of standard PyTorch CUDA APIs available to practitioners, but it also means that the results should not be interpreted as the best possible performance attainable for sparse-index gradient accumulation.
