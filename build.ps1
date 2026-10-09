@@ -1,17 +1,17 @@
-# build.ps1
-# Compile LaTeX thesis with XeLaTeX + Biber.
+# Compile the journal-independent paper draft with pdfLaTeX + BibTeX.
 
 param(
     [switch]$CleanOnly,
     [switch]$FullClean
 )
 
+$RepositoryRoot = Split-Path -Parent $PSCommandPath
+$PaperDirectory = Join-Path $RepositoryRoot "paper_sparse_gradient"
 $MainFile = "main"
 $TexFile = "$MainFile.tex"
 $GeneratedPdfFile = "$MainFile.pdf"
-$PdfFile = "precizna_segmentacija.pdf"
-$ReportFile = "build-output.txt"
-$MaxXeLaTeXPasses = 5
+$ReportFile = Join-Path $RepositoryRoot "build-output.txt"
+$MaxPdfLaTeXPasses = 3
 $ReportWriter = $null
 
 function Write-BuildLine {
@@ -24,35 +24,16 @@ function Write-BuildLine {
     $script:ReportWriter.WriteLine($Message)
 }
 
-function Remove-LaTeXAuxFilesForBase {
-    param([string]$BaseName)
-
+function Remove-LaTeXAuxFiles {
     $extensions = @(
-        "aux", "bbl", "bcf", "blg", "log", "out", "run.xml",
-        "toc", "lof", "lot", "synctex.gz", "synctex", "fls", "fdb_latexmk"
+        "aux", "bbl", "blg", "log", "out", "toc", "lof", "lot",
+        "synctex.gz", "synctex", "fls", "fdb_latexmk"
     )
 
-    foreach ($ext in $extensions) {
-        $files = Get-ChildItem -Path . -Filter "$BaseName.$ext" -ErrorAction SilentlyContinue
-        foreach ($file in $files) {
-            for ($attempt = 1; $attempt -le 5; $attempt++) {
-                try {
-                    Remove-Item -LiteralPath $file.FullName -Force -ErrorAction Stop
-                    break
-                }
-                catch {
-                    if ($attempt -eq 5) {
-                        throw
-                    }
-                    Start-Sleep -Milliseconds 250
-                }
-            }
-        }
+    foreach ($extension in $extensions) {
+        Get-ChildItem -Path . -Filter "$MainFile.$extension" -ErrorAction SilentlyContinue |
+            Remove-Item -Force
     }
-}
-
-function Remove-OldBuildArtifacts {
-    Remove-LaTeXAuxFilesForBase $MainFile
 }
 
 function Assert-RequiredCommands {
@@ -60,7 +41,6 @@ function Assert-RequiredCommands {
 
     foreach ($command in $Commands) {
         if (-not (Get-Command $command -ErrorAction SilentlyContinue)) {
-            Write-BuildLine "$command was not found in PATH." Red
             throw "$command was not found in PATH."
         }
     }
@@ -88,67 +68,18 @@ function Invoke-NativeCommand {
     return [int]$exitCode
 }
 
-function Test-NeedsXeLaTeXRerun {
+function Test-NeedsPdfLaTeXRerun {
     param([string]$LogPath)
 
     if (-not (Test-Path $LogPath)) {
         return $false
     }
 
-    $patterns = @(
+    return [bool](Select-String -LiteralPath $LogPath -Pattern @(
         'Rerun to get',
         'Label\(s\) may have changed',
         'There were undefined references'
-    )
-
-    return [bool](Select-String -LiteralPath $LogPath -Pattern $patterns -Quiet)
-}
-
-function Test-NeedsBiber {
-    param(
-        [string]$BcfPath,
-        [string]$BblPath,
-        [string[]]$BibliographyPaths,
-        [string]$PreviousBcfHash
-    )
-
-    if ((-not (Test-Path $BcfPath)) -or (-not (Test-Path $BblPath))) {
-        return $true
-    }
-
-    $bblWriteTime = (Get-Item -LiteralPath $BblPath).LastWriteTimeUtc
-    $currentBcfHash = (Get-FileHash -LiteralPath $BcfPath -Algorithm SHA256).Hash
-    if (($PreviousBcfHash -ne "") -and ($currentBcfHash -ne $PreviousBcfHash)) {
-        return $true
-    }
-
-    foreach ($bibliographyPath in $BibliographyPaths) {
-        if ((Test-Path $bibliographyPath) -and ((Get-Item -LiteralPath $bibliographyPath).LastWriteTimeUtc -gt $bblWriteTime)) {
-            return $true
-        }
-    }
-
-    return $false
-}
-
-function Get-LogMatches {
-    param(
-        [string]$Path,
-        [string[]]$Patterns
-    )
-
-    $results = @()
-    if (-not (Test-Path $Path)) {
-        return $results
-    }
-
-    foreach ($pattern in $Patterns) {
-        $found = Select-String -LiteralPath $Path -Pattern $pattern
-        foreach ($match in $found) {
-            $results += "$($match.Path):$($match.LineNumber): $($match.Line)"
-        }
-    }
-    return $results
+    ) -Quiet)
 }
 
 function Test-FinalLaTeXLog {
@@ -167,38 +98,13 @@ function Test-FinalLaTeXLog {
         'Reference .* undefined',
         'There were undefined references',
         'multiply defined',
-        'multiply-defined labels',
-        'Empty bibliography'
+        'multiply-defined labels'
     )
 
-    $problems = Get-LogMatches -Path $LogPath -Patterns $fatalPatterns
-    if ($problems.Count -gt 0) {
-        Write-BuildLine "Final LaTeX log contains blocking problems:" Red
-        foreach ($problem in $problems) {
-            Write-BuildLine $problem Red
+    foreach ($pattern in $fatalPatterns) {
+        if (Select-String -LiteralPath $LogPath -Pattern $pattern -Quiet) {
+            return $false
         }
-        return $false
-    }
-
-    return $true
-}
-
-function Test-FinalBiberLog {
-    param([string]$LogPath)
-
-    $fatalPatterns = @(
-        "I didn't find a database entry",
-        'could not be found in the database',
-        'Empty bibliography'
-    )
-
-    $problems = Get-LogMatches -Path $LogPath -Patterns $fatalPatterns
-    if ($problems.Count -gt 0) {
-        Write-BuildLine "Biber log contains blocking problems:" Red
-        foreach ($problem in $problems) {
-            Write-BuildLine $problem Red
-        }
-        return $false
     }
 
     return $true
@@ -207,134 +113,100 @@ function Test-FinalBiberLog {
 function Show-LayoutWarnings {
     param([string]$LogPath)
 
-    $warnings = Get-LogMatches -Path $LogPath -Patterns @('Overfull \\hbox', 'Overfull \\vbox')
-    if ($warnings.Count -eq 0) {
+    $warnings = Select-String -LiteralPath $LogPath -Pattern @('Overfull \\hbox', 'Overfull \\vbox')
+    if ($null -eq $warnings) {
         Write-BuildLine "Layout warnings: none"
         return
     }
 
     Write-BuildLine "Layout warnings:" Yellow
     foreach ($warning in $warnings) {
-        Write-BuildLine $warning Yellow
+        Write-BuildLine "$($warning.Path):$($warning.LineNumber): $($warning.Line)" Yellow
     }
 }
 
 $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
 $ReportWriter = [System.IO.StreamWriter]::new($ReportFile, $false, $utf8NoBom)
-
 $scriptExitCode = 0
 
 try {
-    if ($CleanOnly) {
-        Write-BuildLine "Cleaning old auxiliary files..." Cyan
-        Remove-OldBuildArtifacts
+    if (-not (Test-Path (Join-Path $PaperDirectory $TexFile))) {
+        throw "Paper source was not found: $PaperDirectory\$TexFile"
     }
-    else {
-        Assert-RequiredCommands -Commands @("xelatex", "biber")
 
-        Write-BuildLine "Closing common PDF viewers..." Yellow
-        Get-Process AcroRd32, Acrobat, SumatraPDF -ErrorAction SilentlyContinue |
-            Stop-Process -Force
-
-        if ($FullClean) {
+    Push-Location $PaperDirectory
+    try {
+        if ($CleanOnly) {
             Write-BuildLine "Cleaning old auxiliary files..." Cyan
-            Remove-OldBuildArtifacts
+            Remove-LaTeXAuxFiles
         }
         else {
-            Write-BuildLine "Incremental build: keeping existing auxiliary files." Cyan
-        }
+            Assert-RequiredCommands -Commands @("pdflatex", "bibtex")
 
-        $previousBcfHash = ""
-        if (Test-Path "$MainFile.bcf") {
-            $previousBcfHash = (Get-FileHash -LiteralPath "$MainFile.bcf" -Algorithm SHA256).Hash
-        }
+            if ($FullClean) {
+                Write-BuildLine "Cleaning old auxiliary files..." Cyan
+                Remove-LaTeXAuxFiles
+            }
+            else {
+                Write-BuildLine "Incremental build: keeping existing auxiliary files." Cyan
+            }
 
-        $pass1 = Invoke-NativeCommand `
-            -Name "XeLaTeX pass 1" `
-            -Command "xelatex" `
-            -Arguments @("-interaction=nonstopmode", "-file-line-error", $TexFile)
+            $latexExitCodes = @(
+                (Invoke-NativeCommand -Name "pdfLaTeX pass 1" -Command "pdflatex" -Arguments @(
+                    "-interaction=nonstopmode", "-file-line-error", $TexFile
+                ))
+            )
 
-        if (-not (Test-Path "$MainFile.bcf")) {
-            Write-BuildLine "Biber input file $MainFile.bcf was not created." Red
-            $scriptExitCode = 1
-            throw "Build failed before Biber."
-        }
+            $bibtexExit = 0
+            if (Select-String -LiteralPath "$MainFile.aux" -Pattern '\\citation' -Quiet) {
+                $bibtexExit = Invoke-NativeCommand -Name "BibTeX" -Command "bibtex" -Arguments @($MainFile)
+            }
+            else {
+                Write-BuildLine "Skipping BibTeX: no citations are present yet." Cyan
+            }
 
-        $biberExit = 0
-        $biberRan = $false
-        if (Test-NeedsBiber -BcfPath "$MainFile.bcf" -BblPath "$MainFile.bbl" -BibliographyPaths @("literatura.bib") -PreviousBcfHash $previousBcfHash) {
-            $biberExit = Invoke-NativeCommand `
-                -Name "Biber" `
-                -Command "biber" `
-                -Arguments @($MainFile)
-            $biberRan = $true
+            if ($bibtexExit -ne 0) {
+                throw "BibTeX failed with exit code $bibtexExit."
+            }
 
-            if ($biberExit -ne 0) {
-                Write-BuildLine "Biber failed." Red
-                $scriptExitCode = $biberExit
-                throw "Biber failed."
+            $latexPass = 2
+            while ((Test-NeedsPdfLaTeXRerun -LogPath "$MainFile.log") -and ($latexPass -le $MaxPdfLaTeXPasses)) {
+                $latexExitCodes += Invoke-NativeCommand -Name "pdfLaTeX pass $latexPass" -Command "pdflatex" -Arguments @(
+                    "-interaction=nonstopmode", "-file-line-error", $TexFile
+                )
+                $latexPass++
+            }
+
+            if (Test-NeedsPdfLaTeXRerun -LogPath "$MainFile.log") {
+                throw "pdfLaTeX rerun limit reached."
+            }
+
+            $latexOk = Test-FinalLaTeXLog -LogPath "$MainFile.log"
+            Show-LayoutWarnings -LogPath "$MainFile.log"
+
+            if (-not (Test-Path $GeneratedPdfFile)) {
+                throw "Build finished, but $GeneratedPdfFile was not created."
+            }
+
+            if (($latexExitCodes | Where-Object { $_ -ne 0 }) -or ($bibtexExit -ne 0) -or (-not $latexOk)) {
+                throw "Final LaTeX validation failed."
+            }
+
+            Write-BuildLine "Final validation passed." Green
+            Write-BuildLine "PDF output: $PaperDirectory\$GeneratedPdfFile" Green
+
+            if ($FullClean) {
+                Write-BuildLine "Cleaning auxiliary files after successful build..." Cyan
+                Remove-LaTeXAuxFiles
             }
         }
-        else {
-            Write-BuildLine ""
-            Write-BuildLine "Skipping Biber: bibliography inputs are unchanged." Cyan
-        }
-
-        $latexExitCodes = @($pass1)
-        $latexPass = 2
-        while (($biberRan -or (Test-NeedsXeLaTeXRerun -LogPath "$MainFile.log")) -and ($latexPass -le $MaxXeLaTeXPasses)) {
-            $biberRan = $false
-            $latexExitCodes += Invoke-NativeCommand `
-                -Name "XeLaTeX pass $latexPass" `
-                -Command "xelatex" `
-                -Arguments @("-interaction=nonstopmode", "-file-line-error", $TexFile)
-            $latexPass++
-        }
-
-        if (Test-NeedsXeLaTeXRerun -LogPath "$MainFile.log") {
-            Write-BuildLine "XeLaTeX still requests another pass after $MaxXeLaTeXPasses passes." Red
-            $scriptExitCode = 1
-            throw "XeLaTeX rerun limit reached."
-        }
-
-        $latexOk = Test-FinalLaTeXLog -LogPath "$MainFile.log"
-        $biberOk = Test-FinalBiberLog -LogPath "$MainFile.blg"
-        Show-LayoutWarnings -LogPath "$MainFile.log"
-
-        if (-not (Test-Path $GeneratedPdfFile)) {
-            Write-BuildLine "Build finished, but $GeneratedPdfFile was not created." Red
-            $scriptExitCode = 1
-            throw "PDF was not created."
-        }
-
-        if (($latexExitCodes | Where-Object { $_ -ne 0 }) -or ($biberExit -ne 0) -or (-not $latexOk) -or (-not $biberOk)) {
-            Write-BuildLine "Build failed final validation." Red
-            $scriptExitCode = 1
-            throw "Final validation failed."
-        }
-
-        Write-BuildLine "Final validation passed." Green
-        if (Test-Path $PdfFile) {
-            Remove-Item -LiteralPath $PdfFile -Force
-        }
-        Move-Item -LiteralPath $GeneratedPdfFile -Destination $PdfFile -Force
-        Write-BuildLine "PDF output: $PdfFile" Green
-
-        if ($FullClean) {
-            Write-BuildLine "Cleaning auxiliary and temporary files..." Cyan
-            Remove-OldBuildArtifacts
-        }
-        else {
-            Write-BuildLine "Keeping auxiliary files for the next incremental build." Cyan
-        }
-        Write-BuildLine "Build complete: $PdfFile" Green
-        Write-BuildLine "Build report: $ReportFile" Green
+    }
+    finally {
+        Pop-Location
     }
 }
 catch {
-    if ($scriptExitCode -eq 0) {
-        $scriptExitCode = 1
-    }
+    $scriptExitCode = 1
     Write-BuildLine $_.Exception.Message Red
 }
 finally {
