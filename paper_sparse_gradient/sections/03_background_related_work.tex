@@ -1,4 +1,5 @@
 \section{Background and Related Work}
+\label{sec:background-related-work}
 
 Sparse and irregular computation has become an important systems issue in modern machine learning workloads. While many neural-network accelerators and GPU software stacks are highly optimized for dense tensor operations, sparse workloads introduce indirect memory access, data-dependent work distribution, and irregular reduction patterns. Prior work on sparse GPU kernels shows that sparsity does not automatically translate into speedup; performance depends on workload structure, memory access, load balance, and the ability of the implementation to exploit the sparsity pattern efficiently \citep{gale2020sparse}. Related GPU graph-processing and sparse-matrix work has similarly shown that irregular active sets, sparse aggregation, and uncoalesced memory accesses require specialized runtime or kernel-level strategies rather than simple reuse of dense-compute assumptions \citep{wang2016gunrock,huang2020gespmm}.
 
