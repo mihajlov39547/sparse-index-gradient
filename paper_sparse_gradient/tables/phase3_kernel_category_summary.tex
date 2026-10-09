@@ -1,0 +1,22 @@
+% Source: ../sparse-gradient/phase3_comparison_v2/phase3_kernel_category_summary.csv
+% TODO: Expand this draft import to the selected full-event rows before finalizing tables.
+\begin{table}[tbp]
+\centering
+\small
+\caption{Draft: CUDA kernel-category summary import schema.}
+\label{tab:phase3-kernel-category-summary}
+\begin{tabular}{llllrr}
+\toprule
+Environment & Case & Operation & Category & CUDA time (ms) & CUDA share \\
+\midrule
+GTX1650Ti & case01 & embedding & arange\_index\_setup & 0.012672 & 0.010926 \\
+GTX1650Ti & case01 & embedding & embedding\_accumulate & 0.890322 & 0.767673 \\
+GTX1650Ti & case01 & embedding & sort\_scan\_unique & 0.225956 & 0.194829 \\
+GTX1650Ti & case01 & embedding & zero\_fill\_memset & 0.030818 & 0.026573 \\
+GTX1650Ti & case01 & index\_add & index\_add\_accumulate & 0.983863 & 0.983809 \\
+GTX1650Ti & case01 & index\_add & zero\_fill\_memset & 0.016192 & 0.016191 \\
+GTX1650Ti & case01 & scatter\_add & scatter\_add\_accumulate & 3.141556 & 0.995024 \\
+GTX1650Ti & case01 & scatter\_add & zero\_fill\_memset & 0.015711 & 0.004976 \\
+\bottomrule
+\end{tabular}
+\end{table}

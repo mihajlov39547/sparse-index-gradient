@@ -1,0 +1,26 @@
+% Source: ../sparse-gradient/phase2_analysis_v2/winner_counts_by_run.csv
+\begin{table}[tbp]
+\centering
+\small
+\caption{Draft: Phase 2 winner counts by environment and operation.}
+\label{tab:phase2-winner-counts}
+\begin{tabular}{llrrrrrr}
+\toprule
+Environment & Operation & Per-draw wins & Per-draw rate & Non-noise wins & Non-noise rate & Draws \\
+\midrule
+GTX1650Ti & index\_add & 123 & 0.3796 & 121 & 0.3735 & 324 \\
+GTX1650Ti & scatter\_add & 0 & 0.0000 & 0 & 0.0000 & 324 \\
+GTX1650Ti & embedding & 201 & 0.6204 & 193 & 0.5957 & 324 \\
+GTX1650Ti & embedding\_bag & 0 & 0.0000 & 0 & 0.0000 & 324 \\
+GTX1650Ti & sorted\_segment & 0 & 0.0000 & 0 & 0.0000 & 324 \\
+T4 & index\_add & 21 & 0.0648 & 0 & 0.0000 & 324 \\
+T4 & scatter\_add & 260 & 0.8025 & 223 & 0.6883 & 324 \\
+T4 & embedding & 43 & 0.1327 & 41 & 0.1265 & 324 \\
+T4 & embedding\_bag & 0 & 0.0000 & 0 & 0.0000 & 324 \\
+T4 & sorted\_segment & 0 & 0.0000 & 0 & 0.0000 & 324 \\
+T4\_repeat & index\_add & 7 & 0.0432 & 0 & 0.0000 & 162 \\
+T4\_repeat & scatter\_add & 124 & 0.7654 & 111 & 0.6852 & 162 \\
+T4\_repeat & embedding & 31 & 0.1914 & 27 & 0.1667 & 162 \\
+\bottomrule
+\end{tabular}
+\end{table}
