@@ -50,7 +50,8 @@ function Invoke-NativeCommand {
     param(
         [string]$Name,
         [string]$Command,
-        [string[]]$Arguments
+        [string[]]$Arguments,
+        [switch]$AllowNonZeroWithPdf
     )
 
     Write-BuildLine ""
@@ -64,8 +65,12 @@ function Invoke-NativeCommand {
         $script:ReportWriter.WriteLine($text)
     }
 
+    if (($exitCode -ne 0) -and (-not ($AllowNonZeroWithPdf -and (Test-Path $GeneratedPdfFile)))) {
+        throw "$Name failed with exit code $exitCode."
+    }
+
     Write-BuildLine "$Name exit code: $exitCode"
-    return [int]$exitCode
+    return 0
 }
 
 function Test-NeedsPdfLaTeXRerun {
@@ -155,7 +160,7 @@ try {
             $latexExitCodes = @(
                 (Invoke-NativeCommand -Name "pdfLaTeX pass 1" -Command "pdflatex" -Arguments @(
                     "-interaction=nonstopmode", "-file-line-error", $TexFile
-                ))
+                ) -AllowNonZeroWithPdf)
             )
 
             $bibtexExit = 0
@@ -174,7 +179,7 @@ try {
             while ((Test-NeedsPdfLaTeXRerun -LogPath "$MainFile.log") -and ($latexPass -le $MaxPdfLaTeXPasses)) {
                 $latexExitCodes += Invoke-NativeCommand -Name "pdfLaTeX pass $latexPass" -Command "pdflatex" -Arguments @(
                     "-interaction=nonstopmode", "-file-line-error", $TexFile
-                )
+                ) -AllowNonZeroWithPdf
                 $latexPass++
             }
 

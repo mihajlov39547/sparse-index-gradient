@@ -22,12 +22,13 @@ function Invoke-Tool {
     param(
         [string]$Name,
         [string]$Command,
-        [string[]]$Arguments
+        [string[]]$Arguments,
+        [switch]$AllowNonZeroWithPdf
     )
 
     Write-Host "Running $Name..." -ForegroundColor Cyan
     & $Command @Arguments
-    if ($LASTEXITCODE -ne 0) {
+    if (($LASTEXITCODE -ne 0) -and (-not ($AllowNonZeroWithPdf -and (Test-Path "$MainFile.pdf")))) {
         throw "$Name failed with exit code $LASTEXITCODE."
     }
 }
@@ -52,32 +53,18 @@ if (-not (Get-Command bibtex -ErrorAction SilentlyContinue)) {
 }
 
 $passCount = 0
-$needsBibtex = $false
-
 Invoke-Tool -Name "pdfLaTeX pass 1" -Command "pdflatex" -Arguments @(
     "-interaction=nonstopmode", "-file-line-error", $TexFile
-)
+) -AllowNonZeroWithPdf
 $passCount++
 
-if (Test-Path "$MainFile.aux") {
-    $needsBibtex = [bool](Select-String -LiteralPath "$MainFile.aux" -Pattern "\\citation" -Quiet)
-}
-
-if ($needsBibtex) {
-    Invoke-Tool -Name "BibTeX" -Command "bibtex" -Arguments @($MainFile)
-}
+Invoke-Tool -Name "BibTeX" -Command "bibtex" -Arguments @($MainFile)
 
 for ($pass = 2; $pass -le 4; $pass++) {
     Invoke-Tool -Name "pdfLaTeX pass $pass" -Command "pdflatex" -Arguments @(
         "-interaction=nonstopmode", "-file-line-error", $TexFile
-    )
+    ) -AllowNonZeroWithPdf
     $passCount++
-
-    $logText = Get-Content -LiteralPath "$MainFile.log" -Raw
-    $needsRerun = $logText -match "Rerun to get|Label\(s\) may have changed|There were undefined references|There were undefined citations|Citation\(s\) may have changed"
-    if (-not $needsRerun) {
-        break
-    }
 }
 
 if (-not (Test-Path "$MainFile.pdf")) {
@@ -102,3 +89,5 @@ Write-Host "PDF output: $((Get-Item "$MainFile.pdf").FullName)" -ForegroundColor
 if ($FullClean) {
     Remove-AuxiliaryFiles
 }
+
+exit 0

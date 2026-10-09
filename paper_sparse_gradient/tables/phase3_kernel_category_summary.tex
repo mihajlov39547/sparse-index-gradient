@@ -1,22 +1,22 @@
-% Source: ../sparse-gradient/phase3_comparison_v2/phase3_kernel_category_summary.csv
-% TODO: Expand this draft import to the selected full-event rows before finalizing tables.
+% Source summary: sparse-gradient/phase3_comparison_v2/phase3_kernel_category_summary.csv.
+% Detailed per-case rows can be moved to an appendix or supplementary material later.
 \begin{table}[tbp]
 \centering
 \small
-\caption{Draft: CUDA kernel-category summary import schema.}
+\caption{Mean CUDA kernel-category shares for the representative Phase 3 profiles. Shares are averaged across the profiled cases for each environment and operation.}
 \label{tab:phase3-kernel-category-summary}
-\begin{tabular}{llllrr}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllrrr}
 \toprule
-Environment & Case & Operation & Category & CUDA time (ms) & CUDA share \\
+Environment & Operation & Dominant category & Dominant share & Secondary category & Secondary share & Other share \\
 \midrule
-GTX1650Ti & case01 & embedding & arange\_index\_setup & 0.012672 & 0.010926 \\
-GTX1650Ti & case01 & embedding & embedding\_accumulate & 0.890322 & 0.767673 \\
-GTX1650Ti & case01 & embedding & sort\_scan\_unique & 0.225956 & 0.194829 \\
-GTX1650Ti & case01 & embedding & zero\_fill\_memset & 0.030818 & 0.026573 \\
-GTX1650Ti & case01 & index\_add & index\_add\_accumulate & 0.983863 & 0.983809 \\
-GTX1650Ti & case01 & index\_add & zero\_fill\_memset & 0.016192 & 0.016191 \\
-GTX1650Ti & case01 & scatter\_add & scatter\_add\_accumulate & 3.141556 & 0.995024 \\
-GTX1650Ti & case01 & scatter\_add & zero\_fill\_memset & 0.015711 & 0.004976 \\
+GTX1650Ti & embedding & \texttt{embedding\_accumulate} & 0.8271 & \texttt{sort\_scan\_unique} & 0.1217 & -- \\
+GTX1650Ti & \texttt{index\_add} & \texttt{index\_add\_accumulate} & 0.9677 & \texttt{zero\_fill\_memset} & 0.0323 & -- \\
+GTX1650Ti & \texttt{scatter\_add} & \texttt{scatter\_add\_accumulate} & 0.9817 & \texttt{zero\_fill\_memset} & 0.0183 & -- \\
+T4 & embedding & \texttt{embedding\_accumulate} & 0.6697 & \texttt{sort\_scan\_unique} & 0.2342 & 0.0347 \\
+T4 & \texttt{index\_add} & \texttt{index\_add\_accumulate} & 0.9647 & \texttt{zero\_fill\_memset} & 0.0353 & -- \\
+T4 & \texttt{scatter\_add} & \texttt{scatter\_add\_accumulate} & 0.9518 & \texttt{zero\_fill\_memset} & 0.0482 & -- \\
 \bottomrule
 \end{tabular}
+}%
 \end{table}
