@@ -1,19 +1,18 @@
 % Verified against saved Phase 2 confirmation, Phase 3 v2, and Phase 4 metadata.
 % Full platforms: Windows-10-10.0.19045-SP0;
 % Linux-6.6.122+-x86_64-with-glibc2.39. OS labels below are shortened for display.
-\begin{table}[tbp]
-\centering\small
+\begin{table}[!htbp]
+\centering\footnotesize
 \caption{Hardware and software stacks used in the reported experiments. The T4 repeat is a repeat run on the hosted T4 stack, not a separate independent environment.}
 \label{tab:environment-stack-summary}
 \setlength{\tabcolsep}{3pt}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{llllll}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.4cm}ll>{\raggedright\arraybackslash}p{2.4cm}@{}}
 \toprule
 Stack & GPU & OS/runtime & PyTorch & CUDA & Role \\
 \midrule
 Local GTX1650Ti & NVIDIA GeForce GTX 1650 Ti & Windows 10.0.19045 & 2.13.0+cu126 & 12.6 & Local workstation stack \\
 Colab T4 & Tesla T4 & Linux 6.6.122+ / Colab & 2.11.0+cu130 & 13.0 & Hosted T4 stack \\
 \bottomrule
-\end{tabular}
-}%
+\end{tabularx}
 \end{table}

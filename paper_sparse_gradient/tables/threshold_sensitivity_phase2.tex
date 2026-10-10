@@ -1,9 +1,9 @@
-\begin{table}[tbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{Threshold sensitivity of Phase~2 winner counts. The main paper uses the strictly greater than 5\% practical-margin rule; 2\% and 10\% are reported only as sensitivity checks.}
 \label{tab:threshold-sensitivity-phase2}
 \setlength{\tabcolsep}{3pt}
-\resizebox{\linewidth}{!}{%
+\renewcommand{\arraystretch}{1.12}
 \begin{tabular}{llrrrrr}
 \toprule
 Environment & Threshold & \texttt{index\_add} & \texttt{scatter\_add} & Embedding & Tie & Total \\
@@ -19,5 +19,4 @@ T4 repeat & 5\% & 1 & 93 & 27 & 41 & 162 \\
 T4 repeat & 10\% & 0 & 81 & 22 & 59 & 162 \\
 \bottomrule
 \end{tabular}
-}%
 \end{table}

@@ -1,22 +1,22 @@
 % Source summary: sparse-gradient/phase3_comparison_v2/phase3_kernel_category_summary.csv.
 % Detailed per-case rows can be moved to an appendix or supplementary material later.
-\begin{table}[tbp]
+\begin{table}[!htbp]
 \centering
-\small
+\footnotesize
 \caption{Mean CUDA kernel-category shares for the representative Phase 3 profiles. Shares are averaged across the profiled cases for each environment and operation.}
 \label{tab:phase3-kernel-category-summary}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{lllrlrr}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}l l >{\raggedright\arraybackslash}X >{\raggedleft\arraybackslash}p{1.5cm} >{\raggedright\arraybackslash}X >{\raggedleft\arraybackslash}p{1.6cm} >{\raggedleft\arraybackslash}p{1.0cm}@{}}
 \toprule
 Environment & Operation & Dominant category & Dominant share & Secondary category & Secondary share & Other share \\
 \midrule
-GTX1650Ti & embedding & \texttt{embedding\_accumulate} & 0.8271 & \texttt{sort\_scan\_unique} & 0.1217 & -- \\
-GTX1650Ti & \texttt{index\_add} & \texttt{index\_add\_accumulate} & 0.9677 & \texttt{zero\_fill\_memset} & 0.0323 & -- \\
-GTX1650Ti & \texttt{scatter\_add} & \texttt{scatter\_add\_accumulate} & 0.9817 & \texttt{zero\_fill\_memset} & 0.0183 & -- \\
-T4 & embedding & \texttt{embedding\_accumulate} & 0.6697 & \texttt{sort\_scan\_unique} & 0.2342 & 0.0347 \\
-T4 & \texttt{index\_add} & \texttt{index\_add\_accumulate} & 0.9647 & \texttt{zero\_fill\_memset} & 0.0353 & -- \\
-T4 & \texttt{scatter\_add} & \texttt{scatter\_add\_accumulate} & 0.9518 & \texttt{zero\_fill\_memset} & 0.0482 & -- \\
+GTX1650Ti & embedding & \texttt{embedding\_\allowbreak accumulate} & 0.8271 & \texttt{sort\_\allowbreak scan\_\allowbreak unique} & 0.1217 & -- \\
+GTX1650Ti & \texttt{index\_add} & \texttt{index\_\allowbreak add\_\allowbreak accumulate} & 0.9677 & \texttt{zero\_\allowbreak fill\_\allowbreak memset} & 0.0323 & -- \\
+GTX1650Ti & \texttt{scatter\_add} & \texttt{scatter\_\allowbreak add\_\allowbreak accumulate} & 0.9817 & \texttt{zero\_\allowbreak fill\_\allowbreak memset} & 0.0183 & -- \\
+T4 & embedding & \texttt{embedding\_\allowbreak accumulate} & 0.6697 & \texttt{sort\_\allowbreak scan\_\allowbreak unique} & 0.2342 & 0.0347 \\
+T4 & \texttt{index\_add} & \texttt{index\_\allowbreak add\_\allowbreak accumulate} & 0.9647 & \texttt{zero\_\allowbreak fill\_\allowbreak memset} & 0.0353 & -- \\
+T4 & \texttt{scatter\_add} & \texttt{scatter\_\allowbreak add\_\allowbreak accumulate} & 0.9518 & \texttt{zero\_\allowbreak fill\_\allowbreak memset} & 0.0482 & -- \\
 \bottomrule
-\end{tabular}
-}%
+\end{tabularx}
 \end{table}

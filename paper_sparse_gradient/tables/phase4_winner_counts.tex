@@ -1,9 +1,9 @@
-\begin{table}[tbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{Phase~4 winners under the strictly greater than 5\% practical-margin rule. Each environment contributes 120 seed--configuration observations. Region replay denotes the separate accumulation diagnostic scope.}
 \label{tab:phase4-winner-counts}
 \setlength{\tabcolsep}{3pt}
-\resizebox{\linewidth}{!}{%
+\renewcommand{\arraystretch}{1.12}
 \begin{tabular}{llrrrrr}
 \toprule
 Environment & Scope & \texttt{index\_add} & \texttt{scatter\_add} & Embedding & Tie & Total \\
@@ -14,5 +14,4 @@ T4 & Proxy step & 0 & 25 & 0 & 95 & 120 \\
 T4 & Region replay & 3 & 39 & 0 & 78 & 120 \\
 \bottomrule
 \end{tabular}
-}%
 \end{table}

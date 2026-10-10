@@ -17,6 +17,17 @@
 \usepackage[round]{natbib}
 
 \setlength{\emergencystretch}{2em}
+% Keep floats near discussion without sacrificing readable figure/table type.
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.75}
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\floatpagefraction}{0.80}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+\captionsetup{font=small,skip=6pt}
+\captionsetup[table]{position=top}
+\setlength{\textfloatsep}{14pt plus 2pt minus 2pt}
+\setlength{\floatsep}{12pt plus 2pt minus 2pt}
 
 \hypersetup{
     colorlinks=true,
