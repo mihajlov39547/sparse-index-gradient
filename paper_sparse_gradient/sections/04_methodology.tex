@@ -7,7 +7,7 @@ This study investigates sparse-index gradient accumulation patterns that arise d
 
 The study is intentionally scoped to standard PyTorch CUDA execution paths rather than custom CUDA kernels. The goal is not to design a new accumulation primitive, but to characterize how widely available PyTorch APIs behave under controlled sparse-index accumulation workloads. In particular, the experiments examine whether API-level alternatives that express similar accumulation-style computations can exhibit different timing behavior and different CUDA execution paths.
 
-The study does not benchmark full model training, end-to-end training throughput, dense matrix multiplication, convolution, attention, optimizer performance, data loading, or distributed training. These components are outside the scope because they would introduce additional sources of variation that are not necessary for isolating the sparse-index accumulation behavior studied here. Instead, the experimental design separates a grid-level timing phase from a representative profiling phase. The grid-level phase provides the main matched timing evidence, while the profiling phase provides execution-path attribution for selected representative cases.
+The study does not benchmark full production model training, end-to-end training throughput, dense matrix multiplication, convolution, attention, optimizer performance, data loading, or distributed training. These components are outside the scope because they would introduce additional sources of variation that are not necessary for isolating the sparse-index accumulation behavior studied here. Instead, the experimental design separates a grid-level timing phase, a representative profiling phase, and a small training-step proxy. The grid-level phase provides the main matched timing evidence, the profiling phase provides execution-path attribution for selected representative cases, and the proxy tests whether the observed sparse-index accumulation behavior remains visible when embedded in a controlled backward-style computation.
 
 \subsection{Benchmarked Operations}
 
@@ -90,9 +90,21 @@ These categories are used for execution-path attribution, not for proving low-le
 
 The profiling phase also computes a GPU-busy proxy by comparing profiler-derived CUDA kernel time with the unprofiled CUDA-event timing for the same case. This proxy is used only as a warning signal for possible host overhead. It is not a hardware utilization counter and is not interpreted as a direct measurement of GPU occupancy or saturation.
 
+\subsection{Training-Step Proxy Methodology}
+
+To complement the isolated accumulation measurements, the study includes a small training-step proxy. The proxy is not intended to represent production training throughput. Instead, it provides a controlled backward-style workload in which the accumulation path is embedded in lookup, grouped mean pooling, a scalar prediction head, mean-squared error, and backward propagation.
+
+The proxy compares three variants. The \texttt{embedding\_backward\_proxy} variant uses native dense Embedding backward. The \texttt{index\_add\_proxy} and \texttt{scatter\_add\_proxy} variants use custom autograd lookup nodes that allocate a dense zero gradient and accumulate row gradients with the corresponding PyTorch API. The variants share the same generated inputs, pooling structure, prediction head, and loss computation.
+
+Two timing scopes are recorded. The \texttt{proxy\_step} scope measures the full synthetic step, including lookup, pooling, prediction, loss, and gradients for the table, head, and bias. The \texttt{accumulation\_region} scope separately replays backward through a retained lookup graph with fixed upstream gradients. This second scope is diagnostic: it includes autograd dispatch, dense gradient allocation and zeroing, and accumulation, but it is not an exact decomposition of the proxy step and is not subtracted from total-step latency.
+
+The proxy uses the same practical-margin rule as the other timing analyses. A variant is counted as a winner only when the runner-up median is strictly more than 5\% slower; otherwise the observation is classified as a practical tie. The proxy is evaluated with five seeds per environment and 24 configurations per seed, giving 120 seed--configuration observations per environment.
+
 \subsection{Cross-Environment Comparison}
 
 The study compares two execution environments: a local GTX1650Ti stack and a Colab Tesla T4 stack. These environments differ not only in GPU model, but also in operating system, runtime conditions, PyTorch version, CUDA version, and hosted execution context. Therefore, the comparison is interpreted as a stack-level comparison rather than an isolated hardware-causal experiment.
+
+The same stack-level interpretation applies to the training-step proxy. Its local and T4 results are paired by seed and configuration where possible, but differences between environments still combine GPU, software, operating-system, and hosted-runtime effects.
 
 The cross-environment analysis is performed in two stages. First, the broader matched timing analysis compares winner counts, practical-margin winners, and relative speedups across the matched workload grid. Second, the representative profiling analysis compares selected cases across the two environments and relates them back to the matched timing grid.
 
@@ -116,6 +128,6 @@ Fifth, the two environments differ in multiple dimensions, including GPU model, 
 
 Sixth, the study does not use Nsight Compute counters, hardware occupancy metrics, memory-transaction counters, or warp-level profiling. The kernel attribution is based on PyTorch profiler event names and CUDA event durations, which provide useful execution-path evidence but do not fully explain microarchitectural causes.
 
-Seventh, the study does not benchmark full training loops or end-to-end model convergence. The results therefore apply to controlled sparse-index accumulation behavior rather than complete model training throughput.
+Seventh, the training-step proxy remains synthetic and controlled. Although it embeds the accumulation path in lookup, pooling, loss, and backward propagation, it does not measure full training loops, optimizer behavior, data loading, distributed execution, model convergence, or production-scale throughput.
 
 Finally, the study does not compare against custom CUDA implementations. This is intentional because the research question concerns the behavior of standard PyTorch CUDA APIs available to practitioners, but it also means that the results should not be interpreted as the best possible performance attainable for sparse-index gradient accumulation.
