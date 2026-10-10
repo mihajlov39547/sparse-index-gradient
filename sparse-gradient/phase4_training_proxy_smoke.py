@@ -12,6 +12,16 @@ import torch
 from phase4_training_proxy import VARIANTS, parse_args, run
 
 
+DIAGNOSTIC_FIELDS = {
+    "max_abs_error_any_check", "max_relative_error_any_check",
+    "max_abs_error_over_reference_max", "relative_l2_error_table", "failed_check_names",
+}
+CHECK_DIAGNOSTIC_FIELDS = {
+    "reference_max_abs", "reference_l2_norm", "error_l2_norm", "relative_l2_error",
+    "max_abs_error_over_reference_max",
+}
+
+
 def require(condition, message):
     if not condition:
         raise AssertionError(message)
@@ -41,14 +51,21 @@ def main():
             require(len(validation) == 3 and len(summary) == 9 and len(raw) == 36,
                     "Unexpected artifact row counts")
             require({r["variant"] for r in summary} == set(VARIANTS), "Missing variants")
-            require(metadata["device"] == ("cpu" if device == "auto" else device),
+            expected_device = f"cuda:{torch.cuda.current_device()}" if device == "cuda" else "cpu"
+            require(metadata["device"] == expected_device,
                     "Device selection/fallback failed")
             for config in validation:
                 require(config["validation_passed"], "Invalid configuration")
                 for variant in config["variants"]:
+                    require(DIAGNOSTIC_FIELDS <= variant.keys(), "Missing JSON aggregate diagnostics")
+                    require(variant["failed_check_names"] == "", "Unexpected failed checks")
+                    require(all(CHECK_DIAGNOSTIC_FIELDS <= c.keys() for c in variant["checks"].values()),
+                            "Missing per-check diagnostics")
                     require(all(c["passed"] and c["shape_ok"] and c["finite"]
                                 for c in variant["checks"].values()), "Gradient/shape check failed")
             for row in summary:
+                require(DIAGNOSTIC_FIELDS <= row.keys(), "Missing summary diagnostics")
+                require(row["failed_check_names"] == "", "Unexpected summary failed checks")
                 require(row["validation_passed"] == "True", "Failed row in timing summary")
                 require(float(row["proxy_step_median_ms"]) > 0 and
                         float(row["accumulation_region_median_ms"]) > 0, "Invalid timing")

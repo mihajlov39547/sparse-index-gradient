@@ -72,11 +72,32 @@ Check shape, finite values, and elementwise
 `abs(actual-reference) <= atol + rtol * abs(reference)`;
 defaults are `atol=1e-8`, `rtol=1e-4`. Record maximum absolute error and maximum
 relative error over reference entries with magnitude greater than `atol` (NA if
-there are none). Summary error columns refer to the full-step table gradient;
+there are none). Legacy summary columns `max_abs_error` and `max_relative_error`
+still refer only to the full-step table gradient. Additional summary diagnostics
+are also preserved per variant in the validation JSON:
+
+* `max_abs_error_any_check` and `max_relative_error_any_check`: maxima of the
+  available corresponding errors across table, head, bias, loss and region checks.
+* `max_abs_error_over_reference_max`: maximum across checks of each check's
+  `max_abs_error / reference_max_abs`; normalization happens before aggregation.
+* `relative_l2_error_table`: table-gradient error L2 norm divided by reference L2 norm.
+* `failed_check_names`: semicolon-separated failed check names, or an empty string
+  when all checks pass. Failed configurations remain excluded from the summary;
+  their failure names and diagnostics are retained in JSON.
+
+Each JSON check also records `reference_max_abs`, `reference_l2_norm`,
+`error_l2_norm`, `relative_l2_error`, and `max_abs_error_over_reference_max`.
+Norms flatten tensors, including scalar loss and bias. Ratios with zero reference
+denominators are NA; invalid-shape/nonfinite comparisons have unavailable error
+diagnostics. Aggregate maxima skip unavailable values (NA if none are available).
+These diagnostics do not change pass/fail: it still uses the elementwise
+`atol + rtol * abs(reference)` rule with the unchanged defaults above.
+
 JSON contains all checks. No strict bitwise comparison is used. If any variant
 fails, exclude the **whole configuration** from timing and summary, preserve
 validation evidence, and return a nonzero exit code. Investigate failures before
-adjusting tolerances; do not tune tolerances to a desired winner.
+adjusting tolerances. Any tolerance change must be justified by observed error
+scales, not by desired winners.
 
 ## Timing methodology
 

@@ -23,6 +23,11 @@ from torch.nn import functional as F
 
 
 VARIANTS = ("embedding_backward_proxy", "index_add_proxy", "scatter_add_proxy")
+VALIDATION_FIELDS = (
+    "validation_passed", "max_abs_error", "max_relative_error",
+    "max_abs_error_any_check", "max_relative_error_any_check",
+    "max_abs_error_over_reference_max", "relative_l2_error_table", "failed_check_names",
+)
 PROFILES = {
     "smoke": dict(rows=[32], num_indices=[64], dim=[8], warmup=1, repeats=2),
     "pilot": dict(rows=[4096], num_indices=[8192], dim=[32, 128], warmup=3, repeats=10),
@@ -141,16 +146,30 @@ def make_region(w, variant):
 
 def compare(actual, reference, atol, rtol):
     actual = actual.detach().cpu().double()
+    reference = reference.detach().cpu().double()
     shape_ok = actual.shape == reference.shape
-    finite = bool(torch.isfinite(actual).all())
+    reference_finite = bool(torch.isfinite(reference).all())
+    finite = bool(torch.isfinite(actual).all()) and reference_finite
+    reference_max = float(reference.abs().max()) if reference_finite else None
+    # Flatten so vector norms also handle scalar loss and bias tensors.
+    reference_norm = float(torch.linalg.vector_norm(reference.reshape(-1))) if reference_finite else None
+    diagnostics = dict(reference_max_abs=reference_max, reference_l2_norm=reference_norm,
+                       error_l2_norm=None, relative_l2_error=None,
+                       max_abs_error_over_reference_max=None)
     if not shape_ok or not finite:
         return dict(passed=False, shape_ok=shape_ok, finite=finite,
-                    max_abs_error=None, max_relative_error=None)
+                    max_abs_error=None, max_relative_error=None, **diagnostics)
     error = (actual - reference).abs()
+    max_error = float(error.max())
+    error_norm = float(torch.linalg.vector_norm(error.reshape(-1)))
+    diagnostics.update(error_l2_norm=error_norm,
+                       relative_l2_error=error_norm / reference_norm if reference_norm > 0 else None,
+                       max_abs_error_over_reference_max=max_error / reference_max if reference_max > 0 else None)
     mask = reference.abs() > atol
     return dict(passed=bool(torch.all(error <= atol + rtol * reference.abs())),
-                shape_ok=True, finite=True, max_abs_error=float(error.max()),
-                max_relative_error=float((error[mask] / reference.abs()[mask]).max()) if mask.any() else None)
+                shape_ok=True, finite=True, max_abs_error=max_error,
+                max_relative_error=float((error[mask] / reference.abs()[mask]).max()) if mask.any() else None,
+                **diagnostics)
 
 
 def validate(w, variant, refs, loss_ref, region_ref, args):
@@ -159,9 +178,19 @@ def validate(w, variant, refs, loss_ref, region_ref, args):
               for name, value, ref in zip(("table", "head", "bias"), grads, refs)}
     checks["loss"] = compare(loss, loss_ref, args.atol, args.rtol)
     checks["accumulation_region"] = compare(make_region(w, variant)(), region_ref, args.atol, args.rtol)
+
+    def max_available(field):
+        return max((c[field] for c in checks.values() if c[field] is not None), default=None)
+
     return dict(variant=variant, validation_passed=all(c["passed"] for c in checks.values()),
                 max_abs_error=checks["table"]["max_abs_error"],
-                max_relative_error=checks["table"]["max_relative_error"], checks=checks)
+                max_relative_error=checks["table"]["max_relative_error"],
+                max_abs_error_any_check=max_available("max_abs_error"),
+                max_relative_error_any_check=max_available("max_relative_error"),
+                max_abs_error_over_reference_max=max_available("max_abs_error_over_reference_max"),
+                relative_l2_error_table=checks["table"]["relative_l2_error"],
+                failed_check_names=";".join(name for name, c in checks.items() if not c["passed"]),
+                checks=checks)
 
 
 def synchronize(device):
@@ -217,7 +246,7 @@ def summarize(samples, validations):
     rows = []
     for v in VARIANTS:
         validation = next(item for item in validations if item["variant"] == v)
-        row = {k: validation[k] for k in ("variant", "validation_passed", "max_abs_error", "max_relative_error")}
+        row = {k: validation[k] for k in ("variant",) + VALIDATION_FIELDS}
         for scope in SCOPES:
             row.update({f"{scope}_{k}": value for k, value in statistics(
                 [s["latency_ms"] for s in samples if s["variant"] == v and s["scope"] == scope]).items()})
@@ -243,7 +272,7 @@ def export(out, raw, summaries, validations, metadata):
     common = ["environment", "device_name", "torch_version", "cuda_version", "seed", "profile",
               "rows", "num_indices", "dim", "distribution", "variant"]
     fields = common + [f"{scope}_{stat}" for scope in SCOPES for stat in ("median_ms", "iqr_ms", "cv")]
-    fields += ["validation_passed", "max_abs_error", "max_relative_error"]
+    fields += list(VALIDATION_FIELDS)
     fields += [f"{prefix}_{scope}" for scope in SCOPES for prefix in ("winner", "practical_margin")]
     write_csv(out / "phase4_raw.csv", raw, common + ["scope", "repeat", "order", "latency_ms"])
     write_csv(out / "phase4_summary.csv", summaries, fields)
@@ -291,7 +320,10 @@ def run(args):
     available = torch.cuda.is_available()
     if args.device == "cuda" and not available:
         raise RuntimeError("CUDA requested but unavailable. Use --device cpu for diagnostics.")
-    device = torch.device("cuda" if args.device == "auto" and available else "cpu" if args.device == "auto" else args.device)
+    if args.device in ("auto", "cuda") and available:
+        device = torch.device("cuda", torch.cuda.current_device())
+    else:
+        device = torch.device("cpu")
     if device.type == "cuda":
         torch.cuda.set_device(device)
     else:
