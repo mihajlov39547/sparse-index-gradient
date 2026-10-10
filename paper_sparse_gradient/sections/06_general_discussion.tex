@@ -3,7 +3,7 @@
 
 \subsection{Significance for AI Training Workloads}
 
-Sparse-index accumulation matters in embedding-heavy and sparse-feature training, where repeated references route many source vectors into a dense gradient structure \citep{gupta2020architectural,acun2021training,pytorchStableEmbedding}. Its cost can depend on workload shape, duplication, skew, and framework dispatch even when dense linear algebra dominates other parts of a model.
+Sparse-index accumulation matters in embedding-heavy and sparse-feature training, where repeated references route many source vectors into a dense gradient structure \citep{mudigere2022neo,liu2024embark}. Its cost can depend on workload shape, duplication, skew, and framework dispatch even when dense linear algebra dominates other parts of a model.
 
 The contribution is a reproducible performance characterization and measurement-backed interpretation of these paths. High-level API similarity does not imply CUDA execution-path similarity: profiler summaries expose distinct kernel compositions, and the isolated and proxy results show workload-, scope-, and stack-dependent behavior. The winner-map and regret analyses turn these observations into descriptive guidance, culminating in a tie-aware selection protocol for the target workload and execution stack.
 
@@ -28,7 +28,7 @@ Together, these findings motivate a tie-aware selection protocol for sparse-inde
 
 The proxy results refine this recommendation. A small proxy cannot replace production measurement, but it can reveal whether an isolated API ranking remains visible once lookup, pooling, loss computation, and backward dispatch are included.
 
-If a model spends a meaningful fraction of training time in embedding backward, scatter/reduce operations, or indexed accumulation kernels, then small focused benchmarks can be useful before finalizing an implementation \citep{pytorchStableEmbedding,pytorchStableIndexAdd,pytorchStableScatterAdd}. Such benchmarks should reproduce the important dimensions of the sparse operation: row count, number of indices, feature dimension, index skew, duplicate frequency, and target hardware/software stack.
+If a model spends a meaningful fraction of training time in embedding backward, scatter/reduce operations, or indexed accumulation kernels, then small focused benchmarks can be useful before finalizing an implementation. Such benchmarks should reproduce the important dimensions of the sparse operation: row count, number of indices, feature dimension, index skew, duplicate frequency, and target hardware/software stack.
 
 The results also suggest that profiler inspection should accompany timing measurements. Timing alone can show that one path is faster, but it cannot explain whether two APIs use similar or different execution paths. In this study, the profiler results show that \texttt{index\_add}, \texttt{scatter\_add}, and \texttt{Embedding.backward} rely on different CUDA kernel compositions. This kind of evidence is useful when deciding whether an observed timing difference is likely to be a minor measurement artifact or a consequence of different execution mechanisms.
 
@@ -46,7 +46,7 @@ Third, only two main hardware/software stacks are studied: GTX1650Ti and hosted 
 
 Fourth, the profiler attribution is based on PyTorch profiler events and CUDA kernel names, not on lower-level hardware counters. This is sufficient for identifying distinct execution paths, but it does not fully explain the microarchitectural causes of the observed timing differences. The study does not use Nsight Compute counters, warp-level metrics, memory-transaction analysis, occupancy analysis, or cache-behavior counters.
 
-Fifth, the study evaluates standard PyTorch CUDA paths rather than custom CUDA implementations or specialized embedding-training libraries \citep{pytorchStableEmbedding,pytorchStableIndexAdd,pytorchStableScatterAdd,nvidia_recsys_best_practices}. This scope is appropriate for understanding what practitioners obtain from common PyTorch APIs, but it does not establish the best possible performance attainable for sparse-index accumulation. A custom fused implementation or a specialized recommender-system training framework could produce different results.
+Fifth, the study evaluates standard PyTorch CUDA paths rather than custom kernels or specialized embedding-training libraries. Systems such as Neo and HugeCTR optimize broader recommendation-training pipelines \citep{mudigere2022neo,wang2022hugectr}. Their performance is not measured by this API-level comparison.
 
 Sixth, the workloads are synthetic and controlled. Although the uniform, Zipf, and hotspot distributions capture important access-pattern properties, they do not fully reproduce all characteristics of real training datasets. Real systems may include multiple embedding tables, mixed feature widths, optimizer state updates, sharding, caching, distributed all-to-all communication, and model-specific preprocessing. The results should therefore be interpreted as controlled evidence about a core sparse-gradient mechanism, not as a complete simulation of production training. Evaluation with real index traces remains future work.
 
@@ -56,7 +56,7 @@ The regret analysis and selection protocol are descriptive over the saved observ
 
 \subsection{Generalizability}
 
-The results generalize most directly to PyTorch CUDA workloads that perform dense sparse-index accumulation during backpropagation or backward-like computations. The strongest connection is to embedding-heavy models and other workloads where repeated indices accumulate contributions into rows of a parameter-gradient tensor. This includes recommender-style models, categorical-feature models, graph workloads with repeated destination nodes, and other training procedures that use scatter/reduce-like updates \citep{acun2021training,nvidia_recsys_best_practices}.
+The findings are most directly relevant to PyTorch CUDA workloads that accumulate gradients into a dense table, including embedding-heavy recommendation training \citep{naumov2019dlrm,acun2021training}. Other sparse-feature and graph models may involve similar indexed reductions, but transferring the measured timings to such workloads requires separate measurement.
 
 The results should generalize conceptually, but not numerically, to other frameworks and hardware stacks. The conceptual lesson is that equivalent or related high-level operations may dispatch to different backend execution paths, and those paths may respond differently to skew, duplication, feature dimension, and memory layout. However, the specific winner counts and timing margins reported in this study are tied to the tested PyTorch, CUDA, and GPU environments. Other frameworks, compiler backends, GPU architectures, or library versions may expose different behavior.
 
