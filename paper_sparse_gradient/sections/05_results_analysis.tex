@@ -29,9 +29,9 @@ Table~\ref{tab:phase2-winner-counts} summarizes the practical-margin winner coun
 
 \input{tables/phase2_winner_counts.tex}
 
-The Phase 2 results therefore indicate that there is no single universally dominant API path across the studied environments. The local stack most often favors the embedding backward path, whereas the T4 stacks most often favor the scatter-add path. This difference is not interpreted as an isolated GPU-hardware effect, because the environments differ in GPU model, operating system, PyTorch version, CUDA version, and hosted execution conditions. Instead, the result motivates a stack-level interpretation: the relative cost of the available PyTorch CUDA paths depends on the combination of workload structure and execution environment.
+The Phase~2 results show a change in the most frequently favored path across the measured stacks. The local stack most often favors the embedding backward path, whereas the T4 stack and its repeat run most often favor the scatter-add path. This difference is not interpreted as an isolated GPU-hardware effect, because the environments differ in GPU model, operating system, PyTorch version, CUDA version, and hosted execution conditions. Instead, the result motivates a stack-level interpretation: the relative cost of the available PyTorch CUDA paths depends on the combination of workload structure and execution environment.
 
-The practical-margin rule is important for interpreting these counts. Configurations in which the fastest and runner-up operations differ by less than the selected 5\% threshold are retained as near-ties rather than treated as decisive evidence. This prevents small timing differences from being overinterpreted as meaningful API-level superiority. Consequently, the Phase 2 result should be read as a matched practical-performance characterization, not as a statistical proof of universal API ranking.
+The practical-margin rule is important for interpreting these counts. Configurations in which the fastest and runner-up operations differ by no more than the selected 5\% threshold are retained as near-ties rather than treated as decisive evidence. This prevents small timing differences from being overinterpreted as meaningful API-level superiority. Consequently, the Phase 2 result should be read as a matched practical-performance characterization, not as a statistical proof of universal API ranking.
 
 \subsection{Representative Phase 3 Profiling Results}
 
@@ -78,7 +78,7 @@ The Phase 3 case-level comparison links the representative profiling subset to b
 
 Two cases provide the strongest evidence of a cross-environment reversal. In case03, the local GTX1650Ti stack selects \texttt{embedding} decisively, while the T4 stack selects \texttt{scatter\_add} decisively. In case05, the same pattern appears again: the local stack selects \texttt{embedding}, whereas the T4 stack selects \texttt{scatter\_add}. Both cases pass the stronger clean-reversal gates in the comparison analysis: they are decisively separated, have clean GPU-busy proxy status, and use exact index pairing across environments.
 
-Figure~\ref{fig:phase3-case-winner-comparison} visualizes the case-level winner comparison. The figure highlights that the representative subset does not support a universal ordering of APIs. Instead, it shows a mixture of agreement, near-ties, and decisive reversals.
+Figure~\ref{fig:phase3-case-winner-comparison} visualizes the case-level winner comparison. The figure shows a mixture of agreement, near-ties, and decisive reversals within the diagnostic subset.
 
 \begin{figure}[tbp]
 \centering
@@ -87,9 +87,9 @@ Figure~\ref{fig:phase3-case-winner-comparison} visualizes the case-level winner 
 \label{fig:phase3-case-winner-comparison}
 \end{figure}
 
-The remaining cases serve as controls or cautionary examples. In case02, both environments select \texttt{embedding} decisively. In case04, both environments select \texttt{index\_add} decisively, although the T4 \texttt{embedding} row has a host-overhead warning and therefore prevents a fully GPU-clean claim for that case. Cases case01 and case06 exhibit different raw winners across environments, but at least one side is a near-tie, so these cases are treated as weak evidence rather than decisive reversals.
+The remaining cases serve as controls or cautionary examples rather than strong claims of representativeness. In case02, both environments select \texttt{embedding} decisively. In case04, both environments select \texttt{index\_add} decisively, although the T4 \texttt{embedding} row has a host-overhead warning and therefore prevents a fully GPU-clean claim for that case. Cases case01 and case06 exhibit different raw winners across environments, but at least one side is a near-tie, so these cases are treated as weak evidence rather than decisive reversals.
 
-Table~\ref{tab:phase3-phase2-case-join} links the six representative Phase 3 cases back to the broader Phase 2 grid. This join is important because it verifies that the representative profiling cases are not disconnected from the main timing study. All six representative cases are present in the Phase 2 grid. The strongest reversal cases, case03 and case05, agree with the Phase 2 margin-aware winners in both environments: the local stack favors \texttt{embedding}, and the T4 stack favors \texttt{scatter\_add}. This supports the interpretation that these two profiled cases are representative examples of the broader environment-dependent behavior observed in Phase 2.
+Table~\ref{tab:phase3-phase2-case-join} links all six profiled cases to configurations present in the broader Phase~2 grid. The representative cases are diagnostic rather than statistically representative of the full grid. Their role is to connect selected Phase~2 patterns to CUDA execution-path evidence. The strongest support comes from case03 and case05, where both the Phase~2 grid and Phase~3 profiling agree on a decisive cross-environment reversal: the local stack favors \texttt{embedding}, and the T4 stack favors \texttt{scatter\_add}. Cases case01, case04, and case06 remain cautionary or control cases for the reasons described above; their presence in the grid alone does not establish representativeness.
 
 \input{tables/phase3_phase2_case_join.tex}
 
@@ -97,23 +97,24 @@ The case-level evidence therefore reinforces the grid-level result without repla
 
 \subsection{CUDA Path Attribution}
 
-The claim-check table summarizes the evidence gates used to decide which result-level statements are supported by the data. These gates are included to avoid overclaiming from the representative profiling subset.
+Execution-path conclusions require consistent kernel-category attribution. Cross-environment reversal claims additionally require practical-margin separation, stable timing, exact index pairing, and no host-overhead warning.
 
-\input{tables/phase3_claim_checks.tex}
+% Evidence criteria retained in prose; diagnostic table excluded from the main flow.
+% \input{tables/phase3_claim_checks.tex}
 
-The path-dominance checks pass for both direct accumulation APIs. The \texttt{index\_add} path is dominated by the \texttt{index\_add\_accumulate} category in both environments, and the \texttt{scatter\_add} path is dominated by the \texttt{scatter\_add\_accumulate} category in both environments. This supports the claim that the two APIs dispatch to distinct CUDA reduction paths under the profiled workloads.
+The \texttt{index\_add} path is dominated by the \texttt{index\_add\_accumulate} category in both environments, and the \texttt{scatter\_add} path is dominated by the \texttt{scatter\_add\_accumulate} category in both environments. This supports the claim that the two APIs dispatch to distinct CUDA reduction paths under the profiled workloads.
 
-The embedding checks also pass. The embedding backward path contains a dominant accumulation component, but it also includes sorting, scanning, or uniqueness-related work. This distinguishes \texttt{Embedding.backward} from the direct \texttt{index\_add} and \texttt{scatter\_add} paths. The result is consistent with the interpretation that embedding backward is a specialized framework path rather than a simple alias for either direct accumulation API.
+The embedding backward path contains a dominant accumulation component, but it also includes sorting, scanning, or uniqueness-related work. This distinguishes \texttt{Embedding.backward} from the direct \texttt{index\_add} and \texttt{scatter\_add} paths. The result is consistent with the interpretation that embedding backward is a specialized framework path rather than a simple alias for either direct accumulation API.
 
-The claim checks also confirm that the broader Phase 2 environment-dependent pattern is present and that the representative Phase 3 subset contains strong clean reversals. In particular, case03 and case05 satisfy the strict evidence conditions: they are decisive reversals, they are not host-warning cases, they have stable timing evidence, and they use exact index pairing. These cases therefore support the paper-level statement that the relative cost of sparse-index accumulation paths can change with workload and software/hardware stack.
+Within the profiled subset, case03 and case05 satisfy the strict evidence conditions: they are decisive reversals, they are not host-warning cases, they have stable timing evidence, and they use exact index pairing. These cases therefore support the paper-level statement that the relative cost of sparse-index accumulation paths can change with workload and software/hardware stack.
 
-At the same time, the attribution remains conservative. The kernel categories are based on profiler event names and CUDA event durations, not on low-level hardware counters. Therefore, they describe observed execution paths but do not prove microarchitectural causality. The evidence supports an API-path and stack-level interpretation, not a claim that one GPU architecture alone causes the observed differences.
+At the same time, the attribution remains conservative. The kernel categories are based on profiler event names and CUDA event durations, not on low-level hardware counters. They support execution-path attribution within the measured stacks; the hardware-causality limitations are detailed in Section~\ref{sec:methodology}.
 
 \input{sections/phase4_training_proxy_text}
 
 \subsection{Result-Level Discussion}
 
-The combined results answer the central question of the study: standard PyTorch CUDA APIs that express related sparse-index accumulation behavior do not necessarily have interchangeable performance characteristics during backpropagation-style workloads. In the matched Phase 2 grid, the local GTX1650Ti stack most often favors the embedding backward path, whereas the T4 stacks most often favor \texttt{scatter\_add}. In the representative Phase 3 profiles, the strongest reversal cases show the same pattern at the case level: local execution favors \texttt{embedding}, while T4 execution favors \texttt{scatter\_add}.
+The combined results answer the central question of the study: standard PyTorch CUDA APIs that express related sparse-index accumulation behavior do not necessarily have interchangeable performance characteristics during backpropagation-style workloads. In the matched Phase 2 grid, the local GTX1650Ti stack most often favors the embedding backward path, whereas the T4 stack and its repeat run most often favor \texttt{scatter\_add}. In the representative Phase 3 profiles, the strongest reversal cases show the same pattern at the case level: local execution favors \texttt{embedding}, while T4 execution favors \texttt{scatter\_add}.
 
 The results also show why the difference should not be reduced to a simple API ranking. Some representative cases agree across environments, some differ only as near-ties, and two cases provide strong decisive reversals. This mixed behavior indicates that the best operation depends on workload shape, index distribution, duplicate structure, and the software/hardware stack. A recommendation such as ``always use \texttt{scatter\_add}'' or ``always use \texttt{Embedding.backward}'' would not be supported by the evidence.
 

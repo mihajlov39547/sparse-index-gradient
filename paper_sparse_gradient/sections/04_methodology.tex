@@ -55,7 +55,7 @@ The correctness procedure is especially important for sparse-index workloads bec
 
 The primary timing evidence comes from CUDA-event measurements over matched workload configurations. For each configuration, the selected operations are compared within the same workload setting. The timing analysis uses median latency as the main summary statistic, because medians are less sensitive to occasional runtime outliers than single measurements or means alone.
 
-A practical margin threshold is used to distinguish decisive timing differences from near-ties. Specifically, when the runner-up operation is more than 5\% slower than the fastest operation for a matched configuration, the fastest operation is treated as the practical winner for that case. If the margin does not exceed this threshold, the case is retained but interpreted as a near-tie rather than strong evidence of a meaningful performance difference.
+A practical margin threshold is used to distinguish decisive timing differences from near-ties. Specifically, when the runner-up operation is more than 5\% slower than the fastest operation for a matched configuration, the fastest operation is treated as the practical winner for that case. If the margin does not exceed this threshold, the case is retained as a practical near-tie. The 5\% rule is a descriptive decision threshold, not a test of statistical significance.
 
 The broader matched timing phase is the main source of grid-level performance evidence. The representative profiling phase also records event timings for the selected cases, but those timings are used primarily to relate profiled cases to the broader benchmark behavior. They are not treated as a replacement for the broader timing grid because the profiling subset is smaller and uses a fixed representative design.
 
@@ -63,14 +63,7 @@ The timing methodology distinguishes between direct operation timing and profile
 
 \subsection{Profiling Methodology}
 
-The profiling phase is designed to identify the CUDA execution paths associated with the selected PyTorch APIs. It uses representative workloads from the same accumulation setting and records profiler outputs for each case-operation pair. The relevant profiling artifacts include:
-
-\begin{itemize}[leftmargin=*]
-    \item \texttt{profile\_cases.csv}, which records case-level operation status, timing summaries, profiler attribution fields, and diagnostic flags;
-    \item \texttt{case\_winners.csv}, which records the fastest operation and runner-up for each representative case;
-    \item \texttt{profile\_events\_caseXX\_operation.csv}, which records full profiler event rows when available;
-    \item \texttt{profile\_top\_cuda\_caseXX\_operation.csv}, which records the top CUDA events for each profiled operation.
-\end{itemize}
+The profiling phase identifies the CUDA execution paths associated with the selected PyTorch APIs. For each case--operation pair, the analysis records execution status, timing summaries, case-level winners and runners-up, timing-stability flags, host-overhead warnings, and kernel-category shares. Full profiler events and summaries of the leading CUDA events provide complementary levels of attribution detail.
 
 Full CUDA event files are preferred over top-event summaries when computing kernel-category shares. User annotations and enclosing profiling ranges are excluded from category-share calculations so that the resulting summaries reflect CUDA device work rather than inclusive annotation ranges. When only top-event summaries are available, the analysis treats them as truncated attribution evidence rather than full-profile composition.
 
@@ -92,7 +85,7 @@ The profiling phase also computes a GPU-busy proxy by comparing profiler-derived
 
 \subsection{Training-Step Proxy Methodology}
 
-To complement the isolated accumulation measurements, the study includes a small training-step proxy. The proxy is not intended to represent production training throughput. Instead, it provides a controlled backward-style workload in which the accumulation path is embedded in lookup, grouped mean pooling, a scalar prediction head, mean-squared error, and backward propagation.
+To complement the isolated accumulation measurements, the study includes a small training-step proxy. It provides a controlled backward-style workload in which the accumulation path is embedded in lookup, grouped mean pooling, a scalar prediction head, mean-squared error, and backward propagation.
 
 The proxy compares three variants. The \texttt{embedding\_backward\_proxy} variant uses native dense Embedding backward. The \texttt{index\_add\_proxy} and \texttt{scatter\_add\_proxy} variants use custom autograd lookup nodes that allocate a dense zero gradient and accumulate row gradients with the corresponding PyTorch API. The variants share the same generated inputs, pooling structure, prediction head, and loss computation.
 
@@ -104,11 +97,11 @@ The proxy uses the same practical-margin rule as the other timing analyses. A va
 
 The study compares two execution environments: a local GTX1650Ti stack and a Colab Tesla T4 stack. These environments differ not only in GPU model, but also in operating system, runtime conditions, PyTorch version, CUDA version, and hosted execution context. Therefore, the comparison is interpreted as a stack-level comparison rather than an isolated hardware-causal experiment.
 
-The same stack-level interpretation applies to the training-step proxy. Its local and T4 results are paired by seed and configuration where possible, but differences between environments still combine GPU, software, operating-system, and hosted-runtime effects.
+Phase~2 includes a repeat run of the T4 stack, not a third independent environment. The training-step proxy uses the same stack-level interpretation, with local and T4 results paired by seed and configuration where possible.
 
 The cross-environment analysis is performed in two stages. First, the broader matched timing analysis compares winner counts, practical-margin winners, and relative speedups across the matched workload grid. Second, the representative profiling analysis compares selected cases across the two environments and relates them back to the matched timing grid.
 
-The comparison artifacts serve distinct purposes. The \texttt{phase3\_case\_comparison.csv} table records the representative case-level winners, margins, host-warning flags, timing-stability flags, index-hash pairing status, and winner-relation categories. The \texttt{phase3\_phase2\_case\_join.csv} table links the representative profiling cases back to the broader matched Phase 2 grid, allowing the analysis to determine whether a profiled case is present in the broader timing evidence. The \texttt{phase3\_claim\_checks.csv} table records evidence gates used to determine which paper-level claims are supported by the available data.
+The profiling comparison records case-level winners, margins, timing-stability flags, host-overhead warnings, and index-hash pairing status. A separate join links the profiled cases back to the broader Phase~2 grid. Evidence criteria distinguish decisive, stable, exactly paired reversals from near-ties or cases affected by host-overhead warnings.
 
 Workload pairing is checked through parameter matching and index hashes where available. Matching index hashes provide stronger evidence that the same index draw is being compared across environments. Source tensor hashes may differ across environments due to random number generation and software-stack differences, so source-hash mismatches are treated as informational rather than automatic failures.
 
@@ -131,3 +124,7 @@ Sixth, the study does not use Nsight Compute counters, hardware occupancy metric
 Seventh, the training-step proxy remains synthetic and controlled. Although it embeds the accumulation path in lookup, pooling, loss, and backward propagation, it does not measure full training loops, optimizer behavior, data loading, distributed execution, model convergence, or production-scale throughput.
 
 Finally, the study does not compare against custom CUDA implementations. This is intentional because the research question concerns the behavior of standard PyTorch CUDA APIs available to practitioners, but it also means that the results should not be interpreted as the best possible performance attainable for sparse-index gradient accumulation.
+
+\paragraph{Reproducibility.}
+
+The benchmark harness, aggregation scripts, and generated result artifacts are maintained in a public repository at \url{https://github.com/mihajlov39547/sparse-index-gradient}. The reported analyses use fixed seeds, saved raw and summary CSV artifacts, metadata files recording PyTorch and CUDA versions, and validation outputs for each accepted run.
