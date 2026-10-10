@@ -15,7 +15,9 @@ The database analogy that motivated this work is also useful for interpretation.
 
 \subsection{Practical Implications}
 
-The most direct practical implication is that sparse-gradient accumulation paths should be benchmarked under the intended workload and execution stack. The fastest path depends on the workload shape, duplicate-index structure, feature dimension, and software/hardware environment.
+The most direct practical implication is that sparse-gradient accumulation paths should be benchmarked under the intended workload and execution stack. The fastest path depends on the workload shape, duplicate-index structure, feature dimension, and software/hardware stack.
+
+Exploratory grouped summaries add practical but non-predictive rule-of-thumb context. In the saved Phase~2 grid, the local stack more often favored \texttt{index\_add} for lower-dimensional cases and \texttt{Embedding.backward} for larger feature dimensions, whereas the T4 stack and its repeat run more often favored \texttt{scatter\_add} in hotspot and high-dimensional skewed combinations. In the Phase~4 proxy, the local stack remained more often \texttt{index\_add}-oriented, while the T4 proxy was largely tie-heavy and favored \texttt{scatter\_add} mainly among resolved observations. These patterns are descriptive observations from the saved grid, not a decision tree or deployment recommendation, and should be validated on the target workload and stack.
 
 The proxy results refine this recommendation. Focused microbenchmarks are useful for isolating accumulation behavior, but their rankings should be checked against a representative training-step-like workload when the operation is performance-critical. A small proxy cannot replace production measurement, but it can reveal whether an isolated API ranking remains visible once lookup, pooling, loss computation, and backward dispatch are included.
 
