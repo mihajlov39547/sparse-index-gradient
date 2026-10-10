@@ -17,7 +17,16 @@ The database analogy that motivated this work is also useful for interpretation.
 
 The most direct practical implication is that sparse-gradient accumulation paths should be benchmarked under the intended workload and execution stack. The fastest path depends on the workload shape, duplicate-index structure, feature dimension, and software/hardware stack.
 
-Exploratory grouped summaries add practical but non-predictive rule-of-thumb context. In the saved Phase~2 grid, the local stack more often favored \texttt{index\_add} for lower-dimensional cases and \texttt{Embedding.backward} for larger feature dimensions, whereas the T4 stack and its repeat run more often favored \texttt{scatter\_add} in hotspot and high-dimensional skewed combinations. In the Phase~4 proxy, the local stack remained more often \texttt{index\_add}-oriented, while the T4 proxy was largely tie-heavy and favored \texttt{scatter\_add} mainly among resolved observations. These patterns are descriptive observations from the saved grid, not a decision tree or deployment recommendation, and should be validated on the target workload and stack.
+Exploratory grouped summaries add practical but non-predictive rule-of-thumb context to these measurements. They identify workload-feature combinations associated with recurring API preferences or tie-heavy outcomes in the saved grid. These descriptive patterns should be validated on the target workload and stack before informing implementation choices.
+
+\begin{figure*}[tbp]
+\centering
+\includegraphics[width=\textwidth]{figures/winner_maps_four_panel.png}
+\caption{Descriptive winner maps for selected Phase~2 and Phase~4 analyses under the strict greater-than 5\% practical-margin rule. Rows show feature dimension and columns show distribution by reference-pressure bucket, where reference pressure is the number of indices divided by the number of rows. Each cell reports the most frequent category and its support count within the saved observations for that cell. The maps summarize the saved grid and proxy observations; they are not predictive decision rules or deployment recommendations, and small-support or equal-category cells should be interpreted cautiously.}
+\label{fig:winner-maps}
+\end{figure*}
+
+Figure~\ref{fig:winner-maps} visualizes these grouped patterns as descriptive winner maps. The local Phase~2 map shows a transition from \texttt{index\_add}-dominated balanced-pressure cells toward \texttt{Embedding.backward}-dominated high-pressure cells at larger feature dimensions. The T4 map shows a different structure, with \texttt{scatter\_add} dominating many skewed or higher-dimensional cells but with ties and embedding-favored uniform high-pressure cases. In the Phase~4 proxy, the local stack remains mostly \texttt{index\_add}-oriented, whereas the T4 proxy is predominantly tie-heavy, with \texttt{scatter\_add} appearing mainly among resolved high-pressure cases. These maps make the rule-of-thumb guidance more concrete, but they remain descriptive summaries of the saved grid rather than deployment rules.
 
 The proxy results refine this recommendation. Focused microbenchmarks are useful for isolating accumulation behavior, but their rankings should be checked against a representative training-step-like workload when the operation is performance-critical. A small proxy cannot replace production measurement, but it can reveal whether an isolated API ranking remains visible once lookup, pooling, loss computation, and backward dispatch are included.
 
