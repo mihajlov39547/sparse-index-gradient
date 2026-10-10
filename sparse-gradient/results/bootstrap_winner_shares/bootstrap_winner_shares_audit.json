@@ -1,0 +1,343 @@
+{
+  "phase2_baseline_checks": "passed",
+  "phase4_baseline_checks": "passed",
+  "baseline_counts": [
+    {
+      "phase": "phase2",
+      "environment_group": "local_gtx1650ti",
+      "scope": "",
+      "threshold": 0.05,
+      "num_configurations": 162,
+      "index_add_wins": 60,
+      "scatter_add_wins": 0,
+      "embedding_wins": 96,
+      "ties": 6
+    },
+    {
+      "phase": "phase2",
+      "environment_group": "t4",
+      "scope": "",
+      "threshold": 0.05,
+      "num_configurations": 162,
+      "index_add_wins": 5,
+      "scatter_add_wins": 92,
+      "embedding_wins": 25,
+      "ties": 40
+    },
+    {
+      "phase": "phase2",
+      "environment_group": "t4_repeat",
+      "scope": "",
+      "threshold": 0.05,
+      "num_configurations": 162,
+      "index_add_wins": 1,
+      "scatter_add_wins": 93,
+      "embedding_wins": 27,
+      "ties": 41
+    },
+    {
+      "phase": "phase4",
+      "environment_group": "local_gtx1650ti",
+      "scope": "proxy_step",
+      "threshold": 0.05,
+      "num_configurations": 120,
+      "index_add_wins": 83,
+      "scatter_add_wins": 0,
+      "embedding_wins": 10,
+      "ties": 27
+    },
+    {
+      "phase": "phase4",
+      "environment_group": "local_gtx1650ti",
+      "scope": "accumulation_region",
+      "threshold": 0.05,
+      "num_configurations": 120,
+      "index_add_wins": 98,
+      "scatter_add_wins": 0,
+      "embedding_wins": 10,
+      "ties": 12
+    },
+    {
+      "phase": "phase4",
+      "environment_group": "colab_t4",
+      "scope": "proxy_step",
+      "threshold": 0.05,
+      "num_configurations": 120,
+      "index_add_wins": 0,
+      "scatter_add_wins": 25,
+      "embedding_wins": 0,
+      "ties": 95
+    },
+    {
+      "phase": "phase4",
+      "environment_group": "colab_t4",
+      "scope": "accumulation_region",
+      "threshold": 0.05,
+      "num_configurations": 120,
+      "index_add_wins": 3,
+      "scatter_add_wins": 39,
+      "embedding_wins": 0,
+      "ties": 78
+    }
+  ],
+  "bootstrap_seed": 20261010,
+  "bootstrap_replicates": 10000,
+  "method": "percentile_95_linear_interpolation",
+  "percentile_method": "Sort B replicate shares; h=(B-1)*p; linearly interpolate between floor(h) and ceil(h), p=0.025 and 0.975.",
+  "rng": "Python random.Random(20261010), seeded once; randrange(n_units) for each draw, with replacement; quantities share draws; group order below.",
+  "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "group_method_order": [
+    {
+      "phase": "phase2",
+      "environment_group": "local_gtx1650ti",
+      "scope": "",
+      "bootstrap_unit": "matched_configuration_draw",
+      "n_resampling_units": 162,
+      "observations_per_unit": [
+        1
+      ],
+      "n_observations": 162,
+      "resampled_units_per_replicate": 162,
+      "quantities": [
+        "embedding",
+        "tie"
+      ]
+    },
+    {
+      "phase": "phase2",
+      "environment_group": "t4",
+      "scope": "",
+      "bootstrap_unit": "matched_configuration_draw",
+      "n_resampling_units": 162,
+      "observations_per_unit": [
+        1
+      ],
+      "n_observations": 162,
+      "resampled_units_per_replicate": 162,
+      "quantities": [
+        "scatter_add",
+        "tie"
+      ]
+    },
+    {
+      "phase": "phase2",
+      "environment_group": "t4_repeat",
+      "scope": "",
+      "bootstrap_unit": "matched_configuration_draw",
+      "n_resampling_units": 162,
+      "observations_per_unit": [
+        1
+      ],
+      "n_observations": 162,
+      "resampled_units_per_replicate": 162,
+      "quantities": [
+        "scatter_add",
+        "tie"
+      ]
+    },
+    {
+      "phase": "phase4",
+      "environment_group": "local_gtx1650ti",
+      "scope": "proxy_step",
+      "bootstrap_unit": "seed_configuration_observation",
+      "n_resampling_units": 120,
+      "observations_per_unit": [
+        1
+      ],
+      "n_observations": 120,
+      "resampled_units_per_replicate": 120,
+      "quantities": [
+        "index_add",
+        "tie"
+      ]
+    },
+    {
+      "phase": "phase4",
+      "environment_group": "local_gtx1650ti",
+      "scope": "proxy_step",
+      "bootstrap_unit": "configuration_cluster_all_seeds",
+      "n_resampling_units": 24,
+      "observations_per_unit": [
+        5
+      ],
+      "n_observations": 120,
+      "resampled_units_per_replicate": 24,
+      "quantities": [
+        "index_add",
+        "tie"
+      ]
+    },
+    {
+      "phase": "phase4",
+      "environment_group": "local_gtx1650ti",
+      "scope": "accumulation_region",
+      "bootstrap_unit": "seed_configuration_observation",
+      "n_resampling_units": 120,
+      "observations_per_unit": [
+        1
+      ],
+      "n_observations": 120,
+      "resampled_units_per_replicate": 120,
+      "quantities": [
+        "index_add",
+        "tie"
+      ]
+    },
+    {
+      "phase": "phase4",
+      "environment_group": "local_gtx1650ti",
+      "scope": "accumulation_region",
+      "bootstrap_unit": "configuration_cluster_all_seeds",
+      "n_resampling_units": 24,
+      "observations_per_unit": [
+        5
+      ],
+      "n_observations": 120,
+      "resampled_units_per_replicate": 24,
+      "quantities": [
+        "index_add",
+        "tie"
+      ]
+    },
+    {
+      "phase": "phase4",
+      "environment_group": "colab_t4",
+      "scope": "proxy_step",
+      "bootstrap_unit": "seed_configuration_observation",
+      "n_resampling_units": 120,
+      "observations_per_unit": [
+        1
+      ],
+      "n_observations": 120,
+      "resampled_units_per_replicate": 120,
+      "quantities": [
+        "tie",
+        "scatter_add"
+      ]
+    },
+    {
+      "phase": "phase4",
+      "environment_group": "colab_t4",
+      "scope": "proxy_step",
+      "bootstrap_unit": "configuration_cluster_all_seeds",
+      "n_resampling_units": 24,
+      "observations_per_unit": [
+        5
+      ],
+      "n_observations": 120,
+      "resampled_units_per_replicate": 24,
+      "quantities": [
+        "tie",
+        "scatter_add"
+      ]
+    },
+    {
+      "phase": "phase4",
+      "environment_group": "colab_t4",
+      "scope": "accumulation_region",
+      "bootstrap_unit": "seed_configuration_observation",
+      "n_resampling_units": 120,
+      "observations_per_unit": [
+        1
+      ],
+      "n_observations": 120,
+      "resampled_units_per_replicate": 120,
+      "quantities": [
+        "tie",
+        "scatter_add"
+      ]
+    },
+    {
+      "phase": "phase4",
+      "environment_group": "colab_t4",
+      "scope": "accumulation_region",
+      "bootstrap_unit": "configuration_cluster_all_seeds",
+      "n_resampling_units": 24,
+      "observations_per_unit": [
+        5
+      ],
+      "n_observations": 120,
+      "resampled_units_per_replicate": 24,
+      "quantities": [
+        "tie",
+        "scatter_add"
+      ]
+    }
+  ],
+  "phase4_cluster_bootstrap": {
+    "computed": true,
+    "configuration_keys": [
+      "rows",
+      "num_indices",
+      "dim",
+      "distribution"
+    ],
+    "clusters_per_group": 24,
+    "seeds_per_cluster": [
+      4001,
+      4002,
+      4003,
+      4004,
+      4005
+    ]
+  },
+  "phase4_included_runs": [
+    "results\\phase4_training_proxy\\20261010T085020Z_study_0839553c",
+    "results\\phase4_training_proxy\\20261010T090324Z_study_3a1b1044",
+    "results\\phase4_training_proxy\\20261010T090349Z_study_e3974ed8",
+    "results\\phase4_training_proxy\\20261010T090414Z_study_73b3eeae",
+    "results\\phase4_training_proxy\\20261010T090438Z_study_7e9cbeff",
+    "results\\t4_phase4_training_proxy\\t4_seed4001_study",
+    "results\\t4_phase4_training_proxy\\t4_seed4002_study",
+    "results\\t4_phase4_training_proxy\\t4_seed4003_study",
+    "results\\t4_phase4_training_proxy\\t4_seed4004_study",
+    "results\\t4_phase4_training_proxy\\t4_seed4005_study"
+  ],
+  "phase4_excluded_runs": [],
+  "winner_rule": "runner_up_median / fastest_median - 1 > 0.05; otherwise tie",
+  "input_sha256": {
+    "phase2_analysis_v2/analysis_manifest.json": "e9c5a0fe55033574dae40772763d4bfd70d484de3e60bff53b5ac6bf29447fd2",
+    "results_v3_confirm/summary_results.csv": "475037947d23e8358c47dadee54c71ef2cc8711e937e00652bf67add44a904cd",
+    "results_v3_confirm/metadata.json": "e3e3febe2d4704748587ab1601f4ab58acd2ce4f8d2c03c2d7a3e54950efb079",
+    "results_colab_t4_confirm/summary_results.csv": "d9e9581576aa0b51db58d8988d64be3ee4bf744c6466e31e4231a7ef6488920d",
+    "results_colab_t4_confirm/metadata.json": "5bb55c0815b2f6b20fbe65fc2fb18ad5d7ca5f3de0cc975b77f0f21f072d2ebf",
+    "results_colab_t4_repeat_small/summary_results.csv": "0533b04e63b477e89da318dd429066425e715620e03c5500070bb7ced6a0504e",
+    "results_colab_t4_repeat_small/metadata.json": "a27bd8be265b27ed71de2b51cfb84bb425cfbd217e5ff4e4ac2a4be405efcbbd",
+    "phase2_analysis_v2/matched_winners_common_ops.csv": "8fcc023e4af97120e58a4c0143fdd2171f1ddfb86ceec985c2be230db294df34",
+    "results/phase4_training_proxy/20261010T085020Z_study_0839553c/phase4_metadata.json": "8b2bd95da3e5957b08bf84990045db606252e7b2920e289b17a152f9f183a023",
+    "results/phase4_training_proxy/20261010T085020Z_study_0839553c/phase4_validation.json": "437a50c187c2fa57f3e3d4f26b94128c0d053ee44d94211184dac807b2253d40",
+    "results/phase4_training_proxy/20261010T085020Z_study_0839553c/phase4_summary.csv": "e9979cc04e38724987215fe84eee4f74e1df347e8cdf32801ffdf926a8c6d9b8",
+    "results/phase4_training_proxy/20261010T090324Z_study_3a1b1044/phase4_metadata.json": "d298d32d3cbecc718ff5969eade789e6a9f4c07d26b65289b1561577527e702b",
+    "results/phase4_training_proxy/20261010T090324Z_study_3a1b1044/phase4_validation.json": "db9c26f0c571f79b1fb9215cc4283e1b32a5ae3023834c7cfac02db5b31dc9be",
+    "results/phase4_training_proxy/20261010T090324Z_study_3a1b1044/phase4_summary.csv": "5b1b603c4d7dcdba35661fad68f8057049d495a33dafe509ec79ce3184a688e7",
+    "results/phase4_training_proxy/20261010T090349Z_study_e3974ed8/phase4_metadata.json": "d62102c849c8ed3e78a99318e41fd5facd59c56d07702267cc06540f34a0ac88",
+    "results/phase4_training_proxy/20261010T090349Z_study_e3974ed8/phase4_validation.json": "0476a252541cfc704edf5249b4835174f18a25ae420c955e1df8780d9b9fefd4",
+    "results/phase4_training_proxy/20261010T090349Z_study_e3974ed8/phase4_summary.csv": "d7161511929435b657928d71c99e21133391bbcf9808c43bf4ba15b0ba729db1",
+    "results/phase4_training_proxy/20261010T090414Z_study_73b3eeae/phase4_metadata.json": "743ff50738f09a0350b26ab6962595bd6100392ec7ed399580a15904c4330265",
+    "results/phase4_training_proxy/20261010T090414Z_study_73b3eeae/phase4_validation.json": "c25f86f6db6fc781d12657db70b198610a3d2c3805e5520d50bed6fe36faf1ba",
+    "results/phase4_training_proxy/20261010T090414Z_study_73b3eeae/phase4_summary.csv": "f7db4a9d3d53a284ffb0b2fb4c55366c9be0737662790b37bbe405d1ec8ef953",
+    "results/phase4_training_proxy/20261010T090438Z_study_7e9cbeff/phase4_metadata.json": "8a12d3e1b9bb7c08db2bb1812760934dee81a6c4244bf407412aa450e56ca2a1",
+    "results/phase4_training_proxy/20261010T090438Z_study_7e9cbeff/phase4_validation.json": "956e46fb236d3a6f3b6adcbe45ce7898aabf567a7ac04c083e4187322ba4028e",
+    "results/phase4_training_proxy/20261010T090438Z_study_7e9cbeff/phase4_summary.csv": "bf09a4fcf488e4be07998eb555946907bb09ba5ccd057dfd52cf040faf276f98",
+    "results/t4_phase4_training_proxy/t4_seed4001_study/phase4_metadata.json": "72bb342ca7ca2739faef02d817a8078df1d86ea3c7aa522c2bc66760c0911316",
+    "results/t4_phase4_training_proxy/t4_seed4001_study/phase4_validation.json": "5d44ae16fe8a16c962bb01d2f4e2b216d24ab6a692617824605512301432d2a1",
+    "results/t4_phase4_training_proxy/t4_seed4001_study/phase4_summary.csv": "151baaa815a7be1d91d8d63c5ab550199951c15c840603859e8293c4f5525f1b",
+    "results/t4_phase4_training_proxy/t4_seed4002_study/phase4_metadata.json": "556e088d6c7ec92950fb45de59ae98bfeebe276abef32bfe55850ac3f65faa55",
+    "results/t4_phase4_training_proxy/t4_seed4002_study/phase4_validation.json": "e4c5e1b0b0861704385acfab865db9a0ded9b83b9563c705d9398a3be7997a69",
+    "results/t4_phase4_training_proxy/t4_seed4002_study/phase4_summary.csv": "dbba1430ba306d91101de849cfff2539890a2bd9ae95f87cbc8282d319557bf9",
+    "results/t4_phase4_training_proxy/t4_seed4003_study/phase4_metadata.json": "5d538b1915e5c0baf842aba4fe565402d35b1b65b09ccd02beae182e74fdb79e",
+    "results/t4_phase4_training_proxy/t4_seed4003_study/phase4_validation.json": "ee501b1a2ef36670ca753807447c1fcae0ca27382079465d9e6c8b6417394e98",
+    "results/t4_phase4_training_proxy/t4_seed4003_study/phase4_summary.csv": "ff5292104c00b9fdafa5dbef536b7bb6704d8279899b241a0a0285cc3ecc22e6",
+    "results/t4_phase4_training_proxy/t4_seed4004_study/phase4_metadata.json": "d898e947a064ff20011822149bc8f7613789000c85c2b1c9582ed17c99660b96",
+    "results/t4_phase4_training_proxy/t4_seed4004_study/phase4_validation.json": "646f49f2739557145ca93ff7dec2fe6e44f65e7c3dd0ba4ac754cb358c7ba373",
+    "results/t4_phase4_training_proxy/t4_seed4004_study/phase4_summary.csv": "ad1b234dd79860416138dda8e40bf73979a48721277437ac88e3e64515e419a8",
+    "results/t4_phase4_training_proxy/t4_seed4005_study/phase4_metadata.json": "2b90b426b4d7e1a894adf6f0c3f61ab2f5a07952b631c12a95955fa23ca7a4d2",
+    "results/t4_phase4_training_proxy/t4_seed4005_study/phase4_validation.json": "1b5efe9bb31adcda34c34533416494dcc84663f81267847eb47d859cff011b43",
+    "results/t4_phase4_training_proxy/t4_seed4005_study/phase4_summary.csv": "f605ae59eba4188329b98f7d3cfbfe20781f8b68a3efeb13593ba7a1bc700433"
+  },
+  "source_code_sha256": {
+    "bootstrap_winner_shares.py": "1005d4e75583eb97d2d4d39dce27ffc2e29c90a5b7708697d18c2bf8d2f2672e",
+    "threshold_sensitivity.py": "be0086793b2acf135f6bccf729396709c89db548b65dce5a79f0a98ab8a2126d"
+  },
+  "interpretation": "Descriptive resampling variability conditional on saved observations; not hypothesis tests or inference to a workload/GPU/software population."
+}
