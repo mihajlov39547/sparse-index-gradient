@@ -95,7 +95,11 @@ The proxy uses the same practical-margin rule as the other timing analyses. A va
 
 \subsection{Cross-Environment Comparison}
 
-The study compares two execution environments: a local GTX1650Ti stack and a Colab Tesla T4 stack. These environments differ not only in GPU model, but also in operating system, runtime conditions, PyTorch version, CUDA version, and hosted execution context. Therefore, the comparison is interpreted as a stack-level comparison rather than an isolated hardware-causal experiment.
+The study compares two execution stacks: a local GTX1650Ti stack and a Colab Tesla T4 stack. These stacks differ not only in GPU model, but also in operating system, runtime conditions, PyTorch version, CUDA version, and hosted execution context. Therefore, the comparison is interpreted as a stack-level comparison rather than an isolated hardware-causal experiment.
+
+Table~\ref{tab:environment-stack-summary} summarizes the hardware and software stacks used for the reported measurements.
+
+\input{tables/environment_stack_summary}
 
 Phase~2 includes a repeat run of the T4 stack, not a third independent environment. The training-step proxy uses the same stack-level interpretation, with local and T4 results paired by seed and configuration where possible.
 
@@ -127,4 +131,4 @@ Finally, the study does not compare against custom CUDA implementations. This is
 
 \paragraph{Reproducibility.}
 
-The benchmark harness, aggregation scripts, and generated result artifacts are maintained in a public repository at \url{https://github.com/mihajlov39547/sparse-index-gradient}. The reported analyses use fixed seeds, saved raw and summary CSV artifacts, metadata files recording PyTorch and CUDA versions, and validation outputs for each accepted run.
+The benchmark harness, aggregation scripts, and generated result artifacts are maintained in a public repository at \url{https://github.com/mihajlov39547/sparse-index-gradient}. The reported analyses use fixed seeds, saved raw and summary CSV artifacts, metadata files recording PyTorch and CUDA versions, and validation outputs for each accepted run. The measured hardware and software stacks are summarized in Table~\ref{tab:environment-stack-summary}.
