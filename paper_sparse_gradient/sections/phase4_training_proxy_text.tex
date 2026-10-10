@@ -31,8 +31,7 @@ strictly more than 5\% slower; otherwise the observation is classified as a
 practical tie.
 
 Table~\ref{tab:phase4-winner-counts} and
-Figure~\ref{fig:phase4-winner-counts} summarize the results. On the local
-GTX1650Ti stack, \texttt{index\_add} dominated both scopes, winning 83 of 120
+Figure~\ref{fig:phase4-winner-counts} summarize the results. On the GTX1650Ti stack, \texttt{index\_add} dominated both scopes, winning 83 of 120
 proxy-step observations and 98 of 120 accumulation-region observations. Native
 Embedding won 10 observations in each scope, while the remaining cases were
 classified as practical ties. On the T4 stack, practical ties dominated: 95 of
@@ -54,9 +53,8 @@ diagnostic scope. Ties are retained explicitly.}
 \end{figure}
 
 The proxy results reinforce the central conclusion that sparse-index accumulation
-performance is conditional rather than universal. In the local GTX1650Ti
-environment, the custom \texttt{index\_add} backward path was most often favored.
-In the T4 environment, most observations were unresolved by the 5\% practical
+performance is conditional rather than universal. In the GTX1650Ti stack, the custom \texttt{index\_add} backward path was most often favored.
+In the T4 stack, most observations were unresolved by the 5\% practical
 margin rule, and the resolved cases mainly favored \texttt{scatter\_add}. This
 contrast should not be interpreted as isolated GPU causality, because the two
 environments also differ in PyTorch version, CUDA version, operating system, and

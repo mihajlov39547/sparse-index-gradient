@@ -95,13 +95,13 @@ The proxy uses the same practical-margin rule as the other timing analyses. A va
 
 \subsection{Cross-Environment Comparison}
 
-The study compares two execution stacks: a local GTX1650Ti stack and a Colab Tesla T4 stack. These stacks differ not only in GPU model, but also in operating system, runtime conditions, PyTorch version, CUDA version, and hosted execution context. Therefore, the comparison is interpreted as a stack-level comparison rather than an isolated hardware-causal experiment.
+The study compares two distinct GPU/software stacks: a GTX1650Ti stack and a hosted Colab T4 stack. These stacks differ not only in GPU model, but also in operating system, runtime conditions, PyTorch version, CUDA version, and hosted execution context. Therefore, the comparison is interpreted as a stack-level comparison rather than an isolated hardware-causal experiment.
 
 Table~\ref{tab:environment-stack-summary} summarizes the hardware and software stacks used for the reported measurements.
 
 \input{tables/environment_stack_summary}
 
-Phase~2 includes a repeat run of the T4 stack, not a third independent environment. The training-step proxy uses the same stack-level interpretation, with local and T4 results paired by seed and configuration where possible.
+Phase~2 includes a repeat run of the T4 stack, not a third independent environment. The training-step proxy uses the same stack-level interpretation, with GTX1650Ti and T4 results paired by seed and configuration where possible.
 
 The cross-environment analysis is performed in two stages. First, the broader matched timing analysis compares winner counts, practical-margin winners, and relative speedups across the matched workload grid. Second, the representative profiling analysis compares selected cases across the two environments and relates them back to the matched timing grid.
 
@@ -109,25 +109,11 @@ The profiling comparison records case-level winners, margins, timing-stability f
 
 Workload pairing is checked through parameter matching and index hashes where available. Matching index hashes provide stronger evidence that the same index draw is being compared across environments. Source tensor hashes may differ across environments due to random number generation and software-stack differences, so source-hash mismatches are treated as informational rather than automatic failures.
 
-\subsection{Threats to Validity}
+\subsection{Validity Boundaries and Reproducibility}
 
-Several threats to validity limit the interpretation of this study.
+The profiler phase uses representative cases for execution-path attribution, while Phase~2 supplies the main grid-level timing evidence. The comparison concerns two GPU/software stacks whose GPU model, operating system, PyTorch version, CUDA version, and runtime conditions vary together. The synthetic proxy does not measure production training throughput, optimizer behavior, or distributed execution, and custom CUDA alternatives are outside the study scope.
 
-First, the profiling phase uses a representative subset rather than the full workload grid. The representative cases are useful for execution-path attribution, but they are not sufficient to establish grid-wide frequencies or statistical performance distributions on their own. For this reason, the broader matched timing phase remains the main source of performance evidence.
-
-Second, the representative profiling phase uses a fixed operation order and a limited per-case measurement design. This makes the profiler outputs easier to inspect and compare, but it also means that the profiling subset should not be treated as a randomized timing experiment.
-
-Third, profiler overhead can perturb execution. Profiler-derived CUDA totals are therefore used for attribution and diagnostic interpretation rather than as the primary timing metric. CUDA-event medians remain the main basis for operation-level timing comparisons.
-
-Fourth, the GPU-busy proxy is not a hardware utilization counter. Values derived from profiler events can be affected by synchronization, instrumentation overhead, and differences between profiled and unprofiled timing conditions. A low value is treated only as a warning signal for possible host overhead.
-
-Fifth, the two environments differ in multiple dimensions, including GPU model, operating system, PyTorch version, CUDA version, and hosted runtime conditions. Consequently, the study does not make isolated hardware-causal claims. Observed differences are attributed to the combined hardware/software stack and workload configuration.
-
-Sixth, the study does not use Nsight Compute counters, hardware occupancy metrics, memory-transaction counters, or warp-level profiling. The kernel attribution is based on PyTorch profiler event names and CUDA event durations, which provide useful execution-path evidence but do not fully explain microarchitectural causes.
-
-Seventh, the training-step proxy remains synthetic and controlled. Although it embeds the accumulation path in lookup, pooling, loss, and backward propagation, it does not measure full training loops, optimizer behavior, data loading, distributed execution, model convergence, or production-scale throughput.
-
-Finally, the study does not compare against custom CUDA implementations. This is intentional because the research question concerns the behavior of standard PyTorch CUDA APIs available to practitioners, but it also means that the results should not be interpreted as the best possible performance attainable for sparse-index gradient accumulation.
+These boundaries are revisited in the Discussion, where the regret analysis and tie-aware protocol are also limited to descriptive interpretation over saved observations.
 
 \paragraph{Reproducibility.}
 

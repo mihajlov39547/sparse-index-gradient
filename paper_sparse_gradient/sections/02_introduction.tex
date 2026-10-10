@@ -17,7 +17,7 @@ This paper addresses that question through a controlled empirical study of spars
 The paper makes five contributions:
 \begin{itemize}
 \item A correctness-gated, reproducible comparison of three standard PyTorch CUDA sparse-index accumulation paths: \texttt{index\_add}, \texttt{scatter\_add}, and \texttt{Embedding.backward}.
-\item Evidence of workload-, scope-, and stack-dependent behavior across the local GTX1650Ti and Colab T4 stacks, using matched isolated benchmarks and a backward-style proxy.
+\item Evidence of workload-, scope-, and stack-dependent behavior across the GTX1650Ti and hosted Colab T4 stacks, using matched isolated benchmarks and a backward-style proxy.
 \item Profiler-backed evidence of distinct CUDA execution-path compositions, interpreted at the stack level rather than as isolated hardware causality.
 \item Threshold-sensitivity and descriptive bootstrap checks, winner maps, and regret/minimax analyses that contextualize practical ties and quantify static-selection costs.
 \item A measurement-backed, tie-aware selection protocol for comparing candidate paths under the target workload and execution stack.
