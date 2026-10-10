@@ -1,0 +1,65 @@
+{
+  "environment": "phase4_local_gtx1650ti",
+  "device_name": "NVIDIA GeForce GTX 1650 Ti",
+  "torch_version": "2.13.0+cu126",
+  "cuda_version": "12.6",
+  "seed": 4005,
+  "profile": "study",
+  "args": {
+    "profile": "study",
+    "seed": 4005,
+    "device": "cuda",
+    "environment": "phase4_local_gtx1650ti",
+    "out_dir": null,
+    "rows": [
+      4096,
+      65536
+    ],
+    "num_indices": [
+      8192,
+      65536
+    ],
+    "dim": [
+      32,
+      128
+    ],
+    "distributions": [
+      "uniform",
+      "zipf",
+      "hotspot"
+    ],
+    "pool_size": 8,
+    "warmup": 10,
+    "repeats": 40,
+    "atol": 1e-08,
+    "rtol": 0.0001
+  },
+  "created_utc": "2026-10-10T09:04:38.982629+00:00",
+  "device": "cuda:0",
+  "cuda_available": true,
+  "cpu_diagnostic": false,
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "python_executable": "C:\\Projects\\phd-segmentacija-instanci\\.venv\\Scripts\\python.exe",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "timing_backend": "cuda_events",
+  "timing_scopes": {
+    "proxy_step": "fresh lookup, mean pooling, linear head, MSE, autograd gradients for table/head/bias; includes dense gradient allocation and zeroing",
+    "accumulation_region": "separate retained lookup graph VJP with fixed upstream gradient; includes autograd dispatch, dense output allocation/zeroing and accumulation; excludes forward/head/loss"
+  },
+  "practical_margin_threshold": 0.05,
+  "dtype": "float32",
+  "tf32": false,
+  "num_threads": 4,
+  "deterministic_algorithms": false,
+  "zipf_alpha": 1.2,
+  "zipf_mode": "truncated",
+  "hotspot_fraction": 0.8,
+  "hotspot_rows": 16,
+  "row_layout": "scattered",
+  "index_order": "random",
+  "status": "complete",
+  "script_sha256": "bd5464b6d76f7497de9a2bcc728af6fbcd2e504da77b3e01705be808511279e2",
+  "completed_utc": "2026-10-10T09:05:00.193602+00:00",
+  "configurations_validated": 24,
+  "summary_rows": 72
+}
