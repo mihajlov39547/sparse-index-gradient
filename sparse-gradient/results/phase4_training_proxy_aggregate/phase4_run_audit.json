@@ -1,0 +1,132 @@
+[
+  {
+    "environment_group": "local_gtx1650ti",
+    "path": "results\\phase4_training_proxy\\20261010T085020Z_study_0839553c",
+    "seed": 4001,
+    "included": true,
+    "issues": [],
+    "sha256": {
+      "phase4_metadata.json": "8b2bd95da3e5957b08bf84990045db606252e7b2920e289b17a152f9f183a023",
+      "phase4_validation.json": "437a50c187c2fa57f3e3d4f26b94128c0d053ee44d94211184dac807b2253d40",
+      "phase4_summary.csv": "e9979cc04e38724987215fe84eee4f74e1df347e8cdf32801ffdf926a8c6d9b8",
+      "phase4_raw.csv": "558dd48f9606be3f4857e21d035e228a9503e1df89baec9615cd5051c0dc5d88"
+    }
+  },
+  {
+    "environment_group": "local_gtx1650ti",
+    "path": "results\\phase4_training_proxy\\20261010T090324Z_study_3a1b1044",
+    "seed": 4002,
+    "included": true,
+    "issues": [],
+    "sha256": {
+      "phase4_metadata.json": "d298d32d3cbecc718ff5969eade789e6a9f4c07d26b65289b1561577527e702b",
+      "phase4_validation.json": "db9c26f0c571f79b1fb9215cc4283e1b32a5ae3023834c7cfac02db5b31dc9be",
+      "phase4_summary.csv": "5b1b603c4d7dcdba35661fad68f8057049d495a33dafe509ec79ce3184a688e7",
+      "phase4_raw.csv": "c1241ef81586adc9aec2927928696e23833ec99b1629fb9aa607f6132d3338c8"
+    }
+  },
+  {
+    "environment_group": "local_gtx1650ti",
+    "path": "results\\phase4_training_proxy\\20261010T090349Z_study_e3974ed8",
+    "seed": 4003,
+    "included": true,
+    "issues": [],
+    "sha256": {
+      "phase4_metadata.json": "d62102c849c8ed3e78a99318e41fd5facd59c56d07702267cc06540f34a0ac88",
+      "phase4_validation.json": "0476a252541cfc704edf5249b4835174f18a25ae420c955e1df8780d9b9fefd4",
+      "phase4_summary.csv": "d7161511929435b657928d71c99e21133391bbcf9808c43bf4ba15b0ba729db1",
+      "phase4_raw.csv": "936b1271ce93c7ea099baee32d3d9f50aa0f14efc89a6eabd9c2741997240cb6"
+    }
+  },
+  {
+    "environment_group": "local_gtx1650ti",
+    "path": "results\\phase4_training_proxy\\20261010T090414Z_study_73b3eeae",
+    "seed": 4004,
+    "included": true,
+    "issues": [],
+    "sha256": {
+      "phase4_metadata.json": "743ff50738f09a0350b26ab6962595bd6100392ec7ed399580a15904c4330265",
+      "phase4_validation.json": "c25f86f6db6fc781d12657db70b198610a3d2c3805e5520d50bed6fe36faf1ba",
+      "phase4_summary.csv": "f7db4a9d3d53a284ffb0b2fb4c55366c9be0737662790b37bbe405d1ec8ef953",
+      "phase4_raw.csv": "2980c2c20ac387cef57047cace0a96c7e8b772ae481934d8054dd65926f607a6"
+    }
+  },
+  {
+    "environment_group": "local_gtx1650ti",
+    "path": "results\\phase4_training_proxy\\20261010T090438Z_study_7e9cbeff",
+    "seed": 4005,
+    "included": true,
+    "issues": [],
+    "sha256": {
+      "phase4_metadata.json": "8a12d3e1b9bb7c08db2bb1812760934dee81a6c4244bf407412aa450e56ca2a1",
+      "phase4_validation.json": "956e46fb236d3a6f3b6adcbe45ce7898aabf567a7ac04c083e4187322ba4028e",
+      "phase4_summary.csv": "bf09a4fcf488e4be07998eb555946907bb09ba5ccd057dfd52cf040faf276f98",
+      "phase4_raw.csv": "84d78aee1ba47b3b7080726ad343e2b2f247dcc87ca0d1bc5aa7ccad8ccaa58e"
+    }
+  },
+  {
+    "environment_group": "colab_t4",
+    "path": "results\\t4_phase4_training_proxy\\t4_seed4001_study",
+    "seed": 4001,
+    "included": true,
+    "issues": [],
+    "sha256": {
+      "phase4_metadata.json": "72bb342ca7ca2739faef02d817a8078df1d86ea3c7aa522c2bc66760c0911316",
+      "phase4_validation.json": "5d44ae16fe8a16c962bb01d2f4e2b216d24ab6a692617824605512301432d2a1",
+      "phase4_summary.csv": "151baaa815a7be1d91d8d63c5ab550199951c15c840603859e8293c4f5525f1b",
+      "phase4_raw.csv": "0a8bf80221898d6df7352fa3df3cdc157ec9ea9378c9c7beeefbb14ac5a8bfa2"
+    }
+  },
+  {
+    "environment_group": "colab_t4",
+    "path": "results\\t4_phase4_training_proxy\\t4_seed4002_study",
+    "seed": 4002,
+    "included": true,
+    "issues": [],
+    "sha256": {
+      "phase4_metadata.json": "556e088d6c7ec92950fb45de59ae98bfeebe276abef32bfe55850ac3f65faa55",
+      "phase4_validation.json": "e4c5e1b0b0861704385acfab865db9a0ded9b83b9563c705d9398a3be7997a69",
+      "phase4_summary.csv": "dbba1430ba306d91101de849cfff2539890a2bd9ae95f87cbc8282d319557bf9",
+      "phase4_raw.csv": "63df5842732449aa8dbb9addccacd477164a18089101005f343a65af391f198f"
+    }
+  },
+  {
+    "environment_group": "colab_t4",
+    "path": "results\\t4_phase4_training_proxy\\t4_seed4003_study",
+    "seed": 4003,
+    "included": true,
+    "issues": [],
+    "sha256": {
+      "phase4_metadata.json": "5d538b1915e5c0baf842aba4fe565402d35b1b65b09ccd02beae182e74fdb79e",
+      "phase4_validation.json": "ee501b1a2ef36670ca753807447c1fcae0ca27382079465d9e6c8b6417394e98",
+      "phase4_summary.csv": "ff5292104c00b9fdafa5dbef536b7bb6704d8279899b241a0a0285cc3ecc22e6",
+      "phase4_raw.csv": "4e6d947b49c41c2d28917ecaab2d483c97972f48e645a7fba5c89577b2f11cc2"
+    }
+  },
+  {
+    "environment_group": "colab_t4",
+    "path": "results\\t4_phase4_training_proxy\\t4_seed4004_study",
+    "seed": 4004,
+    "included": true,
+    "issues": [],
+    "sha256": {
+      "phase4_metadata.json": "d898e947a064ff20011822149bc8f7613789000c85c2b1c9582ed17c99660b96",
+      "phase4_validation.json": "646f49f2739557145ca93ff7dec2fe6e44f65e7c3dd0ba4ac754cb358c7ba373",
+      "phase4_summary.csv": "ad1b234dd79860416138dda8e40bf73979a48721277437ac88e3e64515e419a8",
+      "phase4_raw.csv": "c18ff7f32b764bcf7f6ac69004425f205104aaa369feff7f8e1662ed318f7038"
+    }
+  },
+  {
+    "environment_group": "colab_t4",
+    "path": "results\\t4_phase4_training_proxy\\t4_seed4005_study",
+    "seed": 4005,
+    "included": true,
+    "issues": [],
+    "sha256": {
+      "phase4_metadata.json": "2b90b426b4d7e1a894adf6f0c3f61ab2f5a07952b631c12a95955fa23ca7a4d2",
+      "phase4_validation.json": "1b5efe9bb31adcda34c34533416494dcc84663f81267847eb47d859cff011b43",
+      "phase4_summary.csv": "f605ae59eba4188329b98f7d3cfbfe20781f8b68a3efeb13593ba7a1bc700433",
+      "phase4_raw.csv": "5af34e52a159324c118f41467175b842b846c72164d79b2d79a1a890c66b3929"
+    }
+  }
+]
