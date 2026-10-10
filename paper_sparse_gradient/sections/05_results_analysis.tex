@@ -112,6 +112,21 @@ At the same time, the attribution remains conservative. The kernel categories ar
 
 \input{sections/phase4_training_proxy_text}
 
+\subsection{Practical-Margin Threshold Sensitivity}
+\label{sec:threshold-sensitivity}
+
+The primary analysis uses a strictly greater than 5\% practical-margin rule to avoid treating small median-latency differences as decisive API wins. To check whether the qualitative conclusions depend on this specific threshold, we recomputed winner counts using 2\%, 5\%, and 10\% thresholds from the saved per-variant median-latency artifacts. The fastest path is counted as a winner only when the runner-up median divided by the fastest median, minus one, exceeds the selected threshold. These sensitivity checks are descriptive robustness checks, not statistical tests; the main analysis retains the 5\% rule.
+
+Table~\ref{tab:threshold-sensitivity-phase2} shows the Phase~2 sensitivity results over the same 162 matched configuration--draw observations per run. The recomputed 5\% counts reproduce the main analysis. Tie counts change by design: lower thresholds reduce their number, while higher thresholds increase it. The qualitative Phase~2 pattern remains across the tested thresholds: the local GTX1650Ti stack most often favors \texttt{Embedding.backward}, while the T4 stack and its repeat run most often favor \texttt{scatter\_add}.
+
+\input{tables/threshold_sensitivity_phase2}
+
+Table~\ref{tab:threshold-sensitivity-phase4} shows the corresponding Phase~4 sensitivity results for 120 seed--configuration observations per environment and scope. Its 5\% counts also reproduce the main analysis. Locally, \texttt{index\_add} remains the most frequent resolved winner in both scopes across the tested thresholds. However, the proxy-step result becomes nearly balanced with ties at 10\% (58 \texttt{index\_add} wins versus 57 ties), while the accumulation replay remains more stable with 97 \texttt{index\_add} wins at the same threshold.
+
+The T4 proxy step remains majority-tied at all three thresholds, with resolved cases mainly favoring \texttt{scatter\_add}. In the T4 accumulation replay, ties rise from 40/120 at 2\% to 78/120 at 5\% and 99/120 at 10\%; at 2\%, \texttt{scatter\_add} is the largest category with 58 wins. These results show that the qualitative workload-, scope-, and stack-dependent interpretation is stable, while the absolute balance between resolved outcomes and ties is threshold-sensitive.
+
+\input{tables/threshold_sensitivity_phase4}
+
 \subsection{Result-Level Discussion}
 
 The combined results answer the central question of the study: standard PyTorch CUDA APIs that express related sparse-index accumulation behavior do not necessarily have interchangeable performance characteristics during backpropagation-style workloads. In the matched Phase 2 grid, the local GTX1650Ti stack most often favors the embedding backward path, whereas the T4 stack and its repeat run most often favor \texttt{scatter\_add}. In the representative Phase 3 profiles, the strongest reversal cases show the same pattern at the case level: local execution favors \texttt{embedding}, while T4 execution favors \texttt{scatter\_add}.
