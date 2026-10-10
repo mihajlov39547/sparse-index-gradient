@@ -14,3 +14,6 @@ paper_sparse_gradient/main.aux
 paper_sparse_gradient/main.log
 paper_sparse_gradient/main.out
 paper_sparse_gradient/main.pdf
+merge-analysis-files.ps1
+merge-analysis-files.txt
+merged-analysis-files.txt
