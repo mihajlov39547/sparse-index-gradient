@@ -1,0 +1,18 @@
+\begin{table}[tbp]
+\centering\small
+\caption{Phase 4 winners under the strictly greater than 5\% practical-margin rule. Each environment contributes 120 seed--configuration observations (24 configurations across five seeds). Region denotes a separate accumulation diagnostic replay.}
+\label{tab:phase4-winner-counts}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llrrrrr}
+\toprule
+Environment & Scope & \texttt{index\_add} & \texttt{scatter\_add} & Embedding & Tie & Total \\
+\midrule
+GTX1650Ti & Proxy step & 83 & 0 & 10 & 27 & 120 \\
+GTX1650Ti & Region replay & 98 & 0 & 10 & 12 & 120 \\
+T4 & Proxy step & 0 & 25 & 0 & 95 & 120 \\
+T4 & Region replay & 3 & 39 & 0 & 78 & 120 \\
+\bottomrule
+\end{tabular}
+}%
+\end{table}

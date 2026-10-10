@@ -1,0 +1,14 @@
+\begin{table}[tbp]
+\centering\small
+\caption{Descriptive Phase 4 outcomes for the two measured environments. Differences cannot be attributed to GPU hardware alone because the software and host environments also differ.}
+\label{tab:phase4-environment-comparison}
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\linewidth}{lXXX}
+\toprule
+Environment & Dominant proxy-step outcome & Dominant region-replay outcome & Interpretation \\
+\midrule
+GTX1650Ti & \texttt{index\_add}: 83/120 & \texttt{index\_add}: 98/120 & Custom index-add backward most often favored in this stack. \\
+T4 & Practical ties: 95/120 & Practical ties: 78/120 & Resolved cases mainly favor \texttt{scatter\_add}; ties dominate both scopes. \\
+\bottomrule
+\end{tabularx}
+\end{table}
