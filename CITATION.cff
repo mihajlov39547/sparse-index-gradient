@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use or refer to this repository, please cite the associated manuscript."
+title: "Tie-Aware Characterization of Sparse-Index Gradient Accumulation for PyTorch CUDA Backpropagation"
+authors:
+  - family-names: "Mihajlovic"
+    given-names: "Marko"
+    orcid: "https://orcid.org/0009-0006-7979-0341"
+year: 2026
+repository-code: "https://github.com/mihajlov39547/sparse-index-gradient"
+license: "LicenseRef-All-Rights-Reserved"
+abstract: "This repository contains benchmark code, analysis scripts, and generated artifacts supporting a reproducible performance characterization of sparse-index gradient accumulation paths in PyTorch CUDA backpropagation."

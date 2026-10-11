@@ -1,0 +1,17 @@
+Copyright (c) 2026 Marko Mihajlovic
+
+All rights reserved.
+
+This repository is made publicly visible for peer review, scholarly evaluation, and reproducibility inspection of the associated manuscript:
+
+"Tie-Aware Characterization of Sparse-Index Gradient Accumulation for PyTorch CUDA Backpropagation"
+
+No open-source license is granted.
+
+Except for viewing this repository through GitHub as permitted by GitHub's Terms of Service, no permission is granted to copy, reproduce, distribute, sublicense, modify, publish, reuse, train on, incorporate into another work, or create derivative works from the code, scripts, data artifacts, figures, manuscript sources, or other materials in this repository without prior written permission from the copyright holder.
+
+For permission requests, contact:
+
+Marko Mihajlovic
+marko.mihajlovic.23@singimail.rs
+ORCID: 0009-0006-7979-0341
