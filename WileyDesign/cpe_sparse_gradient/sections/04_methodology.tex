@@ -1,0 +1,120 @@
+\section{Methodology}
+\label{sec:methodology}
+
+\subsection{Study Scope}
+
+This study investigates sparse-index gradient accumulation patterns that arise during the backpropagation phase of AI model training. The focus is on workloads in which many indexed source vectors contribute to a dense gradient-like output, a pattern that is common in embedding tables, recommender-style models, negative sampling, graph workloads, and other training settings where sparse index references are accumulated during the backward pass.
+
+The experiments are implemented in PyTorch \citep{paszke2019pytorch} and scoped to standard CUDA execution paths rather than custom CUDA kernels. The goal is not to design a new accumulation primitive, but to characterize how widely available PyTorch APIs behave under controlled sparse-index accumulation workloads. In particular, the experiments examine whether API-level alternatives that express similar accumulation-style computations can exhibit different timing behavior and different CUDA execution paths.
+
+The study does not benchmark full production model training, end-to-end training throughput, dense matrix multiplication, convolution, attention, optimizer performance, data loading, or distributed training. These components are outside the scope because they would introduce additional sources of variation that are not necessary for isolating the sparse-index accumulation behavior studied here. Instead, the experimental design separates a grid-level timing phase, a representative profiling phase, and a small training-step proxy. The grid-level phase provides the main matched timing evidence, the profiling phase provides execution-path attribution for selected representative cases, and the proxy tests whether the observed sparse-index accumulation behavior remains visible when embedded in a controlled backward-style computation.
+
+\subsection{Benchmarked Operations}
+
+The comparison centers on three PyTorch CUDA operations or operation paths:
+
+\begin{itemize}[leftmargin=*]
+    \item \texttt{index\_\allowbreak add}, which accumulates source rows into a dense output according to an index tensor;
+    \item \texttt{scatter\_\allowbreak add}, which expresses an indexed accumulation pattern through scatter-style updates;
+    \item \texttt{Embedding.\allowbreak backward}, which represents the backward path of a PyTorch embedding table and therefore provides a realistic training-related sparse-gradient accumulation path.
+\end{itemize}
+
+These operations are conceptually related because each can be used to represent sparse-index accumulation into a dense gradient-like tensor under controlled workload construction. However, the study does not assume that they are universally equivalent in all PyTorch contexts or all mathematical formulations. Instead, they are compared under matched accumulation-style workloads in which the input shapes, index distributions, and output dimensions are controlled.
+
+The inclusion of \texttt{Embedding.\allowbreak backward} is important because embedding tables are a common source of sparse gradient accumulation during backpropagation. Unlike the direct accumulation APIs, the embedding backward path may involve specialized internal kernels and additional framework-level logic. Comparing it with \texttt{index\_\allowbreak add} and \texttt{scatter\_\allowbreak add} therefore helps distinguish API-level similarity from actual CUDA execution behavior.
+
+\subsection{Workload Design}
+
+Workloads are parameterized by the number of output rows, the number of indexed source entries, the feature dimension, and the distribution of index values. The main workload parameters are:
+
+\begin{itemize}[leftmargin=*]
+    \item \texttt{rows}: the number of rows in the dense output or embedding table;
+    \item \texttt{indices}: the number of indexed source entries accumulated during the operation;
+    \item \texttt{dim}: the feature dimension of each row;
+    \item \texttt{distribution}: the statistical distribution used to generate index references;
+    \item \texttt{workload\_\allowbreak draw}: the workload draw identifier used to construct matched cases;
+    \item \texttt{zipf\_\allowbreak mode}: the mode used for Zipf-distributed workloads;
+    \item \texttt{row\_\allowbreak layout}: the layout of rows in the generated workload;
+    \item \texttt{index\_\allowbreak order}: the order of generated indices;
+    \item \texttt{cache\_\allowbreak mode}: whether the workload is evaluated under the selected cache condition.
+\end{itemize}
+
+The workload distributions include uniform, Zipf, and hotspot-style index patterns. Uniform workloads provide a baseline in which index references are more evenly distributed across rows. Zipf and hotspot workloads introduce skew, duplicate references, and hot rows. These skewed cases are important because duplicate indices can change the cost of accumulation and can expose differences between accumulation implementations.
+
+The broader timing phase evaluates matched configurations across a larger workload grid. The profiling phase uses a smaller set of representative cases selected to expose the CUDA execution paths underlying the observed API behavior. This separation avoids relying on profiler-instrumented runs as the primary timing evidence while still allowing the study to inspect representative kernel-level composition.
+
+\subsection{Correctness Validation}
+
+Correctness validation is performed before timing or profiling results are accepted into the analysis. This is necessary because timing comparisons are meaningful only when the operations compute the intended accumulation result under the same workload configuration.
+
+For each accepted configuration, the benchmark checks that the compared operation produces numerically valid output relative to the reference accumulation behavior used by the experiment. Rows with failed correctness checks or failed execution status are excluded from paired winner claims. This rule applies both to the broader timing phase and to the representative profiling phase.
+
+The correctness procedure is especially important for sparse-index workloads because repeated indices, skewed distributions, and different execution paths may change floating-point accumulation order. Since floating-point addition is non-associative, such changes need not preserve bitwise identity \citep{shanmugavelu2024nonassociativity}. Validation therefore checks computational equivalence within explicit numerical tolerances before timing rows are accepted.
+
+\subsection{Timing Methodology}
+
+The primary timing evidence comes from repeated CUDA-event measurements over matched workload configurations. Synchronization-aware timing accounts for asynchronous CUDA execution \citep{nvidia2026cudaguide}, while repeated observations and attention to variability address scientific benchmarking concerns \citep{hoefler2015benchmarking}. Studies of production HPC systems further report performance variation among nominally identical GPUs \citep{sinha2022variability}, reinforcing the need to report the tested hardware/software stack and avoid overgeneralizing numerical results. For each configuration, the selected operations are compared within the same workload setting. The timing analysis uses median latency as the main summary statistic, because medians are less sensitive to occasional runtime outliers than single measurements or means alone.
+
+A practical margin threshold is used to distinguish decisive timing differences from near-ties. Specifically, when the runner-up operation is more than 5\% slower than the fastest operation for a matched configuration, the fastest operation is treated as the practical winner for that case. If the margin does not exceed this threshold, the case is retained as a practical near-tie. The 5\% rule is a descriptive decision threshold, not a test of statistical significance.
+
+The broader matched timing phase is the main source of grid-level performance evidence. The representative profiling phase also records event timings for the selected cases, but those timings are used primarily to relate profiled cases to the broader benchmark behavior. They are not treated as a replacement for the broader timing grid because the profiling subset is smaller and uses a fixed representative design.
+
+The timing methodology distinguishes between direct operation timing and profiler-derived quantities. CUDA-event medians are used for operation-level timing comparisons, while profiler-derived CUDA totals are used for attribution and diagnostic interpretation. These two measurement sources are not interchangeable because profiling introduces instrumentation, synchronization, and event collection overhead.
+
+\subsection{Profiling Methodology}
+
+The profiling phase identifies the CUDA execution paths associated with the selected PyTorch APIs. For each case--operation pair, the analysis records execution status, timing summaries, case-level winners and runners-up, timing-stability flags, host-overhead warnings, and kernel-category shares. Full profiler events and summaries of the leading CUDA events provide complementary levels of attribution detail.
+
+Full CUDA event files are preferred over top-event summaries when computing kernel-category shares. User annotations and enclosing profiling ranges are excluded from category-share calculations so that the resulting summaries reflect CUDA device work rather than inclusive annotation ranges. When only top-event summaries are available, the analysis treats them as truncated attribution evidence rather than full-profile composition.
+
+The profiler events are grouped into conservative name-based categories. The categories used for interpretation are:
+
+\begin{itemize}[leftmargin=*]
+    \item \texttt{index\_\allowbreak add\_\allowbreak accumulate}, for CUDA kernels associated with indexed reduction through the \texttt{index\_\allowbreak add} path;
+    \item \texttt{scatter\_\allowbreak add\_\allowbreak accumulate}, for CUDA kernels associated with scatter/gather reduction paths;
+    \item \texttt{embedding\_\allowbreak accumulate}, for embedding backward accumulation kernels such as gradient-weight computation and scatter-style accumulation inside the embedding backward path;
+    \item \texttt{sort\_\allowbreak scan\_\allowbreak unique}, for sort, scan, and unique-related kernels that appear in the embedding backward path;
+    \item \texttt{zero\_\allowbreak fill\_\allowbreak memset}, for initialization and zero-fill kernels;
+    \item \texttt{arange\_\allowbreak index\_\allowbreak setup}, for index setup kernels such as range construction;
+    \item \texttt{other}, for CUDA events not captured by the preceding categories.
+\end{itemize}
+
+These categories are used for execution-path attribution, not for proving low-level hardware causality. They are based on observed kernel and operator names, and therefore depend on the PyTorch and CUDA software stack used in each environment. The category summaries are intended to show whether the three PyTorch APIs exercise distinct CUDA paths under the profiled workloads.
+
+The profiling phase also computes a GPU-busy proxy by comparing profiler-derived CUDA kernel time with the unprofiled CUDA-event timing for the same case. This proxy is used only as a warning signal for possible host overhead. It is not a hardware utilization counter and is not interpreted as a direct measurement of GPU occupancy or saturation.
+
+\subsection{Training-Step Proxy Methodology}
+
+To complement the isolated accumulation measurements, the study includes a small training-step proxy. It provides a controlled backward-style workload in which the accumulation path is embedded in lookup, grouped mean pooling, a scalar prediction head, mean-squared error, and backward propagation.
+
+The proxy compares three variants. The \texttt{embedding\_\allowbreak backward\_\allowbreak proxy} variant uses native dense Embedding backward. The \texttt{index\_\allowbreak add\_\allowbreak proxy} and \texttt{scatter\_\allowbreak add\_\allowbreak proxy} variants use custom autograd lookup nodes that allocate a dense zero gradient and accumulate row gradients with the corresponding PyTorch API. The variants share the same generated inputs, pooling structure, prediction head, and loss computation.
+
+Two timing scopes are recorded. The \texttt{proxy\_\allowbreak step} scope measures the full synthetic step, including lookup, pooling, prediction, loss, and gradients for the table, head, and bias. The \texttt{accumulation\_\allowbreak region} scope separately replays backward through a retained lookup graph with fixed upstream gradients. This second scope is diagnostic: it includes autograd dispatch, dense gradient allocation and zeroing, and accumulation, but it is not an exact decomposition of the proxy step and is not subtracted from total-step latency.
+
+The proxy uses the same practical-margin rule as the other timing analyses. A variant is counted as a winner only when the runner-up median is strictly more than 5\% slower; otherwise the observation is classified as a practical tie. The proxy is evaluated with five seeds per environment and 24 configurations per seed, giving 120 seed--configuration observations per environment.
+
+\subsection{Cross-Environment Comparison}
+
+The study compares two distinct GPU/software stacks: a GTX1650Ti stack and a hosted Colab T4 stack. These stacks differ not only in GPU model, but also in operating system, runtime conditions, PyTorch version, CUDA version, and hosted execution context. Therefore, the comparison is interpreted as a stack-level comparison rather than an isolated hardware-causal experiment.
+
+Table~\ref{tab:environment-stack-summary} summarizes the hardware and software stacks used for the reported measurements.
+
+\input{tables/environment_stack_summary}
+
+Phase~2 includes a repeat run of the T4 stack, not a third independent environment. The training-step proxy uses the same stack-level interpretation, with GTX1650Ti and T4 results paired by seed and configuration where possible.
+
+The cross-environment analysis is performed in two stages. First, the broader matched timing analysis compares winner counts, practical-margin winners, and relative speedups across the matched workload grid. Second, the representative profiling analysis compares selected cases across the two environments and relates them back to the matched timing grid.
+
+The profiling comparison records case-level winners, margins, timing-stability flags, host-overhead warnings, and index-hash pairing status. A separate join links the profiled cases back to the broader Phase~2 grid. Evidence criteria distinguish decisive, stable, exactly paired reversals from near-ties or cases affected by host-overhead warnings.
+
+Workload pairing is checked through parameter matching and index hashes where available. Matching index hashes provide stronger evidence that the same index draw is being compared across environments. Source tensor hashes may differ across environments due to random number generation and software-stack differences, so source-hash mismatches are treated as informational rather than automatic failures.
+
+\subsection{Validity Boundaries and Reproducibility}
+
+The profiler phase uses representative cases for execution-path attribution, while Phase~2 supplies the main grid-level timing evidence. The comparison concerns two GPU/software stacks whose GPU model, operating system, PyTorch version, CUDA version, and runtime conditions vary together. The synthetic proxy does not measure production training throughput, optimizer behavior, or distributed execution, and custom CUDA alternatives are outside the study scope.
+
+These boundaries are revisited in the Discussion, where the regret analysis and tie-aware protocol are also limited to descriptive interpretation over saved observations.
+
+\noindent\textbf{Reproducibility.}
+
+The benchmark harness, aggregation scripts, and generated result artifacts are maintained in a public repository at \url{https://github.com/mihajlov39547/sparse-index-gradient}. The reported analyses use fixed seeds, saved raw and summary CSV artifacts, metadata files recording PyTorch and CUDA versions, and validation outputs for each accepted run. The measured hardware and software stacks are summarized in Table~\ref{tab:environment-stack-summary}.

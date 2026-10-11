@@ -1,0 +1,18 @@
+% Source summary: sparse-gradient/phase2_analysis_v2/ and matched Phase 2 analysis.
+\begin{table*}[t]
+\centering
+\fontsize{9}{11}\selectfont
+\caption{Matched Phase 2 winner counts for the three primary accumulation paths under the 5\% practical-margin rule.}
+\label{tab:phase2-winner-counts}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}lrrrr>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+Environment & \texttt{index\_add} & \texttt{scatter\_add} & \texttt{embedding} & Tie & Total matched configurations & Most frequent decisive API \\
+\midrule
+GTX1650Ti & 60 & 0 & 96 & 6 & 162 & \texttt{embedding} \\
+T4 & 5 & 92 & 25 & 40 & 162 & \texttt{scatter\_add} \\
+T4\_repeat & 1 & 93 & 27 & 41 & 162 & \texttt{scatter\_add} \\
+\bottomrule
+\end{tabularx}
+\end{table*}

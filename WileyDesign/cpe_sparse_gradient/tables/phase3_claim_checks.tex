@@ -1,0 +1,22 @@
+% Source: ../sparse-gradient/phase3_comparison_v2/phase3_claim_checks.csv
+\begin{table}[tbp]
+\centering
+\fontsize{9}{11}\selectfont
+\caption{Phase 3 claim-check status and source cautions.}
+\label{tab:phase3-claim-checks}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lp{0.12\linewidth}p{0.30\linewidth}p{0.36\linewidth}}
+\toprule
+Check & Passed & Supporting numbers & Caution \\
+\midrule
+index\_add\_path\_dominance & True & GTX1650Ti=0.9677; T4=0.9647 & Full-event CUDA category shares required. \\
+scatter\_add\_path\_dominance & True & GTX1650Ti=0.9817; T4=0.9518 & Full-event CUDA category shares required. \\
+embedding\_accumulation\_present & True & GTX1650Ti=0.8271; T4=0.6697 & Full-event CUDA category shares required. \\
+embedding\_sort\_scan\_present & True & GTX1650Ti=0.1217; T4=0.2342 & Full-event CUDA category shares required. \\
+other\_share\_controlled & True & T4/embedding=0.03467 & Unknown kernels substantial at mean other share $\geq 0.2$. \\
+phase2\_environment\_difference\_present & True & GTX1650Ti=embedding; T4=scatter\_add; T4\_repeat=scatter\_add & Expected most-frequent decisive API required in the local run and both T4 runs. \\
+representative\_reversals\_present & True & case03, case05 & Representative subset is illustrative, not statistical. \\
+\bottomrule
+\end{tabular}
+}%
+\end{table}

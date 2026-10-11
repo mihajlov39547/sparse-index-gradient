@@ -1,0 +1,14 @@
+\begin{table}[tbp]
+\centering\fontsize{9}{11}\selectfont
+\caption{Descriptive Phase~4 outcomes by environment. The contrast is not attributed to GPU hardware alone because the software and host environments also differ.}
+\label{tab:phase4-environment-comparison}
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\linewidth}{lXXX}
+\toprule
+Environment & Proxy-step outcome & Region-replay outcome & Interpretation \\
+\midrule
+GTX1650Ti & \texttt{index\_add}: 83/120 & \texttt{index\_add}: 98/120 & The local stack most often favors the custom \texttt{index\_add} path. \\
+T4 & Tie: 95/120 & Tie: 78/120 & Most observations are unresolved; resolved cases mainly favor \texttt{scatter\_add}. \\
+\bottomrule
+\end{tabularx}
+\end{table}

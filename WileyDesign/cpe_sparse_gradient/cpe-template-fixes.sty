@@ -1,0 +1,47 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{cpe-template-fixes}[2026/10/11 CPE peer-review metadata corrections]
+\RequirePackage{etoolbox}
+\makeatletter
+% The sample assumes four affiliations; count the actual addresses instead.
+\AddToHook{cmd/maketitle/before}{%
+\patchcmd{\jmkaddress}{\setcounter{lastauthor}{4}}
+  {\setcounter{lastauthor}{\number\addcount}}
+  {}{\PackageError{cpe-template-fixes}{Unable to correct affiliation count}{Check the USG class version.}}}
+\patchcmd{\evenhead@headings@info}{, \@copyyear}{}
+  {}{\PackageError{cpe-template-fixes}{Unable to remove empty publication year}{Check the USG class version.}}
+% Access/licensing status is assigned by the publisher, not at submission.
+\patchcmd{\@@articletype}
+  {\raisebox{-2\@p@t}{\includegraphics[width=0.70in]{images/openaccess}}}
+  {}{}{\PackageError{cpe-template-fixes}{Unable to remove open-access badge}{Check the USG class version.}}
+% The generic downloaded class embeds an Allergy journal logo unconditionally.
+\patchcmd{\@maketitle}
+  {\node[anchor=north east,inner sep=0mm]
+    (LOG1) at ([yshift=-11.75mm]current page header area.north east){\includegraphics[width=56mm]{allergy.eps}};}
+  {}{}{\PackageError{cpe-template-fixes}{Unable to remove sample journal logo}{Check the USG class version.}}
+% No invented submission/acceptance dates, DOI, volume, or publication status.
+\def\@history@dates{}
+% USG's first-page header has positive height despite headheight=0; its visible
+% logo/title are already handled by maketitle. Avoid an overfull output box.
+\def\oddhead@titlepage@info{}
+\def\evenhead@titlepage@info{}
+% Short captions are left-aligned; fill their remaining line width explicitly.
+\patchcmd{\@makecaption}{\hb@xt@\hsize{\box\@tempboxa}}
+  {\hb@xt@\hsize{\box\@tempboxa\hfil}}
+  {}{\PackageError{cpe-template-fixes}{Unable to correct short-caption spacing}{Check the USG class version.}}
+% The running-footer vbox otherwise inherits one column's hsize, although its
+% rule and page-number line span textwidth. This causes output-time overfull boxes.
+\patchcmd{\head@headings@def}{\vskip3.5mm}
+  {\hsize\textwidth\vskip3.5mm}
+  {}{\PackageError{cpe-template-fixes}{Unable to correct running-footer width}{Check the USG class version.}}
+% The class forces tabular bodies to 8 pt; use 9 pt for these data-heavy tables.
+\AtBeginEnvironment{tabular}{\fontsize{9}{11}\selectfont}
+\AtBeginEnvironment{tabular*}{\fontsize{9}{11}\selectfont}
+% Keep each short reference entry together, including its DOI/URL, so a DOI
+% fragment cannot be stranded at the start of the next column or page.
+\apptocmd{\thebibliography}{\interlinepenalty10000\relax}
+  {}{\PackageError{cpe-template-fixes}{Unable to keep reference entries together}{Check the bibliography environment.}}
+\def\oddfoot@titlepage@info{\vbox{\hsize\textwidth
+  \hrule\vskip4pt
+  \hbox to\textwidth{\fontsize{7}{9}\selectfont
+    CPE manuscript for peer review\hfill\thepage\ of \@LastPg}}}
+\makeatother

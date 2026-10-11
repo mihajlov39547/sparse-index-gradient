@@ -1,0 +1,112 @@
+{
+  "layout": "USG AMA,twocolumn; full-width native title/abstract",
+  "pages": 16,
+  "references": 19,
+  "figures": 6,
+  "tables": 7,
+  "baseline_files_verified": 32,
+  "baseline_changed": false,
+  "isolated_build_inputs": true,
+  "citation_order_matches": true,
+  "unique_labels": 20,
+  "numerical_table_rows_unchanged": true,
+  "analysis_content_unchanged": true,
+  "abstract_and_conclusion_wording_unchanged": true,
+  "figures_byte_identical": true,
+  "dlrm_reference_removed": true,
+  "overfull_boxes": 0,
+  "underfull_hboxes": 15,
+  "warnings": [
+    "Package etex Warning: Extended allocation already in use.",
+    "Package multicol Warning: May not work with the twocolumn option on input line ",
+    "Package fixltx2e Warning: fixltx2e is not required with releases after 2015",
+    "Package amssymb Warning: The 'amssymb' package is redundant when you are using ",
+    "LaTeX Warning: Unused global option(s):",
+    "Underfull \\hbox (badness 2035) in paragraph at lines 15--16",
+    "Underfull \\hbox (badness 2027) in paragraph at lines 19--20",
+    "Underfull \\hbox (badness 1454) in paragraph at lines 10--11",
+    "Underfull \\hbox (badness 1789) in paragraph at lines 56--57",
+    "Underfull \\hbox (badness 4792) in paragraph at lines 98--99",
+    "Underfull \\hbox (badness 1292) in paragraph at lines 106--107",
+    "Underfull \\hbox (badness 10000) in paragraph at lines 95--96",
+    "Underfull \\hbox (badness 1960) in paragraph at lines 5--15",
+    "Underfull \\hbox (badness 10000) in paragraph at lines 5--15",
+    "Underfull \\hbox (badness 2229) in paragraph at lines 5--15",
+    "Underfull \\hbox (badness 1132) in paragraph at lines 130--131",
+    "Underfull \\hbox (badness 3942) in paragraph at lines 23--24",
+    "Underfull \\hbox (badness 3907) in paragraph at lines 49--50",
+    "Underfull \\hbox (badness 1436) in paragraph at lines 59--60",
+    "Underfull \\hbox (badness 1082) in paragraph at lines 104--109"
+  ],
+  "effective_raster_dpi": [
+    {
+      "page": 7,
+      "pixels": [
+        2800,
+        1000
+      ],
+      "effective_dpi": 420.6
+    },
+    {
+      "page": 7,
+      "pixels": [
+        2800,
+        1000
+      ],
+      "effective_dpi": 420.6
+    },
+    {
+      "page": 8,
+      "pixels": [
+        2200,
+        1200
+      ],
+      "effective_dpi": 330.4
+    },
+    {
+      "page": 9,
+      "pixels": [
+        2000,
+        1000
+      ],
+      "effective_dpi": 300.4
+    },
+    {
+      "page": 13,
+      "pixels": [
+        3760,
+        2120
+      ],
+      "effective_dpi": 536.5
+    }
+  ],
+  "figure_5_vector": true,
+  "source_changes": [
+    "sections/01_abstract.tex",
+    "sections/02_introduction.tex",
+    "sections/03_background_related_work.tex",
+    "sections/04_methodology.tex",
+    "sections/05_results_analysis.tex",
+    "sections/06_general_discussion.tex",
+    "sections/07_conclusion.tex",
+    "sections/phase4_training_proxy_text.tex",
+    "tables/environment_stack_summary.tex",
+    "tables/phase2_winner_counts.tex",
+    "tables/phase3_case_comparison.tex",
+    "tables/phase3_kernel_category_summary.tex",
+    "tables/phase4_winner_counts.tex",
+    "tables/threshold_sensitivity_phase2.tex",
+    "tables/threshold_sensitivity_phase4.tex",
+    "references.bib",
+    "main_wiley_cpe.tex",
+    "cpe-template-fixes.sty",
+    "cpe-AMA.bst",
+    "build_wiley_cpe.ps1",
+    "README.md"
+  ],
+  "pdf_sha256": "f55ba16e94b42d8b872f8df5522387ec20e09c11ceb4b952ea45557435477547",
+  "content_files_compared": {
+    "sections": 9,
+    "tables": 10
+  }
+}

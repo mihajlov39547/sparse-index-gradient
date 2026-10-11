@@ -1,0 +1,143 @@
+\begin{thebibliography}{10}
+\providecommand \doibase [0]{http://dx.doi.org/}%
+
+\bibitem{gupta2020architectural}
+Gupta U, Wu CJ, Wang X, et al. The Architectural Implications of Facebook's
+  {DNN}-Based Personalized Recommendation. In: {\it 2020 IEEE International
+  Symposium on High Performance Computer Architecture (HPCA)}. 2020:488--501.
+\newblock \href{https://doi.org/10.1109/HPCA47549.2020.00047}{doi:
+  \nolinkurl{10.1109/HPCA47549.2020.00047}}.
+
+\bibitem{liu2024embark}
+Liu S, Zheng N, Kang H, et al. Embedding Optimization for Training Large-Scale
+  Deep Learning Recommendation Systems with {EMBark}. In: {\it Proceedings of
+  the 18th ACM Conference on Recommender Systems}. 2024.
+\newblock \href{https://doi.org/10.1145/3640457.3688111}{doi:
+  \nolinkurl{10.1145/3640457.3688111}}.
+
+\bibitem{paszke2019pytorch}
+Paszke A, Gross S, Massa F, et al. {PyTorch}: An Imperative Style,
+  High-Performance Deep Learning Library. In: {\it Advances in Neural
+  Information Processing Systems}. Vol. 32. 2019.
+
+\bibitem{nvidia2026cudaguide}
+{NVIDIA Corporation}. {\it {CUDA C++ Programming Guide}}. 2026.
+\newblock Accessed 2026-10-09.
+\newblock \url{https://docs.nvidia.com/cuda/cuda-c-programming-guide/}.
+
+\bibitem{hoefler2015benchmarking}
+Hoefler T, Belli R. Scientific Benchmarking of Parallel Computing Systems:
+  Twelve Ways to Tell the Masses when Reporting Performance Results. In: {\it
+  Proceedings of the International Conference for High Performance Computing,
+  Networking, Storage and Analysis}. ACM; 2015:73:1--73:12.
+\newblock \href{https://doi.org/10.1145/2807591.2807644}{doi:
+  \nolinkurl{10.1145/2807591.2807644}}.
+
+\bibitem{gale2020sparse}
+Gale T, Zaharia M, Young C, Elsen E. Sparse {GPU} Kernels for Deep Learning.
+  In: {\it SC20: International Conference for High Performance Computing,
+  Networking, Storage and Analysis}. 2020:1--14.
+\newblock \href{https://doi.org/10.1109/SC41405.2020.00021}{doi:
+  \nolinkurl{10.1109/SC41405.2020.00021}}.
+
+\bibitem{mudigere2022neo}
+Mudigere D, Hao Y, Huang J, et al. Software-Hardware Co-design for Fast and
+  Scalable Training of Deep Learning Recommendation Models. In: {\it
+  Proceedings of the 49th Annual International Symposium on Computer
+  Architecture}. ACM; 2022:993--1011.
+\newblock \href{https://doi.org/10.1145/3470496.3533727}{doi:
+  \nolinkurl{10.1145/3470496.3533727}}.
+
+\bibitem{acun2021training}
+Acun B, Murphy M, Wang X, Nie J, Wu CJ, Hazelwood KM. Understanding Training
+  Efficiency of Deep Learning Recommendation Models at Scale. In: {\it 2021
+  IEEE International Symposium on High-Performance Computer Architecture
+  (HPCA)}. 2021:802--814.
+\newblock \href{https://doi.org/10.1109/HPCA51647.2021.00072}{doi:
+  \nolinkurl{10.1109/HPCA51647.2021.00072}}.
+
+\bibitem{wang2022hugectr}
+Wang Z, Wei Y, Lee M, et al. Merlin {HugeCTR}: {GPU}-Accelerated Recommender
+  System Training and Inference. In: {\it Proceedings of the 16th ACM
+  Conference on Recommender Systems}. ACM; 2022:534--537.
+\newblock \href{https://doi.org/10.1145/3523227.3547405}{doi:
+  \nolinkurl{10.1145/3523227.3547405}}.
+
+\bibitem{xie2022fleche}
+Xie M, Lu Y, Lin J, et al. {FLECHE}: An Efficient {GPU} Embedding Cache for
+  Personalized Recommendations. In: {\it Proceedings of the Seventeenth
+  European Conference on Computer Systems}. ACM; 2022:402--416.
+\newblock \href{https://doi.org/10.1145/3492321.3519554}{doi:
+  \nolinkurl{10.1145/3492321.3519554}}.
+
+\bibitem{kwon2022scratchpipe}
+Kwon Y, Rhu M. Training Personalized Recommendation Systems from ({GPU})
+  Scratch: Look Forward not Backwards. In: {\it Proceedings of the 49th Annual
+  International Symposium on Computer Architecture}. ACM; 2022:860--873.
+\newblock \href{https://doi.org/10.1145/3470496.3527386}{doi:
+  \nolinkurl{10.1145/3470496.3527386}}.
+
+\bibitem{huang2020gespmm}
+Huang G, Dai G, Wang Y, Yang H. {GE-SpMM}: General-Purpose Sparse Matrix-Matrix
+  Multiplication on {GPU}s for Graph Neural Networks. In: {\it SC20:
+  International Conference for High Performance Computing, Networking, Storage
+  and Analysis}. 2020:1--12.
+\newblock \href{https://doi.org/10.1109/SC41405.2020.00076}{doi:
+  \nolinkurl{10.1109/SC41405.2020.00076}}.
+
+\bibitem{wang2016gunrock}
+Wang Y, Davidson A, Pan Y, Wu Y, Riffel A, Owens JD. {Gunrock}: A
+  High-Performance Graph Processing Library on the {GPU}. In: {\it Proceedings
+  of the 21st ACM SIGPLAN Symposium on Principles and Practice of Parallel
+  Programming}. 2016:11:1--11:12.
+\newblock \href{https://doi.org/10.1145/2851141.2851145}{doi:
+  \nolinkurl{10.1145/2851141.2851145}}.
+
+\bibitem{satish2009sorting}
+Satish N, Harris M, Garland M. Designing Efficient Sorting Algorithms for
+  Manycore {GPU}s. In: {\it 2009 IEEE International Symposium on Parallel \&
+  Distributed Processing}. 2009:1--10.
+\newblock \href{https://doi.org/10.1109/IPDPS.2009.5161005}{doi:
+  \nolinkurl{10.1109/IPDPS.2009.5161005}}.
+
+\bibitem{sengupta2007scan}
+Sengupta S, Harris M, Zhang Y, Owens JD. Scan Primitives for {GPU} Computing.
+  In: {\it Proceedings of the 22nd ACM SIGGRAPH/EUROGRAPHICS Symposium on
+  Graphics Hardware}. GH '07. Eurographics Association; 2007:97--106.
+\newblock \href{https://doi.org/10.2312/EGGH/EGGH07/097-106}{doi:
+  \nolinkurl{10.2312/EGGH/EGGH07/097-106}}.
+
+\bibitem{bell2011thrust}
+Bell N, Hoberock J. {Thrust}: A Productivity-Oriented Library for {CUDA}. In:
+  Hwu WmW. \kern-2pt, ed. {\it {GPU} Computing Gems Jade Edition}. Morgan
+  Kaufmann.  2011 (pp. 359--371).
+\newblock \href{https://doi.org/10.1016/B978-0-12-385963-1.00026-5}{doi:
+  \nolinkurl{10.1016/B978-0-12-385963-1.00026-5}}.
+
+\bibitem{defour2015reproducible}
+Defour D, Collange S. Reproducible Floating-Point Atomic Addition in
+  Data-Parallel Environment. In: {\it Proceedings of the 2015 Federated
+  Conference on Computer Science and Information Systems}. Vol. 5.
+  2015:721--728.
+\newblock \href{https://doi.org/10.15439/2015F86}{doi:
+  \nolinkurl{10.15439/2015F86}}.
+
+\bibitem{shanmugavelu2024nonassociativity}
+Shanmugavelu S, Taillefumier M, Culver C, Hernandez O, Coletti M, Sedova A.
+  Impacts of Floating-Point Non-Associativity on Reproducibility for {HPC} and
+  Deep Learning Applications. In: {\it SC24-W: Workshops of the International
+  Conference for High Performance Computing, Networking, Storage and Analysis}.
+  IEEE; 2024:170--179.
+\newblock \href{https://doi.org/10.1109/SCW63240.2024.00028}{doi:
+  \nolinkurl{10.1109/SCW63240.2024.00028}}.
+
+\bibitem{sinha2022variability}
+Sinha P, Guliani A, Jain R, Tran B, Sinclair MD, Venkataraman S. Not All {GPU}s
+  Are Created Equal: Characterizing Variability in Large-Scale,
+  Accelerator-Rich Systems. In: {\it SC22: International Conference for High
+  Performance Computing, Networking, Storage and Analysis}. IEEE Computer
+  Society; 2022:1--15.
+\newblock \href{https://doi.org/10.1109/SC41404.2022.00070}{doi:
+  \nolinkurl{10.1109/SC41404.2022.00070}}.
+
+\end{thebibliography}

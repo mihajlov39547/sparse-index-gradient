@@ -1,0 +1,21 @@
+% Source: ../sparse-gradient/phase3_comparison_v2/phase3_case_comparison.csv
+\begin{table*}[t]
+\centering
+\fontsize{9}{11}\selectfont
+\caption{Phase 3 case-level comparison across environments.}
+\label{tab:phase3-case-comparison}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrl@{}}
+\toprule
+Case & Local winner & T4 winner & \shortstack{Local\\margin} & \shortstack{T4\\margin} & \shortstack{Winner\\relation} \\
+\midrule
+case01 & index\_add & scatter\_add & 1.670 & 1.022 & reversal near-tie \\
+case02 & embedding & embedding & 2.631 & 1.706 & same decisive \\
+case03 & embedding & scatter\_add & 1.116 & 1.186 & reversal decisive \\
+case04 & index\_add & index\_add & 1.197 & 1.058 & same decisive \\
+case05 & embedding & scatter\_add & 1.257 & 1.285 & reversal decisive \\
+case06 & embedding & scatter\_add & 1.015 & 1.040 & reversal near-tie \\
+\bottomrule
+\end{tabular*}
+\end{table*}

@@ -1,0 +1,51 @@
+% Isolated CPE manuscript using the downloaded Wiley New Journal Design class.
+% Redirect the class-selected bibliography to the documented local AMA repair.
+\let\CPEBibliographyStyle\bibliographystyle
+\renewcommand{\bibliographystyle}[1]{\CPEBibliographyStyle{cpe-AMA}}
+\documentclass[AMA,twocolumn]{USG}
+\let\bibliographystyle\CPEBibliographyStyle
+\usepackage{anyfontsize}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{cpe-template-fixes}
+\usepackage{xurl}
+\microtypesetup{expansion=true}
+\graphicspath{{./images/}{./figures/}}
+\setlength{\emergencystretch}{2em}
+\raggedbottom
+\renewcommand{\topfraction}{0.90}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.80}
+\renewcommand{\dbltopfraction}{0.90}
+\renewcommand{\dblfloatpagefraction}{0.80}
+\setcounter{dbltopnumber}{3}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+\articletype{RESEARCH ARTICLE}
+\journal{Concurrency and Computation: Practice and Experience}
+\received{}\revised{}\accepted{}
+\volume{}\copyyear{}\startpage{1}\articledoi{}
+\hypersetup{hidelinks,hypertexnames=false,
+  pdftitle={Tie-Aware Characterization of Sparse-Index Gradient Accumulation for PyTorch CUDA Backpropagation},
+  pdfauthor={Marko Mihajlovic}}
+\begin{document}
+\input{sections/00_title}
+\input{sections/01_abstract}
+\maketitle
+\input{sections/02_introduction}
+\input{sections/03_background_related_work}
+\input{sections/04_methodology}
+\input{sections/05_results_analysis}
+\input{sections/06_general_discussion}
+\input{sections/07_conclusion}
+\bmsubsection*{Data Availability Statement}
+The benchmark harness, aggregation scripts, and generated result artifacts supporting this study are available in the public repository: \url{https://github.com/mihajlov39547/sparse-index-gradient}.
+\bmsubsection*{Conflict of Interest Statement}
+The author declares no conflict of interest.
+\bmsubsection*{Funding Statement}
+This research received no specific grant from any funding agency in the public, commercial, or not-for-profit sectors.
+\bmsubsection*{Acknowledgments}
+The author thanks the open-source PyTorch and CUDA software communities for the tools and documentation that made this reproducible study possible.
+\bibliography{references}
+\end{document}

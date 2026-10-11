@@ -1,0 +1,11 @@
+# Generated diagnostics; retain the PDF and BBL as reviewable build artifacts.
+*.aux
+*.blg
+*.log
+*.out
+*.pag
+*.fls
+*.synctex*
+build-console.txt
+build-output.txt
+inspection/*.png
