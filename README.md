@@ -94,5 +94,4 @@ See `LICENSE` for details.
 
 Marko Mihajlovic  
 Singidunum University, Belgrade, Serbia  
-Email: marko.mihajlovic.23@singimail.rs  
 ORCID: https://orcid.org/0009-0006-7979-0341
