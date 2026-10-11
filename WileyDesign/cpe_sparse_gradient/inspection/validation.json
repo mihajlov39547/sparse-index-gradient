@@ -104,9 +104,10 @@
     "build_wiley_cpe.ps1",
     "README.md"
   ],
-  "pdf_sha256": "f55ba16e94b42d8b872f8df5522387ec20e09c11ceb4b952ea45557435477547",
+  "pdf_sha256": "66048eb84d3a26cda6549899125288fa04d5de98ee1a82cb9d5c9c44a48052b9",
   "content_files_compared": {
     "sections": 9,
     "tables": 10
-  }
+  },
+  "final_polish_verified": true
 }

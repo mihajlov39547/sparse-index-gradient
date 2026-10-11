@@ -9,3 +9,5 @@
 build-console.txt
 build-output.txt
 inspection/*.png
+inspection/twocolumn/*.png
+inspection/pre-polish-sources.json
