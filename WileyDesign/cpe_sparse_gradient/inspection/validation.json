@@ -1,6 +1,6 @@
 {
   "layout": "USG AMA,twocolumn; full-width native title/abstract",
-  "pages": 16,
+  "pages": 15,
   "references": 19,
   "figures": 6,
   "tables": 7,
@@ -104,10 +104,11 @@
     "build_wiley_cpe.ps1",
     "README.md"
   ],
-  "pdf_sha256": "66048eb84d3a26cda6549899125288fa04d5de98ee1a82cb9d5c9c44a48052b9",
+  "pdf_sha256": "3b22a5c1ae8cb6bd00bbc512f13d4d9e3445506c9fbb04b00abda7e53391444a",
   "content_files_compared": {
     "sections": 9,
     "tables": 10
   },
-  "final_polish_verified": true
+  "final_polish_verified": true,
+  "figure_5_width_fraction": 0.36
 }

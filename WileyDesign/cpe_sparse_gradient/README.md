@@ -1,7 +1,7 @@
 # Wiley / CPE manuscript
 
 Independent manuscript for **Concurrency and Computation: Practice and Experience**.
-The final PDF is **16 pages**, with the Wiley two-column body, six full-width
+The final PDF is **15 pages**, with the Wiley two-column body, six full-width
 figures, seven full-width tables, and **19 numeric references**.
 
 ## Build and deliverables
@@ -152,7 +152,7 @@ artwork, not newly generated figure exports.
 
 ## Build validation, warnings, and isolation
 
-The final clean build passed and the 16-page PDF was visually checked page by
+The final clean build passed and the preceding 16-page PDF was visually checked page by
 page. There are no LaTeX/BibTeX errors, unresolved references/citations, duplicate
 labels, missing figures, overfull horizontal/vertical boxes, or float-only pages.
 Front matter, Reproducibility, all figures/tables, references, and the Data
@@ -193,3 +193,5 @@ requirements, review author/declaration metadata, check bibliography abbreviatio
 and completeness, confirm public repository contents, and arrange compliant
 separate figure exports if requested. No submission, upload, or submission archive
 has been performed.
+
+Figure 5 was subsequently reduced to 60% of its previous linear size (width changed from 0.60 to 0.36 of the full text width), preserving its aspect ratio and caption. The rebuilt PDF has 15 pages; the resized figure was visually checked.
