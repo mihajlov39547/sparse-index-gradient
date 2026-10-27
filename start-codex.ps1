@@ -3,6 +3,7 @@
 # Resumes the most recent Codex session.
 
 codex `
+    --no-daemon `
     --ask-for-approval never `
     --sandbox danger-full-access `
     --disable apps `
